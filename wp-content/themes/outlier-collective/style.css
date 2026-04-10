@@ -1,0 +1,1833 @@
+/*
+Theme Name: Outlier Coaching
+Theme URI: https://outliercoaching.example
+Author: Outlier Coaching
+Description: Flat, editorial, colour-blocked landing for Outlier Coaching. Assign the “Outlier Landing” template; edit Outlier Landing Fields (Gutenberg-compatible, no page builder).
+Version: 1.1.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: outlier-collective
+*/
+
+/* -----------------------------------------------------------------------------
+   Tokens — flat editorial palette (no gradients / decorative shadows)
+   Google Fonts: enqueued with &display=swap (see oc_enqueue_theme_styles).
+   -------------------------------------------------------------------------- */
+:root {
+	--colour-orange: #ed5f1e;
+	/* Flat button hovers (no shadow / lift) */
+	--colour-orange-hover: #d75317;
+	--colour-orange-active: #c24a14;
+	--colour-black: #1a1a1a;
+	--colour-white: #f5f0eb;
+	--colour-grey: #6b6b6b;
+	--colour-army: #4a5240;
+	--colour-brown: #7d5a3c;
+	--colour-stone: #c4b9a8;
+	--colour-card-tint: #faf7f3;
+
+	/*
+	 * Onest everywhere (enqueued in functions.php). Heavier weights for headings.
+	 */
+	--font-body:
+		"Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+	--font-weight-heading: 700;
+	--font-weight-hero: 800;
+
+	--section-pad-y: clamp(3.75rem, 8vw, 6.25rem);
+	--section-pad-x: clamp(1.5rem, 5vw, 3rem);
+	--radius-card: 16px;
+	--radius-img: 12px;
+	--max-prose: 35rem;
+	/* Wider than prose so large display headings can stay one line where the viewport allows */
+	--max-heading-block: min(54rem, 100%);
+}
+
+::selection {
+	background: rgba(237, 95, 30, 0.35);
+	color: var(--colour-black);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+body.outlier-landing {
+	margin: 0;
+	background: var(--colour-black);
+	color: var(--colour-white);
+	font-family: var(--font-body);
+	font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html.no-oc-js body.outlier-landing {
+	opacity: 1;
+}
+
+/* Hidden until window load + ScrollSmoother + hero intro (main.js removes .oc-landing-boot). */
+html.oc-js.oc-gsap-landing body.outlier-landing.oc-landing-boot {
+	visibility: hidden;
+}
+
+html.oc-js.oc-gsap-landing body.outlier-landing {
+	opacity: 1;
+}
+
+/* Default: normal cursor. Custom cursor hides it only when JS adds .oc-custom-cursor-on */
+body.outlier-landing {
+	cursor: auto;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body.outlier-landing.oc-custom-cursor-on {
+		cursor: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.outlier-landing.oc-custom-cursor-on {
+		cursor: auto !important;
+	}
+
+	html.oc-js.oc-gsap-landing body.outlier-landing.oc-landing-boot {
+		visibility: visible;
+	}
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 3px;
+}
+
+h1 {
+	font-family: var(--font-body);
+	font-weight: var(--font-weight-hero);
+	font-style: normal;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-body);
+	font-weight: var(--font-weight-heading);
+	font-style: normal;
+}
+
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	z-index: 100000;
+	padding: 0.75rem 1.25rem;
+	background: var(--colour-orange);
+	color: #fff;
+	font-weight: 600;
+}
+
+.skip-link:focus {
+	left: 0;
+}
+
+/* SplitText / SplitType line wrappers */
+.split-line,
+.oc-split-line {
+	display: block;
+	overflow: hidden;
+	will-change: transform, opacity;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+}
+
+/* -----------------------------------------------------------------------------
+   Cursor — 10px orange dot; hover expands (GSAP sets scale on wrapper if needed)
+   -------------------------------------------------------------------------- */
+.custom-cursor {
+	display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	body.outlier-landing .custom-cursor {
+		display: block;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 10px;
+		height: 10px;
+		margin: -5px 0 0 -5px;
+		pointer-events: none;
+		z-index: 2147483646;
+		opacity: 0;
+		will-change: transform;
+	}
+
+	body.outlier-landing .custom-cursor__inner {
+		display: block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--colour-orange);
+		transition: transform 0.25s ease, opacity 0.25s ease;
+		transform-origin: center center;
+	}
+
+	body.outlier-landing .custom-cursor.is-active {
+		opacity: 1;
+	}
+
+	body.outlier-landing .custom-cursor.cursor--hover .custom-cursor__inner {
+		opacity: 0.5;
+		transform: scale(3.2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	body.outlier-landing .custom-cursor {
+		display: none !important;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   Buttons — pill primary / outline
+   -------------------------------------------------------------------------- */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px 32px;
+	min-height: 3.25rem;
+	font-family: var(--font-body);
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.2;
+	border: none;
+	border-radius: 100px;
+	background: var(--colour-orange);
+	color: #fff;
+	box-shadow: none;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+.btn:hover {
+	background: var(--colour-orange-hover);
+	transform: none;
+	filter: none;
+	box-shadow: none;
+}
+
+.btn:active {
+	background: var(--colour-orange-active);
+	transform: none;
+	filter: none;
+	box-shadow: none;
+}
+
+.btn--outline {
+	background: transparent;
+	color: inherit;
+	border: 2px solid currentColor;
+	padding: 14px 30px;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+.btn--outline:hover {
+	filter: none;
+	background: var(--colour-white);
+	color: var(--colour-black);
+	transform: none;
+	box-shadow: none;
+}
+
+.btn--outline:active {
+	transform: none;
+}
+
+.btn--ghost-light {
+	background: transparent;
+	color: var(--colour-white);
+	border: 2px solid rgba(245, 240, 235, 0.85);
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+/*
+ * Ghost sits on dark bands (e.g. talks). Base .btn:hover sets an orange fill — without resetting
+ * background here, hover becomes orange-on-orange with orange text (illegible).
+ */
+.btn--ghost-light:hover {
+	filter: none;
+	background: var(--colour-white);
+	color: var(--colour-black);
+	border-color: var(--colour-orange);
+	transform: none;
+	box-shadow: none;
+}
+
+.btn--ghost-light:active {
+	background: var(--colour-card-tint);
+	color: var(--colour-black);
+	border-color: var(--colour-orange-active);
+	transform: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Smooth scroll shell
+   -------------------------------------------------------------------------- */
+#smooth-wrapper,
+#smooth-content {
+	display: block;
+	width: 100%;
+}
+
+html.oc-scroll-smoother #smooth-wrapper {
+	overflow: hidden;
+	position: fixed;
+	inset: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.oc-scroll-smoother #smooth-content {
+	overflow: visible;
+	width: 100%;
+	will-change: transform;
+}
+
+/* -----------------------------------------------------------------------------
+   Chapter rhythm
+   -------------------------------------------------------------------------- */
+.chapter {
+	position: relative;
+	padding: var(--section-pad-y) var(--section-pad-x);
+}
+
+.chapter__inner {
+	width: 100%;
+	max-width: min(1200px, 100%);
+	margin-inline: auto;
+	text-align: center;
+}
+
+.chapter__label {
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: var(--font-weight-heading);
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	margin: 0 0 1.5rem;
+	line-height: 1.2;
+}
+
+.chapter__label--on-light {
+	color: rgba(26, 26, 26, 0.55);
+}
+
+.chapter__label--on-stone {
+	color: rgba(26, 26, 26, 0.5);
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 1 — Hero (full-bleed photo + wash; copy vertically centred)
+   -------------------------------------------------------------------------- */
+.chapter--hero {
+	position: relative;
+	isolation: isolate;
+	background: var(--colour-black);
+	color: var(--colour-white);
+	min-height: min(100vh, 900px);
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	padding-top: clamp(2.5rem, 9vh, 5.5rem);
+	padding-bottom: clamp(2rem, 8vh, 5rem);
+	overflow: hidden;
+}
+
+/* Tighter inset on phones so headline/sub copy can use more of the width. */
+@media (max-width: 639px) {
+	.chapter--hero {
+		padding-left: max(0.875rem, env(safe-area-inset-left, 0px));
+		padding-right: max(0.875rem, env(safe-area-inset-right, 0px));
+		padding-top: clamp(1.65rem, 7vh, 3.75rem);
+		padding-bottom: clamp(1.25rem, 5.5vh, 3rem);
+	}
+
+	.hero__text {
+		gap: clamp(0.35rem, 1.8vw, 0.85rem);
+	}
+
+	.hero__headline {
+		margin-bottom: 1rem;
+	}
+
+	.hero__sub {
+		margin-bottom: 1.35rem;
+	}
+}
+
+.hero__bg-wrap {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.hero__bg-media {
+	position: absolute;
+	inset: 0;
+}
+
+.hero__bg-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+/* Fades the photo so type stays legible (flat wash — no gradients) */
+.hero__bg-overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(26, 26, 26, 0.62);
+}
+
+.hero__grid {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.hero__text {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: clamp(0.5rem, 2.5vw, 1.25rem);
+	justify-items: center;
+	text-align: center;
+}
+
+.hero__copy {
+	grid-row: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	justify-self: stretch;
+	width: 100%;
+	min-height: 0;
+	text-align: center;
+}
+
+.hero__logo {
+	display: block;
+	grid-row: 1;
+	width: fit-content;
+	max-width: min(88vw, 400px);
+	margin-inline: auto;
+	margin-bottom: 0;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+.hero__logo:hover {
+	opacity: 0.85;
+	transform: scale(1.02);
+}
+
+.hero__logo img,
+.hero__logo-img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: clamp(2.65rem, 14vw, 6rem);
+}
+
+.hero__headline {
+	font-family: var(--font-body);
+	font-weight: var(--font-weight-hero);
+	font-style: normal;
+	text-transform: lowercase;
+	font-size: clamp(2.15rem, 7.5vw, 5.25rem);
+	line-height: 1.02;
+	letter-spacing: -0.02em;
+	margin: 0 auto 1.25rem;
+	max-width: 22ch;
+	text-rendering: geometricPrecision;
+	text-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.45),
+		0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 900px) {
+	.hero__headline {
+		font-size: clamp(2.5rem, 8.5vw, 5.85rem);
+		letter-spacing: -0.03em;
+	}
+}
+
+.hero__headline .hero-line {
+	display: block;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+}
+
+.hero__headline .hero-line:not(:last-child) {
+	margin-bottom: 0.12em;
+}
+
+.hero__headline .hero-accent {
+	color: inherit;
+	transition: color 0.5s ease;
+}
+
+html.oc-hero-past .hero__headline .hero-accent {
+	color: var(--colour-orange);
+}
+
+.hero__sub {
+	font-size: clamp(1.05rem, 2.2vw, 1.15rem);
+	line-height: 1.55;
+	max-width: var(--max-prose);
+	margin: 0 auto 2rem;
+	color: rgba(245, 240, 235, 0.92);
+	text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
+	text-wrap: pretty;
+}
+
+.hero__cta {
+	margin-top: 0.25rem;
+}
+
+/* CSS fallback if JS fails */
+.hero__headline .hero-line {
+	opacity: 0;
+	transform: translateY(1.05em);
+	animation: oc-hero-line 1.15s ease forwards;
+	animation-delay: 0.12s;
+}
+
+.hero__sub {
+	opacity: 0;
+	animation: oc-hero-sub 0.85s ease 0.55s forwards;
+}
+
+.hero__cta {
+	opacity: 0;
+	animation: oc-hero-cta 0.75s ease 0.85s forwards;
+}
+
+@keyframes oc-hero-line {
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes oc-hero-sub {
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes oc-hero-cta {
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+html.oc-js.oc-gsap-landing .chapter--hero .hero__logo {
+	opacity: 0;
+}
+
+html.oc-js.oc-gsap-landing .hero__sub,
+html.oc-js.oc-gsap-landing .hero__cta {
+	animation: none;
+}
+
+/*
+ * Kill no-JS fallback motion on lines when GSAP runs — that rule used translateY(1.05em), which
+ * fought the intro tween and read as a snap/jolt. Opacity + neutral transform until GSAP sets y.
+ */
+html.oc-js.oc-gsap-landing .hero__headline .hero-line {
+	animation: none !important;
+	opacity: 0;
+	transform: translateZ(0);
+	backface-visibility: hidden;
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 2 — Problem (army)
+   -------------------------------------------------------------------------- */
+.chapter--problem {
+	background: var(--colour-army);
+	color: var(--colour-white);
+}
+
+.problem__accent-dot {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--colour-orange);
+	margin: 0 auto 1.75rem;
+}
+
+.problem__text p {
+	font-family: var(--font-body);
+	font-weight: 500;
+	font-size: clamp(1.35rem, 3.5vw, 2.15rem);
+	line-height: 1.18;
+	letter-spacing: -0.01em;
+	max-width: 22ch;
+	margin: 0 auto 1.5rem;
+	text-wrap: pretty;
+}
+
+.problem__accent {
+	color: var(--colour-orange);
+}
+
+/*
+ * ScrollTrigger wraps the pinned problem chapter in .pin-spacer. Without a fill,
+ * the spacer is transparent and the body’s black shows through under the army block.
+ */
+.pin-spacer:has(> .chapter--problem) {
+	background-color: var(--colour-army);
+}
+
+/* Philosophy sits after offerings in the DOM; without a lower z-index it paints over the cards. */
+.pin-spacer:has(> #philosophy) {
+	background-color: var(--colour-brown);
+	overflow-x: visible;
+	overflow-y: visible;
+	position: relative;
+	z-index: 1;
+}
+
+/* While ScrollTrigger has this chapter pinned, stack it above neighbours (handoff with offerings). */
+.chapter--offerings.oc-offerings-is-pinned {
+	z-index: 12;
+}
+
+.pin-spacer:has(> .chapter--offerings) {
+	background-color: var(--colour-stone);
+	/* Let card hover shadows paint below the track (was overflow:hidden — hard cut-off). */
+	overflow-x: hidden;
+	overflow-y: visible;
+	position: relative;
+	z-index: 2;
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 3 — Path (warm white)
+   -------------------------------------------------------------------------- */
+.chapter--path {
+	background: var(--colour-white);
+	color: var(--colour-black);
+}
+
+.path__intro {
+	font-family: var(--font-body);
+	font-weight: 500;
+	font-size: clamp(1.25rem, 2.8vw, 1.85rem);
+	line-height: 1.15;
+	max-width: min(42rem, 100%);
+	margin: 0 auto 2.75rem;
+	letter-spacing: -0.02em;
+	text-wrap: pretty;
+}
+
+/* Scroll-driven journey: extra height so the SVG trail can scrub (desktop only; see max-width rule). */
+.path-scroll-scene {
+	position: relative;
+	min-height: 220vh;
+}
+
+.path-scroll-sticky {
+	position: sticky;
+	top: 0;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	padding-block: 0;
+}
+
+/* Phone / tablet: no path SVG or scrub — stack steps, normal section height. */
+@media (max-width: 1024px) {
+	.path-scroll-scene {
+		min-height: 0;
+	}
+
+	.path-scroll-sticky {
+		position: relative;
+		top: auto;
+		min-height: 0;
+	}
+
+	.path-journey__svg-wrap {
+		display: none;
+	}
+}
+
+.path-journey__inner {
+	width: 100%;
+}
+
+.path-journey__layout {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.path-journey__steps {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
+	width: 100%;
+	align-self: stretch;
+}
+
+@media (min-width: 960px) {
+	.path-journey__steps {
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1rem 1.25rem;
+	}
+}
+
+.path-step--journey {
+	cursor: default;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+	transition: transform 0.25s ease;
+}
+
+.path-step--journey:hover {
+	transform: translateY(-4px) translateZ(0);
+}
+
+/* Phone / tablet: no scrub — orange label on hover only. */
+@media (max-width: 1024px) {
+	.path-step--journey:hover .path-step__label {
+		color: var(--colour-orange);
+		transition: color 0.25s ease;
+	}
+}
+
+.path-step__num {
+	display: block;
+	font-family: var(--font-body);
+	font-weight: var(--font-weight-heading);
+	font-variant-numeric: tabular-nums;
+	font-size: clamp(2.5rem, 7vw, 3.75rem);
+	line-height: 0.85;
+	color: rgba(26, 26, 26, 0.1);
+	margin-bottom: 0.35rem;
+	transition: color 0.35s ease;
+}
+
+.path-step__label {
+	font-weight: var(--font-weight-heading);
+	font-size: 1.05rem;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+	transition: color 0.35s ease;
+}
+
+.path-step__desc {
+	margin: 0 auto;
+	font-size: 0.98rem;
+	line-height: 1.55;
+	color: var(--colour-grey);
+	max-width: 28ch;
+	text-wrap: pretty;
+	transition: color 0.35s ease;
+}
+
+/*
+ * Desktop path scrub: walker position sets is-path-passed | is-path-active | is-path-ahead (main.js).
+ * Passed = already visited, active = current leg (orange title + strong body), ahead = muted.
+ */
+@media (min-width: 1025px) {
+	.path-step--journey {
+		opacity: 1;
+		transition:
+			opacity 0.45s ease,
+			transform 0.25s ease,
+			color 0.35s ease;
+	}
+
+	.path-step--journey.is-path-ahead {
+		opacity: 0.38;
+	}
+
+	.path-step--journey.is-path-passed .path-step__num {
+		color: rgba(26, 26, 26, 0.14);
+	}
+
+	.path-step--journey.is-path-passed .path-step__label {
+		color: var(--colour-black);
+	}
+
+	.path-step--journey.is-path-passed .path-step__desc {
+		color: var(--colour-grey);
+	}
+
+	.path-step--journey.is-path-active .path-step__num {
+		color: rgba(237, 95, 30, 0.42);
+	}
+
+	.path-step--journey.is-path-active .path-step__label {
+		color: var(--colour-orange);
+	}
+
+	.path-step--journey.is-path-active .path-step__desc {
+		color: rgba(26, 26, 26, 0.9);
+	}
+
+	.path-step--journey.is-path-ahead .path-step__num {
+		color: rgba(26, 26, 26, 0.07);
+	}
+
+	.path-step--journey.is-path-ahead .path-step__label {
+		color: rgba(26, 26, 26, 0.4);
+	}
+
+	.path-step--journey.is-path-ahead .path-step__desc {
+		color: rgba(26, 26, 26, 0.28);
+	}
+
+	.path-step--journey.is-path-passed:hover .path-step__label {
+		color: var(--colour-black);
+	}
+
+	.path-step--journey.is-path-active:hover .path-step__label {
+		color: var(--colour-orange);
+	}
+
+	.path-step--journey.is-path-ahead:hover .path-step__label {
+		color: var(--colour-orange);
+	}
+}
+
+.path-journey__svg-wrap {
+	width: 100%;
+	max-width: min(1000px, 100%);
+	margin-inline: auto;
+	align-self: stretch;
+}
+
+.path-journey__svg {
+	width: 100%;
+	height: auto;
+	display: block;
+	color: var(--colour-black);
+}
+
+.path-journey__trail-bg {
+	stroke: rgba(26, 26, 26, 0.14);
+	stroke-width: 6;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.path-journey__trail-fg {
+	stroke: var(--colour-orange);
+	stroke-width: 6;
+	/* Butt caps avoid a round “blob” at the path start (reads as a stray dot under step 01). */
+	stroke-linecap: butt;
+	stroke-linejoin: round;
+}
+
+.path-journey__marker circle {
+	fill: rgba(26, 26, 26, 0.2);
+}
+
+.path-journey__marker--done circle {
+	fill: var(--colour-orange);
+}
+
+@keyframes path-marker-pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.28);
+	}
+}
+
+/* Pulse the circle only: CSS transform on the <g> would override SVG translate(...) and throw dots off the path. */
+.path-journey__marker.is-path-pulse circle {
+	animation: path-marker-pulse 0.45s ease;
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+.path-journey__walker-bob {
+	animation: path-walker-bob 2.8s ease-in-out infinite;
+}
+
+@keyframes path-walker-bob {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-4px);
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 4 — Offerings (stone, horizontal scroller — simple stacked image + copy cards)
+   -------------------------------------------------------------------------- */
+.chapter--offerings {
+	background: var(--colour-stone);
+	color: var(--colour-black);
+	overflow-x: clip;
+	overflow-y: visible;
+	position: relative;
+	z-index: 2;
+}
+
+.offerings__viewport {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: min(1200px, 100%);
+	margin-inline: auto;
+}
+
+/* Prev/next: shown only when JS sets .offerings__viewport--arrows-on (tablet/phone, scrollable track). */
+.offerings__nav {
+	display: none;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 1.25rem;
+	margin-top: 0.65rem;
+	padding-inline: var(--section-pad-x);
+}
+
+.offerings__viewport--arrows-on .offerings__nav {
+	display: flex;
+}
+
+.offerings__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	background: transparent;
+	color: var(--colour-black);
+	cursor: pointer;
+	transition: color 0.2s ease, opacity 0.2s ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.offerings__arrow:hover:not(:disabled) {
+	color: var(--colour-orange);
+}
+
+.offerings__arrow:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 4px;
+}
+
+.offerings__arrow:disabled {
+	opacity: 0.32;
+	cursor: not-allowed;
+}
+
+.offerings__arrow-icon {
+	display: block;
+}
+
+.offerings__scroller {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 1.25rem;
+	overflow-x: auto;
+	/*
+	 * Hover lifts cards (translateY) + shadow; clip + clip-margin is uneven in browsers — top
+	 * padding keeps rounded corners and shadow inside the scrollport (bottom padding for shadow below).
+	 */
+	overflow-y: clip;
+	overflow-clip-margin: 32px;
+	padding-top: clamp(1rem, 2.5vw, 1.75rem);
+	padding-bottom: 2.25rem;
+	padding-inline-end: 1.5rem;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: 2px;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-gutter: stable;
+}
+
+.offerings__scroller:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 4px;
+}
+
+.offering-card {
+	/* ~3 cards visible: 3 widths + 2 gaps (1.25rem each) + a little viewport margin */
+	--offerings-card-width: clamp(220px, calc((100vw - 4rem) / 3), 360px);
+	flex: 0 0 var(--offerings-card-width);
+	min-width: 0;
+	scroll-snap-align: start;
+	background: var(--colour-white);
+	border-radius: var(--radius-card);
+	padding: clamp(1.25rem, 3vw, 1.6rem);
+	overflow: visible;
+	border: 1px solid rgba(26, 26, 26, 0.06);
+	box-shadow: 0 1px 0 rgba(26, 26, 26, 0.06);
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	cursor: pointer;
+	transition:
+		transform 0.35s ease,
+		box-shadow 0.35s ease;
+	backface-visibility: hidden;
+	transform: translateZ(0);
+}
+
+.offering-card:hover {
+	transform: translateY(-6px) translateZ(0);
+	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.offering-card__media {
+	position: relative;
+	width: 100%;
+	flex-shrink: 0;
+	aspect-ratio: 16 / 9;
+	border-radius: var(--radius-img);
+	overflow: hidden;
+	background: var(--colour-card-tint);
+	margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
+}
+
+.offering-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.5s ease;
+}
+
+.offering-card:hover .offering-card__img {
+	transform: scale(1.04);
+}
+
+.offering-card__placeholder {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	min-height: 7rem;
+	background: var(--colour-stone);
+}
+
+.offering-card__body {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.offering-card__title {
+	font-weight: var(--font-weight-heading);
+	font-size: clamp(1.05rem, 2.1vw, 1.2rem);
+	line-height: 1.15;
+	margin: 0 0 0.35rem;
+	letter-spacing: -0.02em;
+	text-wrap: pretty;
+}
+
+.offering-card__location {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.4rem;
+	margin: 0 0 0.45rem;
+	color: var(--colour-orange);
+	font-size: 0.78rem;
+	font-weight: 600;
+	line-height: 1.35;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-wrap: pretty;
+}
+
+.offering-card__location-pin {
+	flex-shrink: 0;
+	margin-top: 0.1em;
+	line-height: 0;
+	color: var(--colour-orange);
+}
+
+.offering-card__location-text {
+	min-width: 0;
+}
+
+.offering-card__desc {
+	margin: 0;
+	width: 100%;
+	min-width: 0;
+	font-size: 0.95rem;
+	line-height: 1.55;
+	color: var(--colour-grey);
+	text-align: left;
+	text-wrap: pretty;
+}
+
+/* SplitText/SplitType line wrappers must stay full-width inside the card (invalid <p><div> broke Talks + <br> layout). */
+.offering-card__desc .split-line {
+	width: 100%;
+	min-width: 0;
+}
+
+.offering-card__desc + .offering-card__desc {
+	margin-top: 0.65rem;
+}
+
+.offering-card__actions {
+	margin: 0;
+	margin-top: auto;
+	padding-top: 1rem;
+	align-self: flex-start;
+}
+
+.offering-card__btn {
+	min-height: 2.75rem;
+	padding: 12px 22px;
+	font-size: 0.92rem;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.offering-card__img {
+		transition: none !important;
+	}
+}
+
+.offering-card:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 3px;
+}
+
+/* Phone / tablet: one card per view, full-width + centered snap (no gap — gap + % flex basis causes a sliver of the next card). */
+@media (max-width: 1024px) {
+	.chapter--offerings .offerings__scroller {
+		gap: 0;
+		padding-inline-end: 0;
+		padding-bottom: 2.5rem;
+		scroll-padding-inline: 0;
+		scrollbar-gutter: auto;
+	}
+
+	.chapter--offerings .offerings__scroller .offering-card {
+		--offerings-card-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+		min-width: 100%;
+		max-width: 100%;
+		scroll-snap-align: center;
+	}
+}
+
+/* Vertical scroll drives horizontal scroll — min-width 1025px only (see main.js). */
+html.oc-offerings-scroll-drive .chapter--offerings {
+	padding-inline: 0;
+}
+
+/* Keep the eyebrow aligned with other chapters; cards track is full-bleed (no stone gutters). */
+html.oc-offerings-scroll-drive .chapter--offerings > .chapter__inner {
+	padding-inline: var(--section-pad-x);
+	max-width: min(1200px, 100%);
+	margin-inline: auto;
+	width: 100%;
+}
+
+html.oc-offerings-scroll-drive .offerings__viewport {
+	max-width: none;
+	width: 100%;
+	margin-inline: 0;
+	padding-inline: 0;
+}
+
+html.oc-offerings-scroll-drive .offerings__scroller {
+	overflow-x: hidden;
+	overflow-y: clip;
+	overflow-clip-margin: 32px;
+	scroll-snap-type: none;
+	scrollbar-gutter: stable;
+	padding-inline: 0;
+	padding-top: clamp(1rem, 2.5vw, 1.75rem);
+	padding-bottom: 2.25rem;
+	scroll-padding-inline: 0;
+}
+
+html.oc-offerings-scroll-drive .offering-card {
+	/* Full-bleed track: exactly three cards across the viewport (two 1.25rem gaps). */
+	--offerings-card-width: clamp(240px, calc((100vw - 2.5rem) / 3), 420px);
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 5 — Philosophy (brown; same layout + pin/scrub copy as chapter--problem — main.js)
+   -------------------------------------------------------------------------- */
+.chapter--philosophy {
+	background: var(--colour-brown);
+	color: var(--colour-white);
+}
+
+/* Recognition + Philosophy: shorter band than full section rhythm; line-split copy in main.js */
+.chapter--problem,
+.chapter--philosophy {
+	padding-block: clamp(2rem, 4.5vw, 3.5rem);
+}
+
+.chapter--problem .problem__accent-dot,
+.chapter--philosophy .problem__accent-dot {
+	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
+}
+
+.chapter--problem .problem__text p,
+.chapter--philosophy .problem__text p {
+	margin-bottom: clamp(0.65rem, 1.5vw, 1rem);
+}
+
+.chapter--problem .problem__text .split-line,
+.chapter--philosophy .problem__text .split-line {
+	display: block;
+}
+
+/* -----------------------------------------------------------------------------
+   Testimonials (stone band, card grid — matches editorial card language)
+   -------------------------------------------------------------------------- */
+.chapter--testimonials {
+	background: var(--colour-stone);
+	color: var(--colour-black);
+	overflow-x: clip;
+}
+
+.testimonials__inner {
+	max-width: min(56rem, 100%);
+	margin-inline: auto;
+}
+
+.testimonials__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+@media (min-width: 640px) {
+	.testimonials__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: stretch;
+	}
+
+	/* Odd count: last card spans one row, centred (avoids a dangling half-width cell) */
+	.testimonial-card:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+		max-width: min(36rem, 100%);
+		justify-self: center;
+		width: 100%;
+	}
+}
+
+.testimonial-card {
+	margin: 0;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background: var(--colour-white);
+	border-radius: var(--radius-card);
+	padding: clamp(1.25rem, 3vw, 1.6rem);
+	box-shadow: none;
+	border: 1px solid rgba(26, 26, 26, 0.08);
+	position: relative;
+	text-align: left;
+	cursor: default;
+	transition:
+		border-color 0.28s ease,
+		background-color 0.28s ease;
+}
+
+/* Flat hover: tint + orange edge — no lift/shadow (avoids clip + matches editorial buttons). */
+.testimonial-card:hover {
+	border-color: rgba(237, 95, 30, 0.42);
+	background: var(--colour-card-tint);
+}
+
+.testimonial-card__mark {
+	display: block;
+	margin: 0 0 0.65rem;
+	line-height: 0;
+}
+
+.testimonial-card__mark-img {
+	display: block;
+	width: clamp(3.35rem, 9vw, 5rem);
+	height: auto;
+	aspect-ratio: 56 / 48;
+}
+
+.testimonial-card__quote {
+	margin: 0;
+	padding: 0;
+	border: none;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.testimonial-card__text {
+	margin: 0;
+	font-size: clamp(0.98rem, 2vw, 1.08rem);
+	line-height: 1.62;
+	color: var(--colour-grey);
+	font-style: normal;
+	font-weight: 500;
+	text-wrap: pretty;
+}
+
+/* -----------------------------------------------------------------------------
+   Upcoming talks (army green band — flat cards on green, after stone testimonials)
+   -------------------------------------------------------------------------- */
+.chapter--upcoming-talks {
+	background: var(--colour-army);
+	color: var(--colour-white);
+	overflow-x: clip;
+}
+
+.chapter--upcoming-talks .chapter__label {
+	color: rgba(245, 240, 235, 0.62);
+}
+
+.upcoming-talks__inner {
+	max-width: min(1100px, 100%);
+	margin-inline: auto;
+}
+
+.upcoming-talks__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+	gap: 1.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.upcoming-talk-card {
+	display: flex;
+	flex-direction: column;
+	background: var(--colour-white);
+	border-radius: var(--radius-card);
+	padding: clamp(1.1rem, 2.5vw, 1.35rem);
+	margin: 0;
+	color: var(--colour-black);
+	text-align: center;
+}
+
+.upcoming-talk-card__title {
+	font-weight: var(--font-weight-heading);
+	font-size: clamp(1.05rem, 2.1vw, 1.2rem);
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	margin: 0 0 0.5rem;
+	text-wrap: pretty;
+}
+
+.upcoming-talk-card__meta {
+	margin: 0 0 0.65rem;
+	font-size: 0.82rem;
+	line-height: 1.45;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--colour-orange);
+	text-wrap: pretty;
+}
+
+.upcoming-talk-card__desc {
+	margin: 0;
+	flex: 1 1 auto;
+	font-size: 0.95rem;
+	line-height: 1.55;
+	color: var(--colour-grey);
+	text-wrap: pretty;
+}
+
+.upcoming-talk-card__action {
+	margin: 1rem 0 0;
+	align-self: center;
+}
+
+.upcoming-talk-card__btn {
+	font-size: 0.9rem;
+	min-height: 2.65rem;
+	padding: 11px 22px;
+}
+
+.upcoming-talk-card__btn:hover {
+	color: var(--colour-orange);
+	border-color: var(--colour-orange);
+}
+
+.upcoming-talk-card__btn:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 3px;
+}
+
+/* -----------------------------------------------------------------------------
+   Talks / workshops CTA (army) — sits after Path; Contact block stays near footer
+   -------------------------------------------------------------------------- */
+.chapter--talks {
+	background: var(--colour-army);
+	color: var(--colour-white);
+}
+
+.talks__inner {
+	max-width: var(--max-heading-block);
+	margin-inline: auto;
+	overflow: hidden;
+}
+
+.talks__headline {
+	font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+	line-height: 1.12;
+	letter-spacing: -0.02em;
+	margin: 0 0 1.75rem;
+	text-wrap: pretty;
+}
+
+.talks__headline .talks-accent {
+	color: inherit;
+	transition: color 0.5s ease;
+}
+
+html.oc-talks-accent-on .talks__headline .talks-accent {
+	color: var(--colour-orange);
+}
+
+.talks__cta {
+	margin-top: 0.5rem;
+}
+
+/* -----------------------------------------------------------------------------
+   CHAPTER 7 — Contact (black + faded landscape behind copy)
+   -------------------------------------------------------------------------- */
+.chapter--contact {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background: var(--colour-black);
+	color: var(--colour-white);
+}
+
+.contact__bg-wrap {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.contact__bg-media {
+	position: absolute;
+	inset: 0;
+}
+
+.contact__bg-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center 72%;
+	opacity: 0.55;
+	display: block;
+}
+
+.contact__bg-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		180deg,
+		rgba(26, 26, 26, 0.82) 0%,
+		rgba(26, 26, 26, 0.68) 42%,
+		rgba(26, 26, 26, 0.86) 100%
+	);
+}
+
+.contact__inner {
+	position: relative;
+	z-index: 1;
+	max-width: var(--max-heading-block);
+	margin-inline: auto;
+}
+
+.contact__heading {
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	line-height: 1.08;
+	letter-spacing: -0.02em;
+	margin: 0 0 1.25rem;
+	text-wrap: pretty;
+	text-shadow:
+		0 1px 2px rgba(0, 0, 0, 0.55),
+		0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.contact__lede {
+	margin: 0 auto 2rem;
+	max-width: var(--max-prose);
+	line-height: 1.6;
+	color: rgba(245, 240, 235, 0.9);
+	text-wrap: wrap;
+	overflow-wrap: break-word;
+	text-shadow: 0 1px 18px rgba(0, 0, 0, 0.5);
+}
+
+.contact__actions {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: stretch;
+	justify-content: center;
+	gap: 0.85rem 1rem;
+}
+
+.contact__actions .btn {
+	align-self: stretch;
+	min-height: 3.25rem;
+	height: auto;
+}
+
+.contact__action.btn--outline {
+	color: var(--colour-white);
+	border-color: rgba(245, 240, 235, 0.65);
+}
+
+.contact__action.btn--outline:hover {
+	border-color: var(--colour-orange);
+	color: var(--colour-orange);
+	transform: none;
+	box-shadow: none;
+}
+
+.contact__action--primary:hover {
+	transform: none;
+	box-shadow: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Footer (cream band — flat: dark lockup + confidentiality copy, orange rule)
+   -------------------------------------------------------------------------- */
+.site-footer {
+	background: var(--colour-white);
+	color: var(--colour-black);
+	padding: var(--section-pad-y) var(--section-pad-x);
+	border-top: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+.site-footer__inner {
+	max-width: min(1100px, 100%);
+	margin-inline: auto;
+	display: grid;
+	gap: clamp(2rem, 5vw, 3rem);
+	align-items: start;
+}
+
+.site-footer__brand {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	text-align: center;
+}
+
+.site-footer__logo {
+	display: block;
+	width: fit-content;
+	max-width: min(85vw, 360px);
+	margin-inline: auto;
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+.site-footer__logo:hover {
+	opacity: 0.85;
+	transform: scale(1.02);
+}
+
+.site-footer__logo img,
+.site-footer__logo-img {
+	display: block;
+	margin-inline: auto;
+	height: clamp(2.65rem, 6vw, 3.5rem);
+	width: auto;
+	max-width: min(85vw, 360px);
+}
+
+.site-footer__copy {
+	margin: 0;
+	font-size: 0.88rem;
+	line-height: 1.45;
+	color: var(--colour-grey);
+	text-wrap: pretty;
+}
+
+/* No inset card — copy sits on the cream band. */
+.site-footer__statement {
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	position: relative;
+	min-width: 0;
+}
+
+/* Flat accent: short orange rule only (replaces inset card + left bar). */
+.site-footer__statement::before {
+	content: "";
+	display: block;
+	width: 2.75rem;
+	height: 3px;
+	background: var(--colour-orange);
+	margin-bottom: 1.1rem;
+}
+
+.site-footer__confidential {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: clamp(0.92rem, 1.85vw, 1.03rem);
+	line-height: 1.62;
+	font-weight: 500;
+	color: rgba(26, 26, 26, 0.78);
+	text-align: left;
+	text-wrap: pretty;
+}
+
+@media (min-width: 768px) {
+	.site-footer__inner {
+		grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+		column-gap: clamp(2.25rem, 6vw, 4rem);
+		align-items: start;
+	}
+
+	/* Vertically centre lockup + © with the confidentiality block (was start — logo sat high vs rule + copy). */
+	.site-footer__inner:has(.site-footer__statement) {
+		align-items: center;
+	}
+
+	.site-footer__inner:not(:has(.site-footer__statement)) {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		text-align: center;
+	}
+
+	.site-footer__inner:not(:has(.site-footer__statement)) .site-footer__brand {
+		text-align: center;
+	}
+
+	.site-footer__inner:not(:has(.site-footer__statement)) .site-footer__logo img,
+	.site-footer__inner:not(:has(.site-footer__statement)) .site-footer__logo-img {
+		margin-inline: auto;
+	}
+
+	.site-footer__inner:has(.site-footer__statement) .site-footer__brand {
+		text-align: left;
+		align-items: flex-start;
+	}
+
+	/* © lines up with the lockup: wrapper was margin-inline:auto (centred in the column). */
+	.site-footer__inner:has(.site-footer__statement) .site-footer__logo {
+		margin-inline: 0;
+	}
+
+	.site-footer__inner:has(.site-footer__statement) .site-footer__logo img,
+	.site-footer__inner:has(.site-footer__statement) .site-footer__logo-img {
+		margin-inline: 0;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.hero__headline .hero-line,
+	.hero__sub,
+	.hero__cta {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	html.oc-js.oc-gsap-landing .chapter--hero .hero__logo {
+		opacity: 1 !important;
+	}
+
+	html.oc-js.oc-gsap-landing .hero__headline .hero-line {
+		opacity: 1 !important;
+	}
+
+	.offering-card__img {
+		transition: none !important;
+	}
+
+	.btn:hover,
+	.btn--outline:hover,
+	.contact__action.btn--outline:hover,
+	.contact__action--primary:hover {
+		transform: none !important;
+		box-shadow: none !important;
+		filter: none !important;
+	}
+
+	.btn--ghost-light:hover,
+	.btn--ghost-light:active {
+		background: var(--colour-white) !important;
+		color: var(--colour-black) !important;
+		border-color: var(--colour-orange) !important;
+		transform: none !important;
+		box-shadow: none !important;
+		filter: none !important;
+	}
+
+	.offering-card:hover,
+	.path-step--journey:hover {
+		transform: none !important;
+		box-shadow: 0 1px 0 rgba(26, 26, 26, 0.06) !important;
+	}
+
+	.testimonial-card:hover {
+		transform: none !important;
+		border-color: rgba(237, 95, 30, 0.42) !important;
+		background: var(--colour-card-tint) !important;
+		box-shadow: none !important;
+	}
+
+	.offering-card:hover .offering-card__img {
+		transform: none !important;
+	}
+
+	.path-step--journey:hover .path-step__label {
+		color: inherit;
+	}
+
+	.hero__logo:hover,
+	.site-footer__logo:hover {
+		transform: none !important;
+		opacity: 1 !important;
+	}
+
+	.path-scroll-scene {
+		min-height: 0;
+	}
+
+	.path-scroll-sticky {
+		position: relative;
+		min-height: 0;
+	}
+
+	.path-step--journey {
+		opacity: 1 !important;
+	}
+
+	.path-journey__walker-bob {
+		animation: none !important;
+	}
+
+	.path-journey__marker.is-path-pulse circle {
+		animation: none !important;
+	}
+}
+
+.visually-hidden {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+html.lenis {
+	scroll-behavior: auto !important;
+}

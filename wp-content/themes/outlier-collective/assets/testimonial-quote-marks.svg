@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 48" fill="none" aria-hidden="true">
+	<!-- Single typographic opening double quote, theme orange -->
+	<text
+		x="0"
+		y="42"
+		font-family="Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', Times, serif"
+		font-size="62"
+		font-weight="400"
+		fill="#ed5f1e"
+		text-rendering="geometricPrecision"
+	>&#x201C;</text>
+</svg>

@@ -17,10 +17,10 @@ Text Domain: outlier-collective
    Google Fonts: enqueued with &display=swap (see oc_enqueue_theme_styles).
    -------------------------------------------------------------------------- */
 :root {
-	--colour-orange: #ed5f1e;
+	--colour-orange: #db9334;
 	/* Flat button hovers (no shadow / lift) */
-	--colour-orange-hover: #d75317;
-	--colour-orange-active: #c24a14;
+	--colour-orange-hover: #c9862e;
+	--colour-orange-active: #b37926;
 	--colour-black: #1a1a1a;
 	--colour-white: #f5f0eb;
 	--colour-grey: #6b6b6b;
@@ -47,7 +47,7 @@ Text Domain: outlier-collective
 }
 
 ::selection {
-	background: rgba(237, 95, 30, 0.35);
+	background: rgba(219, 147, 34, 0.35);
 	color: var(--colour-black);
 }
 
@@ -820,7 +820,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	}
 
 	.path-step--journey.is-path-active .path-step__num {
-		color: rgba(237, 95, 30, 0.42);
+		color: rgba(219, 147, 34, 0.42);
 	}
 
 	.path-step--journey.is-path-active .path-step__label {
@@ -1313,7 +1313,7 @@ html.oc-offerings-scroll-drive .offering-card {
 
 /* Flat hover: tint + orange edge — no lift/shadow (avoids clip + matches editorial buttons). */
 .testimonial-card:hover {
-	border-color: rgba(237, 95, 30, 0.42);
+	border-color: rgba(219, 147, 34, 0.42);
 	background: var(--colour-card-tint);
 }
 
@@ -1770,7 +1770,7 @@ html.oc-talks-accent-on .talks__headline .talks-accent {
 
 	.testimonial-card:hover {
 		transform: none !important;
-		border-color: rgba(237, 95, 30, 0.42) !important;
+		border-color: rgba(219, 147, 34, 0.42) !important;
 		background: var(--colour-card-tint) !important;
 		box-shadow: none !important;
 	}

@@ -216,7 +216,7 @@ function oc_landing_default_meta() {
 		'oc_talks_cta_url'       => '#contact',
 
 		'oc_contact_heading'     => 'Let\'s have a conversation.',
-		'oc_contact_body'        => 'Connect to a real person. Book a free 20 minute slot and let\'s begin.',
+		'oc_contact_body'        => "Connect to a real person. Book a free 20 minute slot\nand let's begin.",
 		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You are not a case study, no notes are kept, no data is studied, no trends are looked at. If you\'re looking for different, find it here.',
 		'oc_calendly_url'        => 'https://calendly.com/outlier-coaching/outlier-discovery-call',
 		'oc_calendly_label'      => 'Book a discovery call',

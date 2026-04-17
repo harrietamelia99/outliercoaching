@@ -450,10 +450,7 @@ while ( have_posts() ) :
 		</div>
 		<div class="chapter__inner contact__inner">
 			<h2 class="contact__heading" data-oc-contact-head><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_contact_heading' ) ) ); ?></h2>
-			<p class="contact__lede" data-oc-contact-lede><?php
-				$oc_contact_lede = (string) oc_get_landing( $post_id, 'oc_contact_body' );
-				echo esc_html( oc_soft_break_widow( $oc_contact_lede ) );
-			?></p>
+			<p class="contact__lede" data-oc-contact-lede><?php echo oc_esc_html_with_br( (string) oc_get_landing( $post_id, 'oc_contact_body' ) ); ?></p>
 
 			<div class="contact__actions">
 				<a class="btn contact__action contact__action--primary" data-oc-contact-btn href="<?php echo esc_url( oc_get_landing( $post_id, 'oc_calendly_url' ) ); ?>" rel="noopener noreferrer" target="_blank"><?php echo esc_html( oc_get_landing( $post_id, 'oc_calendly_label' ) ); ?></a>

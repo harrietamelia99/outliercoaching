@@ -39,7 +39,11 @@ while ( have_posts() ) :
 	if ( empty( $head_lines ) ) {
 		$defaults   = oc_landing_default_meta();
 		$fallback   = isset( $defaults['oc_hero_headline'] ) ? trim( (string) $defaults['oc_hero_headline'] ) : '';
-		$head_lines = $fallback !== '' ? array( $fallback ) : array( "If you're looking for something different, find it here." );
+		if ( $fallback !== '' ) {
+			$head_lines = array_filter( array_map( 'trim', explode( "\n", $fallback ) ) );
+		} else {
+			$head_lines = array( "If you're looking for something different,", 'find it here.' );
+		}
 	}
 
 	$oc_format_problem_s3 = static function ( $sentence, $accent ) {

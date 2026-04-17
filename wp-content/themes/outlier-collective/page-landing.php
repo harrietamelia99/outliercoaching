@@ -39,7 +39,7 @@ while ( have_posts() ) :
 	if ( empty( $head_lines ) ) {
 		$defaults   = oc_landing_default_meta();
 		$fallback   = isset( $defaults['oc_hero_headline'] ) ? trim( (string) $defaults['oc_hero_headline'] ) : '';
-		$head_lines = $fallback !== '' ? array( $fallback ) : array( 'For those who want something different.' );
+		$head_lines = $fallback !== '' ? array( $fallback ) : array( "If you're looking for something different, find it here." );
 	}
 
 	$oc_format_problem_s3 = static function ( $sentence, $accent ) {
@@ -167,10 +167,8 @@ while ( have_posts() ) :
 						<div class="path-journey__steps" role="list">
 							<?php
 							for ( $i = 1; $i <= 4; $i++ ) {
-								$num = str_pad( (string) $i, 2, '0', STR_PAD_LEFT );
 								?>
 							<article class="path-step path-step--journey" data-oc-path-step role="listitem">
-								<span class="path-step__num" aria-hidden="true"><?php echo esc_html( $num ); ?></span>
 								<div class="path-step__body">
 									<h2 class="path-step__label"><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, "oc_step{$i}_label" ) ) ); ?></h2>
 									<?php
@@ -320,12 +318,15 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
+	<?php
+	$phil = trim( (string) oc_get_landing( $post_id, 'oc_philosophy_text' ) );
+	if ( $phil !== '' ) :
+		?>
 	<section id="philosophy" class="chapter chapter--philosophy" data-oc-chapter="philosophy" aria-label="<?php esc_attr_e( 'Philosophy', 'outlier-collective' ); ?>">
 		<div class="chapter__inner">
 			<div class="problem__accent-dot" aria-hidden="true"></div>
 			<div class="problem__text">
 				<?php
-				$phil = oc_get_landing( $post_id, 'oc_philosophy_text' );
 				$bits = array_filter( array_map( 'trim', preg_split( "/\n\s*\n/", $phil ) ) );
 				foreach ( $bits as $chunk ) {
 					echo '<p data-oc-reveal>' . esc_html( oc_soft_break_widow( $chunk ) ) . '</p>';
@@ -334,6 +335,9 @@ while ( have_posts() ) :
 			</div>
 		</div>
 	</section>
+		<?php
+	endif;
+	?>
 
 	<section class="chapter chapter--testimonials" data-oc-chapter="testimonials" aria-label="<?php esc_attr_e( 'Testimonials', 'outlier-collective' ); ?>">
 		<div class="chapter__inner testimonials__inner">
@@ -444,8 +448,6 @@ while ( have_posts() ) :
 			<h2 class="contact__heading" data-oc-contact-head><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_contact_heading' ) ) ); ?></h2>
 			<p class="contact__lede" data-oc-contact-lede><?php
 				$oc_contact_lede = (string) oc_get_landing( $post_id, 'oc_contact_body' );
-				/* Keep “Just a conversation” from splitting across lines (NBSP ties the phrase). */
-				$oc_contact_lede = str_replace( 'Just a conversation', "Just\xc2\xa0a\xc2\xa0conversation", $oc_contact_lede );
 				echo esc_html( oc_soft_break_widow( $oc_contact_lede ) );
 			?></p>
 

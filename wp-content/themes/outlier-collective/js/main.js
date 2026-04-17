@@ -555,7 +555,11 @@
 	}
 
 	function initPhilosophyChapter() {
-		initPinnedAccentParagraphs(doc.getElementById('philosophy'), OC_PHILOSOPHY_PINNED_OPTS);
+		var ph = doc.getElementById('philosophy');
+		if (!ph) {
+			return;
+		}
+		initPinnedAccentParagraphs(ph, OC_PHILOSOPHY_PINNED_OPTS);
 	}
 
 	function initPathChapter() {

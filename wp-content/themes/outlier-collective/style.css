@@ -770,6 +770,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	transition: color 0.35s ease;
 }
 
+.path-step--journey .path-step__body {
+	/* Spacing when step numbers are omitted (titles only). */
+	padding-top: 0.35rem;
+}
+
 .path-step__label {
 	font-weight: var(--font-weight-heading);
 	font-size: 1.05rem;

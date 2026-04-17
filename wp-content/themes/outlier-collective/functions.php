@@ -220,7 +220,7 @@ function oc_landing_default_meta() {
 		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You are not a case study, no notes are kept, no data is studied, no trends are looked at. If you\'re looking for different, find it here.',
 		'oc_calendly_url'        => 'https://calendly.com/outlier-coaching/outlier-discovery-call',
 		'oc_calendly_label'      => 'Book a discovery call',
-		'oc_email_url'           => 'mailto:hello@outliercoaching.co.uk',
+		'oc_email_url'           => 'mailto:bookings@outliercoaching.co.uk',
 		'oc_email_label'         => 'Send an email',
 
 		'oc_footer_copy'         => '© Outlier Coaching',

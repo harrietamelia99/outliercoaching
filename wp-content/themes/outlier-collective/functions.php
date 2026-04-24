@@ -43,7 +43,7 @@ function oc_bundled_logo_dark_url() {
 }
 
 /**
- * Filenames for the only bundled photography (assets/site/). Order is stable for fallbacks.
+ * Filenames for bundled photography (assets/site/). Order is stable; indices map to offering fallbacks (see page-landing).
  *
  * @return string[]
  */
@@ -54,6 +54,7 @@ function oc_bundled_site_photo_filenames() {
 		'photo-3.png',
 		'photo-4.png',
 		'photo-5.png',
+		'photo-6.png',
 	);
 }
 

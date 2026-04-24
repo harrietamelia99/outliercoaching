@@ -6,7 +6,7 @@
  * All copy and media are edited under “Outlier Landing Fields” on this page
  * (block editor compatible — the meta box appears below the editor).
  *
- * Bundled photography lives in assets/site/ (five fixed images). Upload replacements via
+ * Bundled photography lives in assets/site/ (six images; hero + offering fallbacks). Upload via
  * Outlier Landing Fields when you want different hero / offering / library images.
  *
  * @package Outlier_Collective

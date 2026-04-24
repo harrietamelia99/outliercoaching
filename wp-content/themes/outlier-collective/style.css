@@ -491,11 +491,12 @@ html.oc-scroll-smoother #smooth-content {
 	font-weight: var(--font-weight-hero);
 	font-style: normal;
 	text-transform: lowercase;
-	font-size: clamp(2.15rem, 7.5vw, 5.25rem);
-	line-height: 1.02;
+	/* Slightly smaller type + wider measure so the long primary line doesn’t stack as a tall narrow column. */
+	font-size: clamp(1.5rem, 3.6vw, 2.85rem);
+	line-height: 1.12;
 	letter-spacing: -0.02em;
 	margin: 0 auto 1.25rem;
-	max-width: min(42rem, 94vw);
+	max-width: min(58rem, 96vw);
 	text-rendering: geometricPrecision;
 	text-shadow:
 		0 1px 2px rgba(0, 0, 0, 0.45),
@@ -504,8 +505,8 @@ html.oc-scroll-smoother #smooth-content {
 
 @media (min-width: 900px) {
 	.hero__headline {
-		font-size: clamp(2.5rem, 8.5vw, 5.85rem);
-		letter-spacing: -0.03em;
+		font-size: clamp(1.65rem, 3.1vw, 3.15rem);
+		letter-spacing: -0.025em;
 	}
 }
 

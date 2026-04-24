@@ -336,7 +336,7 @@ function oc_format_hero_primary_adventures_accent( $text ) {
 }
 
 /**
- * Hero supporting copy (smaller line under the main title): widow control + “different” accent per line, joined with <br />.
+ * Hero supporting copy (smaller line under the main title): widow control per line, joined with <br /> (no scroll accent).
  *
  * @param string $text Plain text; use line breaks between phrases.
  * @return string Safe HTML fragment.
@@ -353,7 +353,7 @@ function oc_format_hero_tagline_lines_html( $text ) {
 		if ( $line === '' ) {
 			continue;
 		}
-		$frags[] = oc_format_hero_accent_word( oc_soft_break_widow( $line ) );
+		$frags[] = esc_html( oc_soft_break_widow( $line ) );
 	}
 	return implode( '<br />', $frags );
 }

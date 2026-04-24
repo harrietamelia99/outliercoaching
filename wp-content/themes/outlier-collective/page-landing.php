@@ -43,7 +43,7 @@ while ( have_posts() ) :
 		if ( $fallback !== '' ) {
 			$head_lines = array_filter( array_map( 'trim', explode( "\n", $fallback ) ) );
 		} else {
-			$head_lines = array( 'Leadership development, life design, experiences and adventures.' );
+			$head_lines = array( 'Leadership development,', 'life design, experiences and adventures.' );
 		}
 	}
 

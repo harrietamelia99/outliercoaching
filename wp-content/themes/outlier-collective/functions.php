@@ -131,7 +131,7 @@ function oc_testimonial_quote_marks_url() {
 function oc_landing_default_meta() {
 	return array(
 		'oc_hero_headline'       => "If you're looking for different, find it here.",
-		'oc_hero_subhead'       => 'Leadership development, life design, experiences and adventures.',
+		'oc_hero_subhead'       => "Leadership development,\nlife design, experiences and adventures.",
 		'oc_hero_cta_text'       => "Let's begin",
 		'oc_hero_cta_url'        => '#contact',
 

@@ -34,15 +34,16 @@ while ( have_posts() ) :
 
 	$contact_conversation_bg_url = get_theme_file_uri( 'assets/contact-conversation-bg.png' );
 
-	$headline_raw = oc_get_landing( $post_id, 'oc_hero_headline' );
-	$head_lines   = array_filter( array_map( 'trim', explode( "\n", (string) $headline_raw ) ) );
+	/* Large hero title: oc_hero_subhead (one .hero-line per line break). Supporting line: oc_hero_headline. */
+	$hero_primary_raw = oc_get_landing( $post_id, 'oc_hero_subhead' );
+	$head_lines       = array_filter( array_map( 'trim', explode( "\n", (string) $hero_primary_raw ) ) );
 	if ( empty( $head_lines ) ) {
-		$defaults   = oc_landing_default_meta();
-		$fallback   = isset( $defaults['oc_hero_headline'] ) ? trim( (string) $defaults['oc_hero_headline'] ) : '';
+		$defaults = oc_landing_default_meta();
+		$fallback = isset( $defaults['oc_hero_subhead'] ) ? trim( (string) $defaults['oc_hero_subhead'] ) : '';
 		if ( $fallback !== '' ) {
 			$head_lines = array_filter( array_map( 'trim', explode( "\n", $fallback ) ) );
 		} else {
-			$head_lines = array( "If you're looking for something different,", 'find it here.' );
+			$head_lines = array( 'Leadership development, life design, experiences and adventures.' );
 		}
 	}
 
@@ -129,13 +130,13 @@ while ( have_posts() ) :
 							printf(
 								'<span class="hero-line" style="transition-delay:%dms">%s</span>',
 								esc_attr( (string) ( 120 + $delay_index * 220 ) ),
-								oc_format_hero_accent_word( oc_soft_break_widow( $line ) )
+								esc_html( oc_soft_break_widow( $line ) )
 							);
 							$delay_index++;
 						}
 						?>
 					</h1>
-					<p class="hero__sub" id="oc-hero-sub"><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_hero_subhead' ) ) ); ?></p>
+					<p class="hero__sub" id="oc-hero-sub"><?php echo oc_format_hero_tagline_lines_html( (string) oc_get_landing( $post_id, 'oc_hero_headline' ) ); ?></p>
 					<div class="hero__cta" id="oc-hero-cta">
 						<a class="btn" href="<?php echo esc_url( oc_get_landing( $post_id, 'oc_hero_cta_url' ) ); ?>"><?php echo esc_html( oc_get_landing( $post_id, 'oc_hero_cta_text' ) ); ?></a>
 					</div>

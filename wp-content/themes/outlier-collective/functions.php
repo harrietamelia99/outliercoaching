@@ -129,7 +129,7 @@ function oc_testimonial_quote_marks_url() {
  */
 function oc_landing_default_meta() {
 	return array(
-		'oc_hero_headline'       => "If you're looking for something different,\nfind it here.",
+		'oc_hero_headline'       => "If you're looking for different,\nfind it here.",
 		'oc_hero_subhead'       => 'Leadership development, life design, experiences and adventures.',
 		'oc_hero_cta_text'       => "Let's begin",
 		'oc_hero_cta_url'        => '#contact',
@@ -309,6 +309,29 @@ function oc_format_hero_accent_word( $text ) {
 		1
 	);
 	return $out !== null ? $out : $safe;
+}
+
+/**
+ * Hero supporting copy (smaller line under the main title): widow control + “different” accent per line, joined with <br />.
+ *
+ * @param string $text Plain text; use line breaks between phrases.
+ * @return string Safe HTML fragment.
+ */
+function oc_format_hero_tagline_lines_html( $text ) {
+	$text = (string) $text;
+	if ( $text === '' ) {
+		return '';
+	}
+	$lines  = preg_split( '/\r\n|\r|\n/', $text );
+	$frags  = array();
+	foreach ( $lines as $line ) {
+		$line = trim( $line );
+		if ( $line === '' ) {
+			continue;
+		}
+		$frags[] = oc_format_hero_accent_word( oc_soft_break_widow( $line ) );
+	}
+	return implode( '<br />', $frags );
 }
 
 /**
@@ -800,11 +823,15 @@ function oc_render_landing_meta_box( $post ) {
 		(int) get_post_meta( $post->ID, 'oc_logo_black_id', true )
 	);
 	oc_field_textarea(
+		'oc_hero_subhead',
+		__( 'Hero — primary title (large; one line per line break)', 'outlier-collective' ),
+		oc_get_landing( $post->ID, 'oc_hero_subhead', $d['oc_hero_subhead'] )
+	);
+	oc_field_textarea(
 		'oc_hero_headline',
-		__( 'Hero headline (one line per line)', 'outlier-collective' ),
+		__( 'Hero — supporting line (smaller; optional «different» accent; line breaks allowed)', 'outlier-collective' ),
 		oc_get_landing( $post->ID, 'oc_hero_headline', $d['oc_hero_headline'] )
 	);
-	oc_field_textarea( 'oc_hero_subhead', __( 'Hero subheadline', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_hero_subhead' ) );
 	oc_field_text( 'oc_hero_cta_text', __( 'Hero button label', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_hero_cta_text' ) );
 	oc_field_text( 'oc_hero_cta_url', __( 'Hero button URL', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_hero_cta_url' ), 'url' );
 	echo '</fieldset>';

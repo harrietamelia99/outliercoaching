@@ -290,29 +290,6 @@ function oc_esc_html_with_br( $text ) {
 }
 
 /**
- * Wrap the first occurrence of “different” (case-insensitive) plus trailing .,!?… in the hero accent span.
- *
- * @param string $text Plain text only (typically after oc_soft_break_widow()).
- * @return string Safe HTML fragment.
- */
-function oc_format_hero_accent_word( $text ) {
-	$text = (string) $text;
-	if ( $text === '' ) {
-		return '';
-	}
-	$safe = esc_html( $text );
-	$out  = preg_replace_callback(
-		'/(?i)\bdifferent\b([.,!?…]*)/u',
-		static function ( $m ) {
-			return '<span class="hero-accent">' . $m[0] . '</span>';
-		},
-		$safe,
-		1
-	);
-	return $out !== null ? $out : $safe;
-}
-
-/**
  * Wrap the first occurrence of “adventures” (case-insensitive) plus trailing .,!?… in hero-accent (primary headline — orange when scrolled past hero).
  *
  * @param string $text Plain text only (typically after oc_soft_break_widow()).

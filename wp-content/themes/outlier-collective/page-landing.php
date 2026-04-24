@@ -130,7 +130,7 @@ while ( have_posts() ) :
 							printf(
 								'<span class="hero-line" style="transition-delay:%dms">%s</span>',
 								esc_attr( (string) ( 120 + $delay_index * 220 ) ),
-								esc_html( oc_soft_break_widow( $line ) )
+								oc_format_hero_primary_adventures_accent( oc_soft_break_widow( $line ) )
 							);
 							$delay_index++;
 						}

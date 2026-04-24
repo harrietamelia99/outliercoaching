@@ -491,9 +491,9 @@ html.oc-scroll-smoother #smooth-content {
 	font-weight: var(--font-weight-hero);
 	font-style: normal;
 	text-transform: lowercase;
-	/* Slightly smaller type + wider measure so the long primary line doesn’t stack as a tall narrow column. */
-	font-size: clamp(1.5rem, 3.6vw, 2.85rem);
-	line-height: 1.12;
+	/* Wide measure; type scales up on larger viewports (adventures may wrap — accent via .hero-accent + oc-hero-past). */
+	font-size: clamp(1.85rem, 4.8vw, 3.5rem);
+	line-height: 1.1;
 	letter-spacing: -0.02em;
 	margin: 0 auto 1.25rem;
 	max-width: min(58rem, 96vw);
@@ -505,7 +505,7 @@ html.oc-scroll-smoother #smooth-content {
 
 @media (min-width: 900px) {
 	.hero__headline {
-		font-size: clamp(1.65rem, 3.1vw, 3.15rem);
+		font-size: clamp(2rem, 4.2vw, 4.15rem);
 		letter-spacing: -0.025em;
 	}
 }

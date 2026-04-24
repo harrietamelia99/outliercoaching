@@ -313,6 +313,29 @@ function oc_format_hero_accent_word( $text ) {
 }
 
 /**
+ * Wrap the first occurrence of “adventures” (case-insensitive) plus trailing .,!?… in hero-accent (primary headline — orange when scrolled past hero).
+ *
+ * @param string $text Plain text only (typically after oc_soft_break_widow()).
+ * @return string Safe HTML fragment.
+ */
+function oc_format_hero_primary_adventures_accent( $text ) {
+	$text = (string) $text;
+	if ( $text === '' ) {
+		return '';
+	}
+	$safe = esc_html( $text );
+	$out  = preg_replace_callback(
+		'/(?i)\badventures\b([.,!?…]*)/u',
+		static function ( $m ) {
+			return '<span class="hero-accent">' . $m[0] . '</span>';
+		},
+		$safe,
+		1
+	);
+	return $out !== null ? $out : $safe;
+}
+
+/**
  * Hero supporting copy (smaller line under the main title): widow control + “different” accent per line, joined with <br />.
  *
  * @param string $text Plain text; use line breaks between phrases.

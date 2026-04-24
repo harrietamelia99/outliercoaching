@@ -490,7 +490,7 @@ html.oc-scroll-smoother #smooth-content {
 	font-family: var(--font-body);
 	font-weight: var(--font-weight-hero);
 	font-style: normal;
-	text-transform: lowercase;
+	/* Sentence case from copy (no forced lowercase). */
 	/* Wide measure; type scales up on larger viewports (adventures may wrap — accent via .hero-accent + oc-hero-past). */
 	font-size: clamp(1.85rem, 4.8vw, 3.5rem);
 	line-height: 1.1;

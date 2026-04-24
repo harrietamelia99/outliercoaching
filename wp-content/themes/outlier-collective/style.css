@@ -539,13 +539,21 @@ html.oc-hero-past .hero__sub .hero-accent {
 }
 
 .hero__sub {
-	font-size: clamp(1.05rem, 2.2vw, 1.15rem);
-	line-height: 1.55;
-	max-width: var(--max-prose);
+	font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+	line-height: 1.45;
+	/* Wide enough + no wrap so the supporting sentence stays on one line (see hero headline default). */
+	max-width: min(52rem, 94vw);
 	margin: 0 auto 2rem;
 	color: rgba(245, 240, 235, 0.92);
 	text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
-	text-wrap: pretty;
+	white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+	.hero__sub {
+		white-space: normal;
+		text-wrap: pretty;
+	}
 }
 
 .hero__cta {

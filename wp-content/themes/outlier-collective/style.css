@@ -1635,14 +1635,20 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	min-height: clamp(16rem, 42vh, 28rem);
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	align-items: stretch;
+	justify-content: flex-start;
 }
 
 .talks__chapter-inner {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	max-width: min(1200px, 100%);
 	margin-inline: auto;
 	width: 100%;
+	min-height: 0;
 	padding-inline: var(--section-pad-x);
 	padding-block: clamp(1.75rem, 4vw, 2.75rem);
 }
@@ -1656,7 +1662,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	max-width: min(40rem, 100%);
 	margin-inline: auto;
 	position: relative;
-	gap: clamp(0.45rem, 1.8vw, 0.85rem);
+	gap: clamp(0.35rem, 1.2vw, 0.65rem);
 }
 
 .talks__walker-scene {
@@ -1666,6 +1672,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	max-width: min(34rem, 92vw);
 	margin: 0 auto;
 	padding: 0;
+	/* currentColor for walker; SVG also has .path-journey__svg (black) — override on the element. */
 	color: var(--colour-orange);
 }
 
@@ -1686,9 +1693,14 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	color: inherit;
 }
 
+/* Shorter track so headline sits nearer the vertical middle of the cream band (less empty SVG above the figure). */
+.chapter--talks svg.talks__walker-svg {
+	color: var(--colour-orange);
+}
+
 .talks__walker-svg {
 	width: 100%;
-	height: clamp(7.5rem, 26vw, 14rem);
+	height: clamp(3.5rem, 12vw, 6.75rem);
 	display: block;
 }
 

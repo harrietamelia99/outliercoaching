@@ -579,50 +579,32 @@
 			return;
 		}
 		/*
-		 * Scroll-scrubbed: pin while progress picks the word. No time-based tweens here — they
-		 * fight scrub updates and read as jitter. Opacity (banner intro + soft segment edges on
-		 * the word) is derived only from progress each tick.
+		 * No pin: avoids a tall pin-spacer that feels like a full-page takeover. Progress runs
+		 * while this band moves through the viewport (into the next section) — smooth scrub only,
+		 * no whole-line opacity (that hid “We do” + word at progress 0). Word stays fully opaque.
 		 */
-		var introEnd = 0.1;
-		var edge = 0.13;
-		var lastIdx = -1;
-		gsap.set(banner, { opacity: 0 });
+		gsap.set(banner, { opacity: 1 });
 		gsap.set(wordEl, { opacity: 1 });
 		wordEl.textContent = words[0];
+		var lastIdx = -1;
+		var nextEl = section.nextElementSibling;
+		var nextChapter =
+			nextEl && nextEl.nodeType === 1 && nextEl.classList && nextEl.classList.contains('chapter') ? nextEl : null;
 
 		ScrollTrigger.create({
 			trigger: section,
-			start: 'top top',
-			end: '+=480',
-			pin: true,
-			pinSpacing: true,
-			scrub: 0.42,
-			anticipatePin: 1,
+			start: 'top 82%',
+			endTrigger: nextChapter || section,
+			end: nextChapter ? 'top 70%' : 'bottom 35%',
+			scrub: 0.75,
 			invalidateOnRefresh: true,
 			onUpdate: function (self) {
 				var p = self.progress;
-				if (p <= introEnd) {
-					var t = introEnd > 0 ? p / introEnd : 1;
-					gsap.set(banner, { opacity: t });
-				} else {
-					gsap.set(banner, { opacity: 1 });
+				var nextIdx = Math.min(n - 1, Math.max(0, Math.floor(p * n)));
+				if (nextIdx !== lastIdx) {
+					lastIdx = nextIdx;
+					wordEl.textContent = words[nextIdx];
 				}
-				var span = 1 - introEnd;
-				var wordP = span > 0 ? Math.min(1, Math.max(0, (p - introEnd) / span)) : 1;
-				var slot = Math.min(n - 1e-6, wordP * n);
-				var idx = Math.min(n - 1, Math.floor(slot));
-				var frac = slot - idx;
-				if (idx !== lastIdx) {
-					lastIdx = idx;
-					wordEl.textContent = words[idx];
-				}
-				var op = 1;
-				if (frac < edge) {
-					op = Math.max(0, frac / edge);
-				} else if (frac > 1 - edge) {
-					op = Math.max(0, (1 - frac) / edge);
-				}
-				gsap.set(wordEl, { opacity: op });
 			},
 		});
 	}

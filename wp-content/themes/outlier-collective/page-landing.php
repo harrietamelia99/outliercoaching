@@ -230,40 +230,42 @@ while ( have_posts() ) :
 
 	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Start where you are', 'outlier-collective' ); ?>">
 		<div class="chapter__inner talks__chapter-inner">
-			<div class="talks__inner" data-oc-talks-inner>
-				<h2 class="talks__headline" data-oc-talks-headline><?php echo esc_html( oc_soft_break_widow( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ) ); ?></h2>
-			</div>
-			<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
-				<div class="talks__walker-svg-wrap">
-					<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
-						<path
-							class="path-journey__trail-bg path-journey__trail--hidden"
-							d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
-							fill="none"
-							vector-effect="non-scaling-stroke"
-						/>
-						<path
-							class="path-journey__trail-fg path-journey__trail--hidden"
-							d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
-							fill="none"
-							vector-effect="non-scaling-stroke"
-						/>
-						<g class="path-journey__markers path-journey__trail--hidden"></g>
-						<g class="path-journey__walker">
-							<g class="path-journey__walker-bob" transform="scale(1.3)">
-								<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />
-								<path
-									class="path-journey__walker-body"
-									d="M0,-10 L0,3 M-4,11 L0,3 L5,10 M-5,0 L6,-2"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="1.85"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								/>
+			<div class="talks__stack">
+				<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
+					<div class="talks__walker-svg-wrap">
+						<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
+							<path
+								class="path-journey__trail-bg path-journey__trail--hidden"
+								d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+								fill="none"
+								vector-effect="non-scaling-stroke"
+							/>
+							<path
+								class="path-journey__trail-fg path-journey__trail--hidden"
+								d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+								fill="none"
+								vector-effect="non-scaling-stroke"
+							/>
+							<g class="path-journey__markers path-journey__trail--hidden"></g>
+							<g class="path-journey__walker">
+								<g class="path-journey__walker-bob" transform="scale(1.3)">
+									<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />
+									<path
+										class="path-journey__walker-body"
+										d="M0,-10 L0,3 M-4,11 L0,3 L5,10 M-5,0 L6,-2"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.85"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</g>
 							</g>
-						</g>
-					</svg>
+						</svg>
+					</div>
+				</div>
+				<div class="talks__inner" data-oc-talks-inner>
+					<h2 class="talks__headline" data-oc-talks-headline><?php echo esc_html( oc_soft_break_widow( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ) ); ?></h2>
 				</div>
 			</div>
 		</div>

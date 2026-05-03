@@ -1272,9 +1272,18 @@ html.oc-offerings-scroll-drive .offering-card {
 	padding-block: clamp(2rem, 4.5vw, 3.5rem);
 }
 
+/* “We do …” band: compact strip (scroll drives words without pinning the viewport). */
+.chapter--problem:has([data-oc-we-do-banner]) {
+	padding-block: clamp(1.35rem, 3.2vw, 2.1rem);
+}
+
 .chapter--problem .problem__accent-dot,
 .chapter--philosophy .problem__accent-dot {
 	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
+}
+
+.chapter--problem:has([data-oc-we-do-banner]) .problem__accent-dot {
+	margin-bottom: clamp(0.55rem, 1.4vw, 0.85rem);
 }
 
 .chapter--problem .problem__text p,
@@ -1586,38 +1595,64 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 }
 
 /* -----------------------------------------------------------------------------
-   Talks / workshops CTA (army) — sits after Path; Contact block stays near footer
+   “Start where you are” band — stone block (distinct from army green); figure above headline
    -------------------------------------------------------------------------- */
 .chapter--talks {
-	background: var(--colour-army);
-	color: var(--colour-white);
+	background: var(--colour-stone);
+	color: var(--colour-black);
+	/* Section padding lives on .talks__chapter-inner so the stone band is flush with neighbours */
+	padding: 0;
 }
 
 .talks__chapter-inner {
 	max-width: min(1200px, 100%);
 	margin-inline: auto;
 	padding-inline: var(--section-pad-x);
+	padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.talks__stack {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: min(40rem, 100%);
+	margin-inline: auto;
+	position: relative;
+}
+
+.talks__walker-scene {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: min(22rem, 72vw);
+	margin: 0 auto;
+	padding: 0;
+	/* Pull headline up so the figure reads on top of the line */
+	margin-bottom: clamp(-2.75rem, -6vw, -1.75rem);
+	color: var(--colour-black);
 }
 
 .talks__inner {
 	max-width: var(--max-heading-block);
 	margin-inline: auto;
 	overflow: hidden;
-}
-
-.talks__walker-scene {
-	padding-bottom: clamp(1.25rem, 3vw, 2.25rem);
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+	text-align: center;
 }
 
 .talks__walker-svg-wrap {
-	max-width: min(720px, 100%);
+	max-width: 100%;
 	margin-inline: auto;
-	color: var(--colour-white);
+	color: inherit;
 }
 
 .talks__walker-svg {
 	width: 100%;
-	height: auto;
+	height: clamp(4.25rem, 14vw, 6.75rem);
 	display: block;
 }
 
@@ -1625,8 +1660,9 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	font-size: clamp(1.75rem, 4.5vw, 2.75rem);
 	line-height: 1.12;
 	letter-spacing: -0.02em;
-	margin: 0 0 1.75rem;
+	margin: 0;
 	text-wrap: pretty;
+	color: var(--colour-black);
 }
 
 .talks__headline .talks-accent {

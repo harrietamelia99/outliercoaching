@@ -640,6 +640,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	color: var(--colour-orange);
 }
 
+.chapter--problem .problem__text--we-do .problem__we-do {
+	margin-bottom: 0;
+}
+
 .problem__text--we-do .problem__we-do {
 	display: flex;
 	flex-wrap: wrap;
@@ -648,6 +652,12 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	gap: 0 0.25em;
 	max-width: none;
 	margin-bottom: 0;
+	font-family: var(--font-body);
+	font-weight: 500;
+	font-size: clamp(1.35rem, 3.5vw, 2.15rem);
+	line-height: 1.18;
+	letter-spacing: -0.01em;
+	color: var(--colour-white);
 }
 
 .problem__we-do-static {
@@ -1272,9 +1282,21 @@ html.oc-offerings-scroll-drive .offering-card {
 	padding-block: clamp(2rem, 4.5vw, 3.5rem);
 }
 
-/* “We do …” band: compact strip (scroll drives words without pinning the viewport). */
+/* “We do …” band: compact strip, content centred (avoids a tall empty block with copy at one edge). */
 .chapter--problem:has([data-oc-we-do-banner]) {
-	padding-block: clamp(1.35rem, 3.2vw, 2.1rem);
+	padding-block: clamp(1.5rem, 4vw, 2.5rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.chapter--problem:has([data-oc-we-do-banner]) .chapter__inner {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .chapter--problem .problem__accent-dot,
@@ -1595,30 +1617,37 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 }
 
 /* -----------------------------------------------------------------------------
-   “Start where you are” band — stone block (distinct from army green); figure above headline
+   “Start where you are” — cream band between stone offerings and army; stack centred vertically
    -------------------------------------------------------------------------- */
 .chapter--talks {
-	background: var(--colour-stone);
+	background: var(--colour-white);
 	color: var(--colour-black);
-	/* Section padding lives on .talks__chapter-inner so the stone band is flush with neighbours */
 	padding: 0;
+	min-height: clamp(16rem, 42vh, 28rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .talks__chapter-inner {
 	max-width: min(1200px, 100%);
 	margin-inline: auto;
+	width: 100%;
 	padding-inline: var(--section-pad-x);
-	padding-block: clamp(2rem, 5vw, 3.5rem);
+	padding-block: clamp(1.75rem, 4vw, 2.75rem);
 }
 
 .talks__stack {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	width: 100%;
 	max-width: min(40rem, 100%);
 	margin-inline: auto;
 	position: relative;
+	gap: clamp(0.45rem, 1.8vw, 0.85rem);
 }
 
 .talks__walker-scene {
@@ -1628,8 +1657,6 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	max-width: min(22rem, 72vw);
 	margin: 0 auto;
 	padding: 0;
-	/* Pull headline up so the figure reads on top of the line */
-	margin-bottom: clamp(-2.75rem, -6vw, -1.75rem);
 	color: var(--colour-black);
 }
 
@@ -1640,7 +1667,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+	padding-top: 0;
 	text-align: center;
 }
 

@@ -573,40 +573,38 @@
 		var words = ['coaching', 'workshops', 'adventures', 'experiences', 'talks'];
 		var n = words.length;
 		if (reduceMotion) {
-			gsap.set(banner, { clearProps: 'all' });
-			gsap.set(wordEl, { clearProps: 'all' });
+			gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
 			wordEl.textContent = words[0];
 			return;
 		}
 		/*
-		 * No pin: avoids a tall pin-spacer that feels like a full-page takeover. Progress runs
-		 * while this band moves through the viewport (into the next section) — smooth scrub only,
-		 * no whole-line opacity (that hid “We do” + word at progress 0). Word stays fully opaque.
+		 * Scroll-scrubbed word index only — trigger start/end are both on this section so progress
+		 * cannot invert when the next chapter is tall or pinned (that made the band look “empty”
+		 * or jump words). Clear inline opacity/transform from older builds / tweens.
 		 */
-		gsap.set(banner, { opacity: 1 });
-		gsap.set(wordEl, { opacity: 1 });
+		gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
 		wordEl.textContent = words[0];
-		var lastIdx = -1;
-		var nextEl = section.nextElementSibling;
-		var nextChapter =
-			nextEl && nextEl.nodeType === 1 && nextEl.classList && nextEl.classList.contains('chapter') ? nextEl : null;
+		var lastIdx = null;
 
-		ScrollTrigger.create({
+		function applyProgress(p) {
+			var nextIdx = Math.min(n - 1, Math.max(0, Math.floor(p * n + 1e-6)));
+			if (lastIdx === null || nextIdx !== lastIdx) {
+				lastIdx = nextIdx;
+				wordEl.textContent = words[nextIdx];
+			}
+		}
+
+		var st = ScrollTrigger.create({
 			trigger: section,
-			start: 'top 82%',
-			endTrigger: nextChapter || section,
-			end: nextChapter ? 'top 70%' : 'bottom 35%',
-			scrub: 0.75,
+			start: 'top 88%',
+			end: 'bottom 28%',
+			scrub: 0.65,
 			invalidateOnRefresh: true,
 			onUpdate: function (self) {
-				var p = self.progress;
-				var nextIdx = Math.min(n - 1, Math.max(0, Math.floor(p * n)));
-				if (nextIdx !== lastIdx) {
-					lastIdx = nextIdx;
-					wordEl.textContent = words[nextIdx];
-				}
+				applyProgress(self.progress);
 			},
 		});
+		applyProgress(typeof st.progress === 'number' ? st.progress : 0);
 	}
 
 	function initWalkerFree() {

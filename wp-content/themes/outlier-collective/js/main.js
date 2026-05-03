@@ -309,8 +309,6 @@
 		initTalksAccentOnScroll();
 
 		initProblemChapter();
-		initPathChapter();
-		initPathJourney();
 		initOfferingsLabel();
 		initOfferingsHorizontalScroll();
 		initOfferingsArrowNav();
@@ -334,9 +332,25 @@
 		}
 		scheduleInitOfferingsAndPhilosophy();
 
-		initTestimonials();
-		initUpcomingTalks();
 		initTalks();
+		initWalkerFree();
+		initUpcomingTalks();
+		initTestimonialsLabel();
+		initTestimonialsHorizontalScroll();
+		initTestimonialsArrowNav();
+		function scheduleInitTestimonialCards() {
+			requestAnimationFrame(function () {
+				requestAnimationFrame(function () {
+					requestAnimationFrame(function () {
+						initTestimonialCards();
+						if (typeof ScrollTrigger !== 'undefined') {
+							ScrollTrigger.refresh();
+						}
+					});
+				});
+			});
+		}
+		scheduleInitTestimonialCards();
 		initContact();
 		initFooter();
 		initCursor();
@@ -550,8 +564,79 @@
 		lineDur: 0.16,
 	};
 
+	function initWeDoBanner(section) {
+		var banner = section.querySelector('[data-oc-we-do-banner]');
+		var wordEl = section.querySelector('[data-oc-we-do-word]');
+		if (!banner || !wordEl) {
+			return;
+		}
+		var words = ['coaching', 'workshops', 'adventures', 'experiences', 'talks'];
+		var idx = 0;
+		if (reduceMotion) {
+			gsap.set(banner, { clearProps: 'all' });
+			wordEl.textContent = words[0];
+			return;
+		}
+		gsap.set(banner, { opacity: 0, y: 22 });
+		var cycled = false;
+		function cycleWord() {
+			idx = (idx + 1) % words.length;
+			var next = words[idx];
+			gsap
+				.timeline()
+				.to(wordEl, { y: -10, opacity: 0, duration: 0.32, ease: 'power2.in' })
+				.add(function () {
+					wordEl.textContent = next;
+				})
+				.fromTo(
+					wordEl,
+					{ y: 12, opacity: 0 },
+					{ y: 0, opacity: 1, duration: 0.38, ease: 'power2.out' }
+				);
+		}
+		ScrollTrigger.create({
+			trigger: section,
+			start: 'top 78%',
+			once: true,
+			onEnter: function () {
+				gsap.to(banner, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
+				if (!cycled) {
+					cycled = true;
+					window.setInterval(cycleWord, 2600);
+				}
+			},
+		});
+	}
+
+	function initWalkerFree() {
+		if (reduceMotion) {
+			return;
+		}
+		var scene = doc.querySelector('[data-oc-walker-scene]');
+		var walker = scene && scene.querySelector('.path-journey__walker');
+		if (!walker) {
+			return;
+		}
+		gsap.set(walker, { x: 500, y: 128, transformOrigin: '50% 50%' });
+		gsap.to(walker, {
+			x: 580,
+			duration: 2.6,
+			ease: 'sine.inOut',
+			repeat: -1,
+			yoyo: true,
+		});
+	}
+
 	function initProblemChapter() {
-		initPinnedAccentParagraphs(doc.querySelector('.chapter--problem'), OC_PINNED_ACCENT_LINE_OPTS);
+		var problem = doc.querySelector('.chapter--problem');
+		if (!problem) {
+			return;
+		}
+		if (problem.querySelector('[data-oc-we-do-banner]')) {
+			initWeDoBanner(problem);
+			return;
+		}
+		initPinnedAccentParagraphs(problem, OC_PINNED_ACCENT_LINE_OPTS);
 	}
 
 	function initPhilosophyChapter() {
@@ -1087,55 +1172,238 @@
 		});
 	}
 
-	function initTestimonials() {
-		var ch = doc.querySelector('.chapter--testimonials');
-		if (!ch) {
+	function initTestimonialsLabel() {
+		if (reduceMotion) {
 			return;
 		}
-		var label = ch.querySelector('.chapter__label');
-		if (!reduceMotion && label) {
-			var labSpl = splitLines(label);
-			var stLabel = {
-				trigger: label,
-				start: 'top 86%',
-				toggleActions: 'play none none none',
-				once: true,
-				fastScrollEnd: true,
-				invalidateOnRefresh: true,
-			};
-			if (labSpl && labSpl.lines) {
-				gsap.from(labSpl.lines, {
-					y: 40,
-					opacity: 0,
-					duration: 0.75,
-					stagger: 0.1,
-					ease: 'power2.out',
-					immediateRender: false,
-					scrollTrigger: stLabel,
-				});
-			} else {
-				gsap.from(label, {
-					y: 36,
-					opacity: 0,
-					duration: 0.75,
-					ease: 'power2.out',
-					immediateRender: false,
-					scrollTrigger: stLabel,
-				});
+		var el = doc.querySelector('.chapter--testimonials .chapter__label');
+		if (!el) {
+			return;
+		}
+		var spl = splitLines(el);
+		if (spl && spl.lines) {
+			gsap.from(spl.lines, {
+				y: 60,
+				opacity: 0,
+				duration: 1,
+				stagger: 0.12,
+				ease: 'power3.out',
+				scrollTrigger: { trigger: el, start: 'top 80%' },
+			});
+		}
+	}
+
+	function initTestimonialsHorizontalScroll() {
+		if (reduceMotion) {
+			return;
+		}
+		var section = doc.querySelector('.chapter--testimonials');
+		var scroller = section && section.querySelector('.testimonials__scroller');
+		if (!section || !scroller) {
+			return;
+		}
+
+		ScrollTrigger.matchMedia({
+			'(min-width: 1025px)': function () {
+				var tween;
+				var proxy = { p: 0 };
+
+				function range() {
+					return Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+				}
+
+				function apply() {
+					var r = range();
+					scroller.scrollLeft = r > 0 ? proxy.p * r : 0;
+				}
+
+				function go() {
+					if (tween) {
+						return;
+					}
+					if (range() < 48) {
+						doc.documentElement.classList.remove('oc-testimonials-scroll-drive');
+						return;
+					}
+					doc.documentElement.classList.add('oc-testimonials-scroll-drive');
+					proxy.p = 0;
+					apply();
+					tween = gsap.to(proxy, {
+						p: 1,
+						ease: 'none',
+						onUpdate: apply,
+						scrollTrigger: {
+							trigger: section,
+							start: 'top top',
+							end: function () {
+								var r = range();
+								return '+=' + String(Math.max(520, Math.round(r * 1.45) + 140));
+							},
+							pin: true,
+							scrub: 0.85,
+							invalidateOnRefresh: true,
+							onToggle: function (self) {
+								section.classList.toggle('oc-testimonials-is-pinned', self.isActive);
+							},
+						},
+					});
+					requestAnimationFrame(function () {
+						requestAnimationFrame(function () {
+							if (typeof ScrollTrigger !== 'undefined') {
+								ScrollTrigger.refresh();
+							}
+						});
+					});
+				}
+
+				function scheduleGo() {
+					requestAnimationFrame(function () {
+						requestAnimationFrame(go);
+					});
+				}
+
+				window.addEventListener('load', scheduleGo, { once: true });
+				if (doc.readyState === 'complete') {
+					scheduleGo();
+				}
+
+				return function () {
+					window.removeEventListener('load', scheduleGo);
+					if (tween) {
+						if (tween.scrollTrigger) {
+							tween.scrollTrigger.kill();
+						}
+						tween.kill();
+						tween = null;
+					}
+					proxy.p = 0;
+					scroller.scrollLeft = 0;
+					section.classList.remove('oc-testimonials-is-pinned');
+					doc.documentElement.classList.remove('oc-testimonials-scroll-drive');
+				};
+			},
+			'(max-width: 1024px)': function () {
+				doc.documentElement.classList.remove('oc-testimonials-scroll-drive');
+				section.classList.remove('oc-testimonials-is-pinned');
+			},
+		});
+	}
+
+	function initTestimonialsArrowNav() {
+		var viewport = doc.querySelector('.testimonials__viewport');
+		var scroller = doc.getElementById('oc-testimonials-scroller');
+		var prev = doc.getElementById('oc-testimonials-prev');
+		var next = doc.getElementById('oc-testimonials-next');
+		if (!viewport || !scroller || !prev || !next) {
+			return;
+		}
+
+		function touchRange() {
+			return window.matchMedia('(max-width: 1024px)').matches;
+		}
+
+		function maxScroll() {
+			return scroller.scrollWidth - scroller.clientWidth;
+		}
+
+		function stepPx() {
+			if (touchRange()) {
+				return Math.max(1, Math.round(scroller.clientWidth));
+			}
+			var card = scroller.querySelector('.testimonial-card');
+			var gap = 0;
+			try {
+				gap = parseFloat(window.getComputedStyle(scroller).gap) || 0;
+			} catch (e) {
+				gap = 0;
+			}
+			var w = 0;
+			if (card) {
+				w = card.getBoundingClientRect().width;
+			}
+			if (w < 40) {
+				w = Math.round(scroller.clientWidth * 0.82);
+			}
+			return Math.round(w + gap);
+		}
+
+		function syncArrowsOn() {
+			var m = maxScroll();
+			viewport.classList.toggle('testimonials__viewport--arrows-on', touchRange() && m > 8);
+		}
+
+		function syncDisabled() {
+			if (!viewport.classList.contains('testimonials__viewport--arrows-on')) {
+				prev.disabled = true;
+				next.disabled = true;
+				return;
+			}
+			var mx = maxScroll();
+			var sl = scroller.scrollLeft;
+			prev.disabled = sl <= 2;
+			next.disabled = sl >= mx - 2;
+		}
+
+		function onPrev() {
+			if (!touchRange()) {
+				return;
+			}
+			scroller.scrollBy({ left: -stepPx(), behavior: 'smooth' });
+		}
+
+		function onNext() {
+			if (!touchRange()) {
+				return;
+			}
+			scroller.scrollBy({ left: stepPx(), behavior: 'smooth' });
+		}
+
+		prev.addEventListener('click', onPrev);
+		next.addEventListener('click', onNext);
+		scroller.addEventListener('scroll', syncDisabled, { passive: true });
+
+		function onResizeOrMq() {
+			syncArrowsOn();
+			syncDisabled();
+			if (typeof ScrollTrigger !== 'undefined') {
+				ScrollTrigger.refresh();
 			}
 		}
+
+		var mql = window.matchMedia('(max-width: 1024px)');
+		if (mql.addEventListener) {
+			mql.addEventListener('change', onResizeOrMq);
+		} else if (mql.addListener) {
+			mql.addListener(onResizeOrMq);
+		}
+		window.addEventListener('resize', onResizeOrMq, { passive: true });
+		window.addEventListener('load', onResizeOrMq, { once: true });
+
+		onResizeOrMq();
+	}
+
+	function initTestimonialCards() {
 		if (reduceMotion) {
+			return;
+		}
+		if (doc.documentElement.classList.contains('oc-testimonials-scroll-drive')) {
+			return;
+		}
+		var testimonialsCh = doc.querySelector('.chapter--testimonials');
+		if (testimonialsCh && testimonialsCh.getAttribute('data-oc-testimonials-animated') === '1') {
+			return;
+		}
+		if (testimonialsCh) {
+			testimonialsCh.setAttribute('data-oc-testimonials-animated', '1');
+		}
+		var ch = doc.querySelector('.chapter--testimonials');
+		if (!ch) {
 			return;
 		}
 		var items = gsap.utils.toArray(ch.querySelectorAll('[data-oc-testimonial]'));
 		if (!items.length) {
 			return;
 		}
-
-		/*
-		 * Per-card triggers (not one scrub timeline) — reliable with ScrollSmoother / transform
-		 * scroll; each card plays when it enters the viewport so they appear one-by-one as you scroll.
-		 */
 		items.forEach(function (card) {
 			gsap.from(card, {
 				y: 44,

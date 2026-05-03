@@ -43,22 +43,9 @@ while ( have_posts() ) :
 		if ( $fallback !== '' ) {
 			$head_lines = array_filter( array_map( 'trim', explode( "\n", $fallback ) ) );
 		} else {
-			$head_lines = array( 'Leadership development,', 'life design, experiences', 'and adventures.' );
+			$head_lines = array( 'Life, leadership and anything else you want to talk about.' );
 		}
 	}
-
-	$oc_format_problem_s3 = static function ( $sentence, $accent ) {
-		$sentence = (string) $sentence;
-		$accent   = trim( (string) $accent );
-		if ( $accent !== '' && $sentence !== '' && false !== strpos( $sentence, $accent ) ) {
-			$parts = explode( $accent, $sentence, 2 );
-			return esc_html( $parts[0] ) . '<span class="problem__accent">' . esc_html( $accent ) . '</span>' . esc_html( $parts[1] );
-		}
-		if ( $sentence !== '' && $accent !== '' ) {
-			return esc_html( $sentence ) . ' <span class="problem__accent">' . esc_html( $accent ) . '</span>';
-		}
-		return esc_html( $sentence );
-	};
 
 	?>
 <!DOCTYPE html>
@@ -130,7 +117,7 @@ while ( have_posts() ) :
 							printf(
 								'<span class="hero-line" style="transition-delay:%dms">%s</span>',
 								esc_attr( (string) ( 120 + $delay_index * 220 ) ),
-								oc_format_hero_primary_adventures_accent( oc_soft_break_widow( $line ) )
+								oc_format_hero_scroll_accent_phrases_html( oc_soft_break_widow( $line ) )
 							);
 							$delay_index++;
 						}
@@ -148,89 +135,13 @@ while ( have_posts() ) :
 	<section class="chapter chapter--problem" data-oc-chapter="problem" aria-label="<?php esc_attr_e( 'Recognition', 'outlier-collective' ); ?>">
 		<div class="chapter__inner">
 			<div class="problem__accent-dot" aria-hidden="true"></div>
-			<div class="problem__text">
-				<p data-oc-reveal><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_problem_s1' ) ) ); ?></p>
-				<p data-oc-reveal><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_problem_s2' ) ) ); ?></p>
-				<p data-oc-reveal><?php echo wp_kses( $oc_format_problem_s3( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_problem_s3' ) ), oc_get_landing( $post_id, 'oc_problem_orange_word' ) ), array( 'span' => array( 'class' => true ) ) ); ?></p>
-			</div>
-		</div>
-	</section>
-
-	<section class="chapter chapter--path" data-oc-chapter="path" aria-label="<?php esc_attr_e( 'The path', 'outlier-collective' ); ?>">
-		<div class="path-scroll-scene" data-oc-path-scroll-scene>
-			<div class="path-scroll-sticky">
-				<div class="chapter__inner path-journey__inner">
-					<p class="chapter__label chapter__label--on-light" data-oc-reveal><?php esc_html_e( 'The path', 'outlier-collective' ); ?></p>
-					<?php
-					$path_intro = oc_get_landing( $post_id, 'oc_path_intro' );
-					if ( $path_intro ) :
-						?>
-					<p class="path__intro" data-oc-path-intro><?php echo esc_html( oc_soft_break_widow( $path_intro ) ); ?></p>
-					<?php endif; ?>
-
-					<div class="path-journey__layout">
-						<div class="path-journey__steps" role="list">
-							<?php
-							for ( $i = 1; $i <= 4; $i++ ) {
-								?>
-							<article class="path-step path-step--journey" data-oc-path-step role="listitem">
-								<div class="path-step__body">
-									<h2 class="path-step__label"><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, "oc_step{$i}_label" ) ) ); ?></h2>
-									<?php
-									$step_desc = oc_get_landing( $post_id, "oc_step{$i}_desc" );
-									if ( $step_desc !== '' && $step_desc !== null ) :
-										?>
-									<p class="path-step__desc"><?php echo esc_html( oc_soft_break_widow( $step_desc ) ); ?></p>
-									<?php endif; ?>
-								</div>
-							</article>
-								<?php
-							}
-							?>
-						</div>
-
-						<div class="path-journey__svg-wrap" aria-hidden="true">
-							<svg class="path-journey__svg" viewBox="0 0 1000 168" preserveAspectRatio="xMidYMid meet" focusable="false">
-								<path
-									class="path-journey__trail-bg"
-									d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
-									fill="none"
-									vector-effect="non-scaling-stroke"
-								/>
-								<path
-									class="path-journey__trail-fg"
-									d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
-									fill="none"
-									vector-effect="non-scaling-stroke"
-								/>
-								<g class="path-journey__markers"></g>
-								<g class="path-journey__walker">
-									<g class="path-journey__walker-bob" transform="scale(1.3)">
-										<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />
-										<path
-											class="path-journey__walker-body"
-											d="M0,-10 L0,3 M-4,11 L0,3 L5,10 M-5,0 L6,-2"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="1.85"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</g>
-								</g>
-							</svg>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Talks', 'outlier-collective' ); ?>">
-		<div class="chapter__inner talks__inner" data-oc-talks-inner>
-			<h2 class="talks__headline" data-oc-talks-headline><?php echo oc_format_talks_headline_html( oc_get_landing( $post_id, 'oc_talks_text' ) ); ?></h2>
-			<div class="talks__cta">
-				<a class="btn btn--ghost-light" href="<?php echo esc_url( oc_get_landing( $post_id, 'oc_talks_cta_url' ) ); ?>"><?php echo esc_html( oc_get_landing( $post_id, 'oc_talks_cta_text' ) ); ?></a>
+			<div class="problem__text problem__text--we-do">
+				<p class="problem__we-do" data-oc-we-do-banner>
+					<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?> </span>
+					<span class="problem__we-do-word-wrap" aria-live="polite">
+						<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
+					</span>
+				</p>
 			</div>
 		</div>
 	</section>
@@ -249,8 +160,6 @@ while ( have_posts() ) :
 				$oc_offer_learn_href = ( 0 === strpos( $oc_offer_learn_raw, '#' ) ) ? esc_attr( $oc_offer_learn_raw ) : esc_url( $oc_offer_learn_raw );
 
 				foreach ( array( 1, 2, 3, 5, 6 ) as $i ) {
-					$img = (int) get_post_meta( $post_id, "oc_offer{$i}_img", true );
-
 					$offer_title_plain    = oc_get_landing( $post_id, "oc_offer{$i}_title" );
 					$offer_location_plain = trim( (string) oc_get_landing( $post_id, "oc_offer{$i}_location" ) );
 					$offer_img_alt        = (string) $offer_title_plain;
@@ -261,32 +170,7 @@ while ( have_posts() ) :
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">
 					<div class="offering-card__media">
-						<?php
-						if ( $img ) {
-							echo wp_get_attachment_image(
-								$img,
-								'oc-offering',
-								false,
-								array(
-									'class'    => 'offering-card__img',
-									'alt'      => esc_attr( $offer_img_alt ),
-									'loading'  => 'lazy',
-									'decoding' => 'async',
-								)
-							);
-						} else {
-							$offer_demo = oc_bundled_site_photo_url( $i - 1 );
-							if ( $offer_demo ) {
-								printf(
-									'<img class="offering-card__img" src="%1$s" alt="%2$s" width="960" height="540" loading="lazy" decoding="async" />',
-									esc_url( $offer_demo ),
-									esc_attr( $offer_img_alt )
-								);
-							} else {
-								echo '<div class="offering-card__placeholder" role="img" aria-label="' . esc_attr__( 'Image placeholder', 'outlier-collective' ) . '"></div>';
-							}
-						}
-						?>
+						<div class="offering-card__placeholder" role="img" aria-label="<?php echo esc_attr( $offer_img_alt ); ?>"></div>
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title" title="<?php echo esc_attr( $offer_title_plain ); ?>"><?php echo esc_html( oc_soft_break_widow( $offer_title_plain ) ); ?></h2>
@@ -344,33 +228,43 @@ while ( have_posts() ) :
 	endif;
 	?>
 
-	<section class="chapter chapter--testimonials" data-oc-chapter="testimonials" aria-label="<?php esc_attr_e( 'Testimonials', 'outlier-collective' ); ?>">
-		<div class="chapter__inner testimonials__inner">
-			<p class="chapter__label chapter__label--on-stone" data-oc-reveal><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_testimonials_label' ) ) ); ?></p>
-			<div class="testimonials__grid" role="list">
-				<?php
-				for ( $ti = 1; $ti <= 4; $ti++ ) {
-					$quote = trim( (string) oc_get_landing( $post_id, "oc_testimonial_{$ti}" ) );
-					if ( $quote === '' ) {
-						continue;
-					}
-					?>
-				<article class="testimonial-card" data-oc-testimonial role="listitem">
-					<blockquote class="testimonial-card__quote">
-						<?php
-						$oc_tquote_img = oc_testimonial_quote_marks_url();
-						if ( $oc_tquote_img !== '' ) :
-							?>
-						<span class="testimonial-card__mark" aria-hidden="true">
-							<img class="testimonial-card__mark-img" src="<?php echo esc_url( $oc_tquote_img ); ?>" alt="" width="56" height="48" decoding="async" loading="lazy" />
-						</span>
-						<?php endif; ?>
-						<p class="testimonial-card__text"><?php echo esc_html( oc_soft_break_widow( $quote ) ); ?></p>
-					</blockquote>
-				</article>
-					<?php
-				}
-				?>
+	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Start where you are', 'outlier-collective' ); ?>">
+		<div class="chapter__inner talks__chapter-inner">
+			<div class="talks__inner" data-oc-talks-inner>
+				<h2 class="talks__headline" data-oc-talks-headline><?php echo esc_html( oc_soft_break_widow( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ) ); ?></h2>
+			</div>
+			<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
+				<div class="talks__walker-svg-wrap">
+					<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
+						<path
+							class="path-journey__trail-bg path-journey__trail--hidden"
+							d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+							fill="none"
+							vector-effect="non-scaling-stroke"
+						/>
+						<path
+							class="path-journey__trail-fg path-journey__trail--hidden"
+							d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+							fill="none"
+							vector-effect="non-scaling-stroke"
+						/>
+						<g class="path-journey__markers path-journey__trail--hidden"></g>
+						<g class="path-journey__walker">
+							<g class="path-journey__walker-bob" transform="scale(1.3)">
+								<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />
+								<path
+									class="path-journey__walker-body"
+									d="M0,-10 L0,3 M-4,11 L0,3 L5,10 M-5,0 L6,-2"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.85"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</g>
+						</g>
+					</svg>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -433,6 +327,47 @@ while ( have_posts() ) :
 		</div>
 	</section>
 	<?php endif; ?>
+
+	<section class="chapter chapter--testimonials chapter--testimonials-scroll" data-oc-chapter="testimonials" aria-label="<?php esc_attr_e( 'Testimonials', 'outlier-collective' ); ?>">
+		<div class="chapter__inner">
+			<p class="chapter__label chapter__label--on-stone" id="oc-testimonials-label" data-oc-reveal><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_testimonials_label' ) ) ); ?></p>
+		</div>
+		<div class="testimonials__viewport" role="region" aria-labelledby="oc-testimonials-label">
+			<div id="oc-testimonials-scroller" class="testimonials__scroller" role="list" tabindex="0">
+				<?php
+				for ( $ti = 1; $ti <= 4; $ti++ ) {
+					$quote = trim( (string) oc_get_landing( $post_id, "oc_testimonial_{$ti}" ) );
+					if ( $quote === '' ) {
+						continue;
+					}
+					?>
+				<article class="testimonial-card" data-oc-testimonial tabindex="0" role="listitem">
+					<blockquote class="testimonial-card__quote">
+						<?php
+						$oc_tquote_img = oc_testimonial_quote_marks_url();
+						if ( $oc_tquote_img !== '' ) :
+							?>
+						<span class="testimonial-card__mark" aria-hidden="true">
+							<img class="testimonial-card__mark-img" src="<?php echo esc_url( $oc_tquote_img ); ?>" alt="" width="56" height="48" decoding="async" loading="lazy" />
+						</span>
+						<?php endif; ?>
+						<p class="testimonial-card__text"><?php echo esc_html( oc_soft_break_widow( $quote ) ); ?></p>
+					</blockquote>
+				</article>
+					<?php
+				}
+				?>
+			</div>
+			<div class="testimonials__nav" aria-label="<?php esc_attr_e( 'Testimonials carousel', 'outlier-collective' ); ?>">
+				<button type="button" class="testimonials__arrow testimonials__arrow--prev" id="oc-testimonials-prev" aria-controls="oc-testimonials-scroller" aria-label="<?php esc_attr_e( 'Previous testimonials', 'outlier-collective' ); ?>">
+					<svg class="testimonials__arrow-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+				</button>
+				<button type="button" class="testimonials__arrow testimonials__arrow--next" id="oc-testimonials-next" aria-controls="oc-testimonials-scroller" aria-label="<?php esc_attr_e( 'Next testimonials', 'outlier-collective' ); ?>">
+					<svg class="testimonials__arrow-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+				</button>
+			</div>
+		</div>
+	</section>
 
 	<section class="chapter chapter--contact" id="contact" data-oc-chapter="contact" aria-label="<?php esc_attr_e( 'Contact', 'outlier-collective' ); ?>">
 		<div class="contact__bg-wrap" aria-hidden="true">

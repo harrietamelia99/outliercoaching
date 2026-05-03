@@ -131,7 +131,7 @@ function oc_testimonial_quote_marks_url() {
 function oc_landing_default_meta() {
 	return array(
 		'oc_hero_headline'       => "If you're looking for different, find it here.",
-		'oc_hero_subhead'       => "Leadership development,\nlife design, experiences\nand adventures.",
+		'oc_hero_subhead'       => "Life, leadership and anything else you want to talk about.",
 		'oc_hero_cta_text'       => "Let's begin",
 		'oc_hero_cta_url'        => '#contact',
 
@@ -146,14 +146,14 @@ function oc_landing_default_meta() {
 		'oc_step1_desc'          => 'Get in touch, speak to a real person. After 20 minutes you\'ll know.',
 		'oc_step2_label'         => 'Coaching',
 		'oc_step2_desc'          => 'Online at a time that suits you, or in person in North Devon.',
-		'oc_step3_label'         => 'Experiences & Adventures',
+		'oc_step3_label'         => 'Adventures',
 		'oc_step3_desc'          => 'Bring yourself or your team. 1 or 3 days in North Devon, a week in Ghana.',
 		'oc_step4_label'         => 'Collective',
 		'oc_step4_desc'          => '',
 
-		'oc_offer1_title'        => 'Online Sessions',
-		'oc_offer1_location'     => 'Anywhere',
-		'oc_offer1_text'         => "Accessible anywhere with a fully qualified experienced coach. Leadership coaching, leadership development, life design.",
+		'oc_offer1_title'        => 'Coaching',
+		'oc_offer1_location'     => '',
+		'oc_offer1_text'         => 'One to one and confidential. Online or in person with a qualified coach.',
 		'oc_offer1_coach_1_label'  => 'Life Design',
 		'oc_offer1_coach_1_text'   => 'Here and now. For people who want something different and are here to find it.',
 		'oc_offer1_coach_2_label'  => 'Work and Career',
@@ -162,12 +162,12 @@ function oc_landing_default_meta() {
 		'oc_offer1_coach_3_text'   => 'You got the job for a reason. Time to lead like it.',
 		'oc_offer1_coach_4_label'  => 'Team Development',
 		'oc_offer1_coach_4_text'   => 'Great teams close the door and sort it out together. Let\'s do that.',
-		'oc_offer2_title'        => 'In Person Experiences',
-		'oc_offer2_location'     => 'North Devon',
-		'oc_offer2_text'         => 'At the beach, in the woods, by the fire, next to water. Bring yourself or your team. 1 or 3 days at Ashbarton Estate, North Devon.',
-		'oc_offer3_title'        => 'Outlier Adventures',
-		'oc_offer3_location'     => 'Remote · West Africa',
-		'oc_offer3_text'         => 'Get out the office, turn your phone off. One week adventure in a remote location finishing in West Africa.',
+		'oc_offer2_title'        => 'Adventures',
+		'oc_offer2_location'     => '',
+		'oc_offer2_text'         => 'Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team. Ash Barton Estate, North Devon.',
+		'oc_offer3_title'        => 'Adventures - Ghana',
+		'oc_offer3_location'     => '',
+		'oc_offer3_text'         => 'Ghana, West Africa. Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.',
 		'oc_offer3_retreat_1_title' => 'Ghana 26',
 		'oc_offer3_retreat_1_text'  => 'Coaching, teaching and leadership in Mankoadze, Ghana.',
 		'oc_offer3_retreat_1_url'   => '',
@@ -178,12 +178,12 @@ function oc_landing_default_meta() {
 		'oc_offer3_retreat_3_text'  => 'Life can be better workshops. Southern Portugal. September 2026.',
 		'oc_offer3_retreat_3_url'   => '',
 		'oc_offer3_pullquote'      => 'It was an incredible experience. A real shift in focus on what matters.',
-		'oc_offer5_title'        => 'Team Coaching',
-		'oc_offer5_location'     => 'Anywhere',
-		'oc_offer5_text'         => 'High support, high challenge. Great teams close the door and solve problems together. Let\'s do that.',
-		'oc_offer6_title'        => 'Talks and Workshops',
-		'oc_offer6_location'     => 'Anywhere',
-		'oc_offer6_text'         => "Got a group that needs to hear this?\nWe do talks.",
+		'oc_offer5_title'        => 'Workshops',
+		'oc_offer5_location'     => '',
+		'oc_offer5_text'         => 'Help your team thrive as individuals and a collective. We come to you.',
+		'oc_offer6_title'        => 'Talks',
+		'oc_offer6_location'     => '',
+		'oc_offer6_text'         => 'We do talks on topics we care about. Leadership, change and getting it wrong.',
 		'oc_offerings_learn_more_url' => '#contact',
 
 		'oc_philosophy_text'     => '',
@@ -194,7 +194,7 @@ function oc_landing_default_meta() {
 		'oc_testimonial_3'       => 'Outlier has been instrumental in transforming the way I think, behave and manage my leadership role. They are so in tune with what you think and feel and can very quickly delve deeper into the why and what but ultimately the how to make things better.',
 		'oc_testimonial_4'       => 'Outlier\'s sessions feel more like soul-searching, which feeds into both the logical and emotional brain. Inherently helpful and I am already grateful for Outlier\'s sincere interest and commitment to helping me grow as a leader, and a person.',
 
-		'oc_upcoming_talks_label' => 'Upcoming experiences',
+		'oc_upcoming_talks_label' => 'Upcoming adventures',
 		'oc_utalk_1_title'       => 'Ghana Coaching Week',
 		'oc_utalk_1_meta'        => '8th–15th November',
 		'oc_utalk_1_desc'        => '',
@@ -212,13 +212,13 @@ function oc_landing_default_meta() {
 		'oc_utalk_4_desc'        => '',
 		'oc_utalk_4_url'         => '',
 
-		'oc_talks_text'          => "Got a group that needs to hear this?\nWe do talks.",
+		'oc_talks_text'          => 'Start where you are',
 		'oc_talks_cta_text'      => 'Get in touch',
 		'oc_talks_cta_url'       => '#contact',
 
-		'oc_contact_heading'     => 'Let\'s have a conversation.',
-		'oc_contact_body'        => "Connect to a real person. Book a free 20 minute slot\nand let's begin.",
-		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You are not a case study, no notes are kept, no data is studied, no trends are looked at. If you\'re looking for different, find it here.',
+		'oc_contact_heading'     => 'Let\'s have a conversation',
+		'oc_contact_body'        => "Connect to a real person.\n\nFree and confidential.",
+		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You\'re not a case study, no notes are kept, no data is studied, no trends are looked at. If you\'re looking for different, find it here.',
 		'oc_calendly_url'        => 'https://calendly.com/outlier-coaching/outlier-discovery-call',
 		'oc_calendly_label'      => 'Book a discovery call',
 		'oc_email_url'           => 'mailto:bookings@outliercoaching.co.uk',
@@ -310,6 +310,31 @@ function oc_format_hero_primary_adventures_accent( $text ) {
 		1
 	);
 	return $out !== null ? $out : $safe;
+}
+
+/**
+ * Wrap “life”, “leadership”, and “anything else” in .hero-accent (orange when scrolled past hero — main.js + .oc-hero-past).
+ *
+ * @param string $text Plain text only (typically after oc_soft_break_widow()).
+ * @return string Safe HTML fragment.
+ */
+function oc_format_hero_scroll_accent_phrases_html( $text ) {
+	$text = (string) $text;
+	if ( $text === '' ) {
+		return '';
+	}
+	$safe = esc_html( $text );
+	/* Multi-word phrase first so “anything” alone is not wrapped. */
+	$patterns = array(
+		'/(?i)\b(anything\s+else)\b/u',
+		'/(?i)\b(life)\b/u',
+		'/(?i)\b(leadership)\b/u',
+	);
+	foreach ( $patterns as $re ) {
+		$next = preg_replace( $re, '<span class="hero-accent">$1</span>', $safe, 1 );
+		$safe = ( $next !== null ) ? $next : $safe;
+	}
+	return $safe;
 }
 
 /**

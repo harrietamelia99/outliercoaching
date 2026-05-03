@@ -640,6 +640,24 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	color: var(--colour-orange);
 }
 
+.problem__text--we-do .problem__we-do {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: center;
+	gap: 0 0.25em;
+	max-width: none;
+	margin-bottom: 0;
+}
+
+.problem__we-do-static {
+	white-space: pre;
+}
+
+.path-journey__trail--hidden {
+	display: none !important;
+}
+
 /*
  * ScrollTrigger wraps the pinned problem chapter in .pin-spacer. Without a fill,
  * the spacer is transparent and the body’s black shows through under the army block.
@@ -1270,41 +1288,156 @@ html.oc-offerings-scroll-drive .offering-card {
 }
 
 /* -----------------------------------------------------------------------------
-   Testimonials (stone band, card grid — matches editorial card language)
+   Testimonials (stone band — horizontal track + pin-scroll on large viewports)
    -------------------------------------------------------------------------- */
 .chapter--testimonials {
 	background: var(--colour-stone);
 	color: var(--colour-black);
 	overflow-x: clip;
+	border-top: 3px solid rgba(26, 26, 26, 0.12);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.testimonials__inner {
-	max-width: min(56rem, 100%);
+.chapter--testimonials .testimonials__viewport {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: min(1200px, 100%);
 	margin-inline: auto;
 }
 
-.testimonials__grid {
-	display: grid;
-	grid-template-columns: 1fr;
+.chapter--testimonials .testimonials__nav {
+	display: none;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	gap: 1.25rem;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	margin-top: 0.65rem;
+	padding-inline: var(--section-pad-x);
 }
 
-@media (min-width: 640px) {
-	.testimonials__grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		align-items: stretch;
+.chapter--testimonials .testimonials__viewport--arrows-on .testimonials__nav {
+	display: flex;
+}
+
+.chapter--testimonials .testimonials__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	background: transparent;
+	color: var(--colour-black);
+	cursor: pointer;
+	transition: color 0.2s ease, opacity 0.2s ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.chapter--testimonials .testimonials__arrow:hover:not(:disabled) {
+	color: var(--colour-orange);
+}
+
+.chapter--testimonials .testimonials__arrow:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 4px;
+}
+
+.chapter--testimonials .testimonials__arrow:disabled {
+	opacity: 0.32;
+	cursor: not-allowed;
+}
+
+.chapter--testimonials .testimonials__arrow-icon {
+	display: block;
+}
+
+.chapter--testimonials .testimonials__scroller {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 1.25rem;
+	overflow-x: auto;
+	overflow-y: clip;
+	overflow-clip-margin: 32px;
+	padding-top: clamp(1rem, 2.5vw, 1.75rem);
+	padding-bottom: 2.25rem;
+	padding-inline-end: 1.5rem;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+	scroll-padding-inline: 2px;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-gutter: stable;
+	list-style: none;
+	margin: 0;
+}
+
+.chapter--testimonials .testimonials__scroller:focus-visible {
+	outline: 2px solid var(--colour-orange);
+	outline-offset: 4px;
+}
+
+.chapter--testimonials .testimonials__scroller .testimonial-card {
+	--testimonials-card-width: clamp(220px, calc((100vw - 4rem) / 3), 360px);
+	flex: 0 0 var(--testimonials-card-width);
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+@media (max-width: 1024px) {
+	.chapter--testimonials .testimonials__scroller {
+		gap: 0;
+		padding-inline-end: 0;
+		padding-bottom: 2.5rem;
+		scroll-padding-inline: 0;
+		scrollbar-gutter: auto;
 	}
 
-	/* Odd count: last card spans one row, centred (avoids a dangling half-width cell) */
-	.testimonial-card:last-child:nth-child(odd) {
-		grid-column: 1 / -1;
-		max-width: min(36rem, 100%);
-		justify-self: center;
+	.chapter--testimonials .testimonials__scroller .testimonial-card {
+		--testimonials-card-width: 100%;
+		flex: 0 0 100%;
 		width: 100%;
+		min-width: 100%;
+		max-width: 100%;
+		scroll-snap-align: center;
 	}
+}
+
+html.oc-testimonials-scroll-drive .chapter--testimonials {
+	padding-inline: 0;
+}
+
+html.oc-testimonials-scroll-drive .chapter--testimonials > .chapter__inner {
+	padding-inline: var(--section-pad-x);
+	max-width: min(1200px, 100%);
+	margin-inline: auto;
+	width: 100%;
+}
+
+html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__viewport {
+	max-width: none;
+	width: 100%;
+	margin-inline: 0;
+	padding-inline: 0;
+}
+
+html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller {
+	overflow-x: hidden;
+	overflow-y: clip;
+	overflow-clip-margin: 32px;
+	scroll-snap-type: none;
+	scrollbar-gutter: stable;
+	padding-inline: 0;
+	padding-top: clamp(1rem, 2.5vw, 1.75rem);
+	padding-bottom: 2.25rem;
+	scroll-padding-inline: 0;
+}
+
+html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller .testimonial-card {
+	--testimonials-card-width: clamp(240px, calc((100vw - 2.5rem) / 3), 420px);
 }
 
 .testimonial-card {
@@ -1460,10 +1593,32 @@ html.oc-offerings-scroll-drive .offering-card {
 	color: var(--colour-white);
 }
 
+.talks__chapter-inner {
+	max-width: min(1200px, 100%);
+	margin-inline: auto;
+	padding-inline: var(--section-pad-x);
+}
+
 .talks__inner {
 	max-width: var(--max-heading-block);
 	margin-inline: auto;
 	overflow: hidden;
+}
+
+.talks__walker-scene {
+	padding-bottom: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.talks__walker-svg-wrap {
+	max-width: min(720px, 100%);
+	margin-inline: auto;
+	color: var(--colour-white);
+}
+
+.talks__walker-svg {
+	width: 100%;
+	height: auto;
+	display: block;
 }
 
 .talks__headline {

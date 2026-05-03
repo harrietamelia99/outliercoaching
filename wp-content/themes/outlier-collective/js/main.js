@@ -571,38 +571,49 @@
 			return;
 		}
 		var words = ['coaching', 'workshops', 'adventures', 'experiences', 'talks'];
-		var idx = 0;
+		var n = words.length;
 		if (reduceMotion) {
 			gsap.set(banner, { clearProps: 'all' });
 			wordEl.textContent = words[0];
 			return;
 		}
+		/*
+		 * Scroll-scrubbed (not timed): pin the band while vertical scroll drives which word shows,
+		 * same scrub language as other pinned chapters — smooth fade/slide on each word change.
+		 */
+		var introEnd = 0.12;
+		var currentIdx = -1;
 		gsap.set(banner, { opacity: 0, y: 22 });
-		var cycled = false;
-		function cycleWord() {
-			idx = (idx + 1) % words.length;
-			var next = words[idx];
-			gsap
-				.timeline()
-				.to(wordEl, { y: -10, opacity: 0, duration: 0.32, ease: 'power2.in' })
-				.add(function () {
-					wordEl.textContent = next;
-				})
-				.fromTo(
-					wordEl,
-					{ y: 12, opacity: 0 },
-					{ y: 0, opacity: 1, duration: 0.38, ease: 'power2.out' }
-				);
-		}
+		wordEl.textContent = words[0];
+
 		ScrollTrigger.create({
 			trigger: section,
-			start: 'top 78%',
-			once: true,
-			onEnter: function () {
-				gsap.to(banner, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
-				if (!cycled) {
-					cycled = true;
-					window.setInterval(cycleWord, 2600);
+			start: 'top top',
+			end: '+=480',
+			pin: true,
+			pinSpacing: true,
+			scrub: 0.42,
+			anticipatePin: 1,
+			invalidateOnRefresh: true,
+			onUpdate: function (self) {
+				var p = self.progress;
+				if (p <= introEnd) {
+					var t = introEnd > 0 ? p / introEnd : 1;
+					gsap.set(banner, { opacity: t, y: 22 * (1 - t) });
+				} else {
+					gsap.set(banner, { opacity: 1, y: 0 });
+				}
+				var span = 1 - introEnd;
+				var wordP = span > 0 ? Math.min(1, Math.max(0, (p - introEnd) / span)) : 1;
+				var nextIdx = Math.min(n - 1, Math.floor(wordP * n + 1e-9));
+				if (nextIdx !== currentIdx) {
+					currentIdx = nextIdx;
+					wordEl.textContent = words[currentIdx];
+					gsap.fromTo(
+						wordEl,
+						{ y: 10, opacity: 0 },
+						{ y: 0, opacity: 1, duration: 0.28, ease: 'power2.out', overwrite: 'auto' }
+					);
 				}
 			},
 		});

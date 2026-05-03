@@ -333,7 +333,7 @@
 		scheduleInitOfferingsAndPhilosophy();
 
 		initTalks();
-		initWalkerFree();
+		initTalksWalkerScroll();
 		initUpcomingTalks();
 		initTestimonialsLabel();
 		initTestimonialsHorizontalScroll();
@@ -607,22 +607,37 @@
 		applyProgress(typeof st.progress === 'number' ? st.progress : 0);
 	}
 
-	function initWalkerFree() {
-		if (reduceMotion) {
-			return;
-		}
+	/**
+	 * “Start where you are” — scrub walker L→R across the talks SVG while the chapter crosses the viewport.
+	 */
+	function initTalksWalkerScroll() {
+		var ch = doc.querySelector('.chapter--talks');
 		var scene = doc.querySelector('[data-oc-walker-scene]');
 		var walker = scene && scene.querySelector('.path-journey__walker');
-		if (!walker) {
+		if (!ch || !walker) {
 			return;
 		}
-		gsap.set(walker, { x: 500, y: 128, transformOrigin: '50% 50%' });
+		/* Same vertical band as the hidden trail (viewBox 0 0 1000 200). */
+		var y = 118;
+		var xStart = 56;
+		var xEnd = 944;
+		gsap.set(walker, { x: xStart, y: y, transformOrigin: '50% 50%' });
+
+		if (reduceMotion) {
+			gsap.set(walker, { x: xStart + (xEnd - xStart) * 0.5 });
+			return;
+		}
+
 		gsap.to(walker, {
-			x: 580,
-			duration: 2.6,
-			ease: 'sine.inOut',
-			repeat: -1,
-			yoyo: true,
+			x: xEnd,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: ch,
+				start: 'top bottom',
+				end: 'bottom top',
+				scrub: 0.45,
+				invalidateOnRefresh: true,
+			},
 		});
 	}
 

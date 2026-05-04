@@ -608,7 +608,9 @@
 	}
 
 	/**
-	 * “Start where you are” — scrub walker L→R across the talks SVG while the chapter crosses the viewport.
+	 * “Start where you are” — scrub walker L→R across the talks SVG while scrolling through the band.
+	 * Start is deliberately late so the figure reads on the left until the cream section is well in view
+	 * (avoids “already on the right” when the headline first appears).
 	 */
 	function initTalksWalkerScroll() {
 		var ch = doc.querySelector('.chapter--talks');
@@ -619,26 +621,32 @@
 		}
 		/* Same vertical band as the hidden trail (viewBox 0 0 1000 200). */
 		var y = 118;
-		var xStart = 56;
-		var xEnd = 944;
-		gsap.set(walker, { x: xStart, y: y, transformOrigin: '50% 50%' });
+		var xStart = 42;
+		var xEnd = 958;
 
 		if (reduceMotion) {
-			gsap.set(walker, { x: xStart + (xEnd - xStart) * 0.5 });
+			gsap.set(walker, { x: xStart + (xEnd - xStart) * 0.5, y: y, transformOrigin: '50% 50%' });
 			return;
 		}
 
-		gsap.to(walker, {
-			x: xEnd,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: ch,
-				start: 'top bottom',
-				end: 'bottom top',
-				scrub: 0.45,
-				invalidateOnRefresh: true,
-			},
-		});
+		gsap.fromTo(
+			walker,
+			{ x: xStart, y: y, transformOrigin: '50% 50%' },
+			{
+				x: xEnd,
+				y: y,
+				transformOrigin: '50% 50%',
+				ease: 'none',
+				immediateRender: true,
+				scrollTrigger: {
+					trigger: ch,
+					start: 'top 90%',
+					end: 'bottom 12%',
+					scrub: 0.45,
+					invalidateOnRefresh: true,
+				},
+			}
+		);
 	}
 
 	function initProblemChapter() {

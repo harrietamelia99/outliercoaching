@@ -1693,6 +1693,12 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	color: inherit;
 }
 
+/* Larger figure on the talks band only (does not fight GSAP translate on .path-journey__walker). */
+.chapter--talks .talks__walker-svg-wrap {
+	transform: scale(1.32);
+	transform-origin: center bottom;
+}
+
 /* Shorter track so headline sits nearer the vertical middle of the cream band (less empty SVG above the figure). */
 .chapter--talks svg.talks__walker-svg {
 	color: var(--colour-orange);
@@ -1700,8 +1706,12 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 
 .talks__walker-svg {
 	width: 100%;
-	height: clamp(3.5rem, 12vw, 6.75rem);
+	height: clamp(5.75rem, 19vw, 10rem);
 	display: block;
+}
+
+.chapter--talks .talks__walker-scene {
+	overflow: visible;
 }
 
 .talks__headline {

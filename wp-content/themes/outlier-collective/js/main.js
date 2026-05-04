@@ -420,19 +420,26 @@
 		ocHeroPastSync = syncHeroPast;
 	}
 
-	/** Orange “We do talks.” when the army band is in view — same threshold idea as hero / Recognition. */
+	/** Orange “you are” when the band below talks is clearly in view — same threshold as hero → Recognition (.chapter--problem). */
 	function initTalksAccentOnScroll() {
 		var talks = doc.querySelector('.chapter--talks');
 		if (!talks || !doc.querySelector('.talks-accent')) {
 			return;
 		}
+		var nextBand = doc.querySelector('.chapter--upcoming-talks');
 		var root = doc.documentElement;
 		var rafScroll = null;
 		var lastOn = null;
 		function syncTalksAccent() {
-			var tr = talks.getBoundingClientRect();
 			var vh = window.innerHeight || 0;
-			var on = tr.top < vh * 0.66;
+			var on;
+			if (nextBand) {
+				var nr = nextBand.getBoundingClientRect();
+				on = nr.top < vh * 0.66;
+			} else {
+				var tr = talks.getBoundingClientRect();
+				on = tr.bottom <= 0;
+			}
 			if (lastOn === on) {
 				return;
 			}
@@ -608,9 +615,8 @@
 	}
 
 	/**
-	 * “Start where you are” — scrub walker L→R across the talks SVG while scrolling through the band.
-	 * Start is deliberately late so the figure reads on the left until the cream section is well in view
-	 * (avoids “already on the right” when the headline first appears).
+	 * “Start where you are” — scrub walker L→R across the talks SVG while the chapter crosses the viewport.
+	 * Uses SVG transform attributes (not CSS matrix on the walker group) so motion is reliable with ScrollSmoother + nested scale.
 	 */
 	function initTalksWalkerScroll() {
 		var ch = doc.querySelector('.chapter--talks');
@@ -624,29 +630,37 @@
 		var xStart = 42;
 		var xEnd = 958;
 
+		function applyWalkerProgress(p) {
+			var t = Math.min(1, Math.max(0, typeof p === 'number' && !isNaN(p) ? p : 0));
+			var x = xStart + (xEnd - xStart) * t;
+			walker.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+		}
+
+		gsap.killTweensOf(walker);
+		if (walker.style && walker.style.transform) {
+			walker.style.removeProperty('transform');
+		}
+
 		if (reduceMotion) {
-			gsap.set(walker, { x: xStart + (xEnd - xStart) * 0.5, y: y, transformOrigin: '50% 50%' });
+			applyWalkerProgress(0.5);
 			return;
 		}
 
-		gsap.fromTo(
-			walker,
-			{ x: xStart, y: y, transformOrigin: '50% 50%' },
-			{
-				x: xEnd,
-				y: y,
-				transformOrigin: '50% 50%',
-				ease: 'none',
-				immediateRender: true,
-				scrollTrigger: {
-					trigger: ch,
-					start: 'top 90%',
-					end: 'bottom 12%',
-					scrub: 0.45,
-					invalidateOnRefresh: true,
-				},
-			}
-		);
+		var stWalker = ScrollTrigger.create({
+			trigger: ch,
+			start: 'top bottom',
+			end: 'bottom top',
+			scrub: 0.45,
+			invalidateOnRefresh: true,
+			onUpdate: function (self) {
+				applyWalkerProgress(self.progress);
+			},
+			onRefresh: function (self) {
+				applyWalkerProgress(self.progress);
+			},
+		});
+
+		applyWalkerProgress(typeof stWalker.progress === 'number' ? stWalker.progress : 0);
 	}
 
 	function initProblemChapter() {

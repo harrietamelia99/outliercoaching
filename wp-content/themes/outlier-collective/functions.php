@@ -361,7 +361,8 @@ function oc_format_hero_tagline_lines_html( $text ) {
 }
 
 /**
- * Escape talks headline lines to <br /> and wrap “We do talks” (case-insensitive) + trailing punctuation for scroll accent (main.js + .talks-accent).
+ * Escape talks headline lines to <br /> and wrap “you are” (case-insensitive) + trailing punctuation
+ * for scroll accent (main.js + html.oc-talks-accent-on — same threshold pattern as hero / Recognition).
  *
  * @param string $text Plain text; use \n between lines.
  * @return string Safe HTML fragment.
@@ -380,7 +381,7 @@ function oc_format_talks_headline_html( $text ) {
 		}
 		$escaped = esc_html( oc_soft_break_widow( $line ) );
 		$with    = preg_replace_callback(
-			'/(?i)(\bwe\s+do\s+talks\b)([.,!?…]*)/u',
+			'/(?i)(\byou\s+are\b)([.,!?…]*)/u',
 			static function ( $m ) {
 				return '<span class="talks-accent">' . $m[1] . $m[2] . '</span>';
 			},

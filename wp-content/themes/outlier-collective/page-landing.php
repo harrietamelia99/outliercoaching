@@ -265,7 +265,7 @@ while ( have_posts() ) :
 					</div>
 				</div>
 				<div class="talks__inner" data-oc-talks-inner>
-					<h2 class="talks__headline" data-oc-talks-headline><?php echo esc_html( oc_soft_break_widow( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ) ); ?></h2>
+					<h2 class="talks__headline" data-oc-talks-headline><?php echo oc_format_talks_headline_html( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ); ?></h2>
 				</div>
 			</div>
 		</div>

@@ -241,6 +241,10 @@ while ( have_posts() ) :
 		<?php
 	endif;
 	?>
+	<?php
+	/** Same geometry as JS motion path (getPointAtLength on .path-journey__trail-fg). */
+	$oc_talks_walker_path_d = 'M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104';
+	?>
 
 	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Start where you are', 'outlier-collective' ); ?>">
 		<div class="chapter__inner talks__chapter-inner">
@@ -250,18 +254,29 @@ while ( have_posts() ) :
 					<div class="talks__walker-svg-wrap">
 						<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
 							<path
+								class="talks__path-dash"
+								d="<?php echo esc_attr( $oc_talks_walker_path_d ); ?>"
+								fill="none"
+								vector-effect="non-scaling-stroke"
+							/>
+							<path
 								class="path-journey__trail-bg path-journey__trail--hidden"
-								d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+								d="<?php echo esc_attr( $oc_talks_walker_path_d ); ?>"
 								fill="none"
 								vector-effect="non-scaling-stroke"
 							/>
 							<path
 								class="path-journey__trail-fg path-journey__trail--hidden"
-								d="M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104"
+								d="<?php echo esc_attr( $oc_talks_walker_path_d ); ?>"
 								fill="none"
 								vector-effect="non-scaling-stroke"
 							/>
 							<g class="path-journey__markers path-journey__trail--hidden"></g>
+							<circle class="talks__path-start-dot" cx="28" cy="118" r="6" aria-hidden="true" />
+							<g class="talks__path-end-x" transform="translate(972, 104)" aria-hidden="true">
+								<line x1="-11" y1="-11" x2="11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+								<line x1="11" y1="-11" x2="-11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+							</g>
 							<g class="path-journey__walker">
 								<g class="path-journey__walker-bob" transform="scale(1.3)">
 									<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />

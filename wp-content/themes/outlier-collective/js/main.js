@@ -672,7 +672,7 @@
 			trigger: ch,
 			start: 'top bottom',
 			end: 'bottom top',
-			scrub: 0.45,
+			scrub: 0.5,
 			invalidateOnRefresh: true,
 			onUpdate: function (self) {
 				applyWalkerProgress(self.progress);

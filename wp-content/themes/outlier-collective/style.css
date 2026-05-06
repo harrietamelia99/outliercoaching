@@ -668,12 +668,29 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	display: none !important;
 }
 
-/* Talks walker: paths must stay in layout so getTotalLength/getPointAtLength work (global --hidden is display:none). */
+/* Talks walker: measurement paths stay in layout (getTotalLength) but invisible; dashed line is .talks__path-dash. */
 .chapter--talks .talks__walker-svg .path-journey__trail--hidden {
 	display: block !important;
 	visibility: hidden;
 	pointer-events: none;
 	stroke: transparent !important;
+}
+
+.chapter--talks .talks__path-dash {
+	fill: none;
+	stroke: var(--colour-black);
+	stroke-width: 2.25;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-dasharray: 9 13;
+}
+
+.chapter--talks .talks__path-start-dot {
+	fill: var(--colour-black);
+}
+
+.chapter--talks .talks__path-end-x {
+	color: var(--colour-orange);
 }
 
 /*
@@ -1643,7 +1660,8 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	background: var(--colour-white);
 	color: var(--colour-black);
 	padding: 0;
-	min-height: clamp(16rem, 42vh, 28rem);
+	/* Taller band so scroll-scrubbed walker has more travel (matches “move as you scroll”). */
+	min-height: clamp(22rem, 52vh, 36rem);
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
@@ -1746,12 +1764,8 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 }
 
 .talks__headline .talks-accent {
-	color: inherit;
-	transition: color 0.5s ease;
-}
-
-html.oc-talks-accent-on .talks__headline .talks-accent {
 	color: var(--colour-orange);
+	transition: color 0.45s ease;
 }
 
 .talks__cta {

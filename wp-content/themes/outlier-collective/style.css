@@ -982,7 +982,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 .chapter--offerings {
 	background: var(--colour-stone);
 	color: var(--colour-black);
-	overflow-x: clip;
+	overflow-x: visible;
 	overflow-y: visible;
 	position: relative;
 	z-index: 2;
@@ -1074,8 +1074,8 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 }
 
 .offering-card {
-	/* ~3 cards visible: 3 widths + 2 gaps (1.25rem each) + a little viewport margin */
-	--offerings-card-width: clamp(220px, calc((100vw - 4rem) / 3), 360px);
+	/* Three cards + two gaps within the scroller width (not 100vw — padding made vw math overflow). */
+	--offerings-card-width: clamp(220px, calc((100% - 2.5rem) / 3), 360px);
 	flex: 0 0 var(--offerings-card-width);
 	min-width: 0;
 	scroll-snap-align: start;
@@ -1136,6 +1136,8 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	flex-direction: column;
 	flex: 1 1 auto;
 	min-height: 0;
+	align-items: center;
+	text-align: center;
 }
 
 .offering-card__title {
@@ -1150,6 +1152,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 .offering-card__location {
 	display: flex;
 	align-items: flex-start;
+	justify-content: center;
 	gap: 0.4rem;
 	margin: 0 0 0.45rem;
 	color: var(--colour-orange);
@@ -1179,7 +1182,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	font-size: 0.95rem;
 	line-height: 1.55;
 	color: var(--colour-grey);
-	text-align: left;
+	text-align: center;
 	text-wrap: pretty;
 }
 
@@ -1197,7 +1200,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin: 0;
 	margin-top: auto;
 	padding-top: 1rem;
-	align-self: flex-start;
+	align-self: center;
 }
 
 .offering-card__btn {
@@ -1272,8 +1275,8 @@ html.oc-offerings-scroll-drive .offerings__scroller {
 }
 
 html.oc-offerings-scroll-drive .offering-card {
-	/* Full-bleed track: exactly three cards across the viewport (two 1.25rem gaps). */
-	--offerings-card-width: clamp(240px, calc((100vw - 2.5rem) / 3), 420px);
+	/* Same as default: three cards + two gaps within the scroller (matches padded track). */
+	--offerings-card-width: clamp(240px, calc((100% - 2.5rem) / 3), 420px);
 }
 
 /* -----------------------------------------------------------------------------

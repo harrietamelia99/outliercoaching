@@ -1659,32 +1659,44 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	max-width: min(40rem, 100%);
 	margin-inline: auto;
 	position: relative;
 	gap: clamp(0.35rem, 1.2vw, 0.65rem);
+}
+
+/*
+ * Tight column: headline width drives the SVG track so the walker starts over “Start”
+ * and scrubs right across the same measure (whole block stays centred in the chapter).
+ */
+.talks__head-group {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: max-content;
+	max-width: min(40rem, 100%);
+	margin-inline: auto;
 }
 
 .talks__walker-scene {
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	max-width: min(34rem, 92vw);
-	margin: 0 auto;
+	max-width: none;
+	margin: 0;
 	padding: 0;
 	/* currentColor for walker; SVG also has .path-journey__svg (black) — override on the element. */
 	color: var(--colour-orange);
 }
 
 .talks__inner {
-	max-width: var(--max-heading-block);
-	margin-inline: auto;
+	max-width: none;
+	margin-inline: 0;
 	overflow: hidden;
 	position: relative;
 	z-index: 1;
 	width: 100%;
 	padding-top: 0;
-	text-align: center;
+	text-align: start;
 }
 
 .talks__walker-svg-wrap {
@@ -1696,7 +1708,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 /* Larger figure on the talks band only (does not fight GSAP translate on .path-journey__walker). */
 .chapter--talks .talks__walker-svg-wrap {
 	transform: scale(1.32);
-	transform-origin: center bottom;
+	transform-origin: left bottom;
 }
 
 /* Shorter track so headline sits nearer the vertical middle of the cream band (less empty SVG above the figure). */

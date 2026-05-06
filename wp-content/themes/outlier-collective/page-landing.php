@@ -159,7 +159,8 @@ while ( have_posts() ) :
 				}
 				$oc_offer_learn_href = ( 0 === strpos( $oc_offer_learn_raw, '#' ) ) ? esc_attr( $oc_offer_learn_raw ) : esc_url( $oc_offer_learn_raw );
 
-				foreach ( array( 1, 2, 3, 5, 6 ) as $i ) {
+				/* Carousel order: Coaching, Workshops, Talks, Adventures (Devon), Adventures — Ghana (meta slots unchanged). */
+				foreach ( array( 1, 5, 6, 2, 3 ) as $i ) {
 					$offer_title_plain    = oc_get_landing( $post_id, "oc_offer{$i}_title" );
 					$offer_location_plain = trim( (string) oc_get_landing( $post_id, "oc_offer{$i}_location" ) );
 					$offer_img_alt        = (string) $offer_title_plain;
@@ -167,10 +168,23 @@ while ( have_posts() ) :
 						$offer_img_alt .= ', ' . $offer_location_plain;
 					}
 					$offer_body = oc_get_landing( $post_id, "oc_offer{$i}_text" );
+					$offer_img_url = oc_offering_card_image_url( $post_id, $i );
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">
 					<div class="offering-card__media">
+						<?php if ( '' !== $offer_img_url ) : ?>
+						<img
+							class="offering-card__img"
+							src="<?php echo esc_url( $offer_img_url ); ?>"
+							alt="<?php echo esc_attr( $offer_img_alt ); ?>"
+							width="960"
+							height="540"
+							decoding="async"
+							loading="lazy"
+						/>
+						<?php else : ?>
 						<div class="offering-card__placeholder" role="img" aria-label="<?php echo esc_attr( $offer_img_alt ); ?>"></div>
+						<?php endif; ?>
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title" title="<?php echo esc_attr( $offer_title_plain ); ?>"><?php echo esc_html( oc_soft_break_widow( $offer_title_plain ) ); ?></h2>
@@ -231,6 +245,7 @@ while ( have_posts() ) :
 	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Start where you are', 'outlier-collective' ); ?>">
 		<div class="chapter__inner talks__chapter-inner">
 			<div class="talks__stack">
+				<div class="talks__head-group">
 				<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
 					<div class="talks__walker-svg-wrap">
 						<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
@@ -266,6 +281,7 @@ while ( have_posts() ) :
 				</div>
 				<div class="talks__inner" data-oc-talks-inner>
 					<h2 class="talks__headline" data-oc-talks-headline><?php echo oc_format_talks_headline_html( (string) oc_get_landing( $post_id, 'oc_talks_text' ) ); ?></h2>
+				</div>
 				</div>
 			</div>
 		</div>

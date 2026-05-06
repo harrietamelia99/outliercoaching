@@ -577,7 +577,7 @@
 		if (!banner || !wordEl) {
 			return;
 		}
-		var words = ['coaching', 'workshops', 'adventures', 'experiences', 'talks'];
+		var words = ['coaching', 'workshops', 'talks', 'adventures', 'experiences'];
 		var n = words.length;
 		if (reduceMotion) {
 			gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
@@ -625,10 +625,10 @@
 		if (!ch || !walker) {
 			return;
 		}
-		/* Same vertical band as the hidden trail (viewBox 0 0 1000 200). */
+		/* Same vertical band as the hidden trail (viewBox 0 0 1000 200). Track matches headline width — start near path origin (over “Start”). */
 		var y = 118;
-		var xStart = 42;
-		var xEnd = 958;
+		var xStart = 30;
+		var xEnd = 972;
 
 		function applyWalkerProgress(p) {
 			var t = Math.min(1, Math.max(0, typeof p === 'number' && !isNaN(p) ? p : 0));

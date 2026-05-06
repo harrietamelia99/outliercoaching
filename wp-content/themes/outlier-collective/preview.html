@@ -3,7 +3,7 @@
   Static preview — not loaded by WordPress. Mirrors page-landing.php structure, classes, and
   oc_landing_default_meta() copy (refresh this file when defaults change).
 
-  Offerings: five cards (meta slots 1, 2, 3, 5, 6 — Longer Programmes slot omitted).
+  Offerings: five cards in order Coaching → Workshops → Talks → Adventures → Adventures — Ghana (slots 1, 5, 6, 2, 3; slot 4 omitted).
 
   Run from this folder:  python3 -m http.server 8765
   Open:  http://localhost:8765/preview.html
@@ -122,26 +122,6 @@
 						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
 					</div>
 				</article>
-				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures">
-					<div class="offering-card__media">
-						<div class="offering-card__placeholder" role="img" aria-label="Adventures"></div>
-					</div>
-					<div class="offering-card__body">
-						<h2 class="offering-card__title">Adventures</h2>
-						<div class="offering-card__desc">Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team. Ash Barton Estate, North Devon.</div>
-						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
-					</div>
-				</article>
-				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures - Ghana">
-					<div class="offering-card__media">
-						<div class="offering-card__placeholder" role="img" aria-label="Adventures - Ghana"></div>
-					</div>
-					<div class="offering-card__body">
-						<h2 class="offering-card__title">Adventures - Ghana</h2>
-						<div class="offering-card__desc">Ghana, West Africa. Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.</div>
-						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
-					</div>
-				</article>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Workshops">
 					<div class="offering-card__media">
 						<div class="offering-card__placeholder" role="img" aria-label="Workshops"></div>
@@ -154,11 +134,31 @@
 				</article>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Talks">
 					<div class="offering-card__media">
-						<div class="offering-card__placeholder" role="img" aria-label="Talks"></div>
+						<img class="offering-card__img" src="assets/site/offering-talks.png" alt="Talks" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title">Talks</h2>
 						<div class="offering-card__desc">We do talks on topics we care about. Leadership, change and getting it wrong.</div>
+						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
+					</div>
+				</article>
+				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures">
+					<div class="offering-card__media">
+						<img class="offering-card__img" src="assets/site/offering-adventures-uk.png" alt="Adventures" width="960" height="540" decoding="async" loading="lazy" />
+					</div>
+					<div class="offering-card__body">
+						<h2 class="offering-card__title">Adventures</h2>
+						<div class="offering-card__desc">Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team. Ash Barton Estate, North Devon.</div>
+						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
+					</div>
+				</article>
+				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures - Ghana">
+					<div class="offering-card__media">
+						<img class="offering-card__img" src="assets/site/offering-ghana-adventures.png" alt="Adventures - Ghana" width="960" height="540" decoding="async" loading="lazy" />
+					</div>
+					<div class="offering-card__body">
+						<h2 class="offering-card__title">Adventures - Ghana</h2>
+						<div class="offering-card__desc">Ghana, West Africa. Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.</div>
 						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
 					</div>
 				</article>
@@ -177,6 +177,7 @@
 	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="Start where you are">
 		<div class="chapter__inner talks__chapter-inner">
 			<div class="talks__stack">
+				<div class="talks__head-group">
 				<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
 					<div class="talks__walker-svg-wrap">
 						<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
@@ -194,6 +195,7 @@
 				</div>
 				<div class="talks__inner" data-oc-talks-inner>
 					<h2 class="talks__headline" data-oc-talks-headline>Start where <span class="talks-accent">you are</span></h2>
+				</div>
 				</div>
 			</div>
 		</div>

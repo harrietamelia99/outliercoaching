@@ -43,7 +43,10 @@ function oc_bundled_logo_dark_url() {
 }
 
 /**
- * Filenames for bundled photography (assets/site/). Order is stable; indices map to offering fallbacks (see page-landing).
+ * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
+ * Ghana offering card uses `offering-ghana-adventures.png` via oc_offering_card_image_url().
+ * UK / Devon Adventures (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
+ * Talks (slot 6) uses `offering-talks.png` as its bundled fallback.
  *
  * @return string[]
  */
@@ -80,6 +83,44 @@ function oc_bundled_site_photo_url( $index ) {
 	$uri = get_template_directory_uri() . '/assets/site/' . $filename;
 	$ver = (string) filemtime( $path );
 	return add_query_arg( 'ver', rawurlencode( $ver ), $uri );
+}
+
+/**
+ * Image URL for an offering carousel card (meta slot 1–6).
+ * Uses the uploaded attachment when set; bundled fallbacks: slot 2 (Adventures UK), slot 3 (Ghana), slot 6 (Talks).
+ *
+ * @param int $post_id Landing page post ID.
+ * @param int $slot    Offering slot (1, 2, 3, 5, 6 as in meta keys).
+ * @return string Versioned URL or empty string.
+ */
+function oc_offering_card_image_url( $post_id, $slot ) {
+	$post_id = (int) $post_id;
+	$slot    = (int) $slot;
+	if ( $slot < 1 || $slot > 6 ) {
+		return '';
+	}
+	$id = (int) get_post_meta( $post_id, "oc_offer{$slot}_img", true );
+	if ( $id > 0 ) {
+		$url = wp_get_attachment_image_url( $id, 'oc-offering' );
+		if ( $url ) {
+			return $url;
+		}
+	}
+	$bundled = array(
+		2 => 'offering-adventures-uk.png',
+		3 => 'offering-ghana-adventures.png',
+		6 => 'offering-talks.png',
+	);
+	if ( isset( $bundled[ $slot ] ) ) {
+		$file = $bundled[ $slot ];
+		$path = get_template_directory() . '/assets/site/' . $file;
+		if ( is_readable( $path ) ) {
+			$uri = get_template_directory_uri() . '/assets/site/' . $file;
+			$ver = (string) filemtime( $path );
+			return add_query_arg( 'ver', rawurlencode( $ver ), $uri );
+		}
+	}
+	return '';
 }
 
 /**
@@ -884,7 +925,7 @@ function oc_render_landing_meta_box( $post ) {
 	echo '</fieldset>';
 
 	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Chapter 4 — What this is (cards)', 'outlier-collective' ) . '</strong></legend>';
-	$oc_offer_card_slots = array( 1, 2, 3, 5, 6 );
+	$oc_offer_card_slots = array( 1, 5, 6, 2, 3 );
 	foreach ( $oc_offer_card_slots as $oc_display_idx => $i ) {
 		$oc_card_label_num = (int) $oc_display_idx + 1;
 		echo '<h4 style="margin:12px 0 8px;">' . sprintf( esc_html__( 'Card %d', 'outlier-collective' ), $oc_card_label_num ) . '</h4>';

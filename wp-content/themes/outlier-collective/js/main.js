@@ -615,25 +615,47 @@
 	}
 
 	/**
-	 * “Start where you are” — scrub walker L→R across the talks SVG while the chapter crosses the viewport.
-	 * Uses SVG transform attributes (not CSS matrix on the walker group) so motion is reliable with ScrollSmoother + nested scale.
+	 * “Start where you are” — scrub the walker along the hidden SVG trail (same geometry as path chapter).
+	 * Trail elements stay visibility:hidden in CSS so getTotalLength() works; transform uses SVG attributes only.
 	 */
 	function initTalksWalkerScroll() {
 		var ch = doc.querySelector('.chapter--talks');
 		var scene = doc.querySelector('[data-oc-walker-scene]');
 		var walker = scene && scene.querySelector('.path-journey__walker');
-		if (!ch || !walker) {
+		var trackPath = scene && scene.querySelector('.path-journey__trail-fg');
+		if (!ch || !walker || !trackPath) {
 			return;
 		}
-		/* Same vertical band as the hidden trail (viewBox 0 0 1000 200). Track matches headline width — start near path origin (over “Start”). */
-		var y = 118;
-		var xStart = 30;
-		var xEnd = 972;
+
+		var pathLen = 0;
+
+		function measurePath() {
+			pathLen = 0;
+			if (typeof trackPath.getTotalLength === 'function') {
+				try {
+					pathLen = trackPath.getTotalLength() || 0;
+				} catch (e) {
+					pathLen = 0;
+				}
+			}
+			return pathLen;
+		}
 
 		function applyWalkerProgress(p) {
 			var t = Math.min(1, Math.max(0, typeof p === 'number' && !isNaN(p) ? p : 0));
-			var x = xStart + (xEnd - xStart) * t;
-			walker.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+			if (!measurePath()) {
+				walker.setAttribute('transform', 'translate(500,118)');
+				return;
+			}
+			var pos = pathLen * t;
+			var pt = trackPath.getPointAtLength(pos);
+			var delta = Math.min(6, pathLen * 0.006);
+			var pt2 = trackPath.getPointAtLength(Math.min(pos + delta, pathLen));
+			var ang = (Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * 180) / Math.PI;
+			walker.setAttribute(
+				'transform',
+				'translate(' + pt.x + ',' + pt.y + ') rotate(' + ang + ') translate(0,-14)'
+			);
 		}
 
 		gsap.killTweensOf(walker);
@@ -656,11 +678,20 @@
 				applyWalkerProgress(self.progress);
 			},
 			onRefresh: function (self) {
+				measurePath();
 				applyWalkerProgress(self.progress);
 			},
 		});
 
+		measurePath();
 		applyWalkerProgress(typeof stWalker.progress === 'number' ? stWalker.progress : 0);
+
+		requestAnimationFrame(function () {
+			requestAnimationFrame(function () {
+				measurePath();
+				applyWalkerProgress(typeof stWalker.progress === 'number' ? stWalker.progress : 0);
+			});
+		});
 	}
 
 	function initProblemChapter() {

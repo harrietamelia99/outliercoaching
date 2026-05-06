@@ -668,6 +668,14 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	display: none !important;
 }
 
+/* Talks walker: paths must stay in layout so getTotalLength/getPointAtLength work (global --hidden is display:none). */
+.chapter--talks .talks__walker-svg .path-journey__trail--hidden {
+	display: block !important;
+	visibility: hidden;
+	pointer-events: none;
+	stroke: transparent !important;
+}
+
 /*
  * ScrollTrigger wraps the pinned problem chapter in .pin-spacer. Without a fill,
  * the spacer is transparent and the body’s black shows through under the army block.
@@ -1052,10 +1060,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	overflow-clip-margin: 32px;
 	padding-top: clamp(1rem, 2.5vw, 1.75rem);
 	padding-bottom: 2.25rem;
-	padding-inline-end: 1.5rem;
+	padding-inline: var(--section-pad-x);
 	overscroll-behavior-x: contain;
 	scroll-snap-type: x mandatory;
-	scroll-padding-inline: 2px;
+	scroll-padding-inline: var(--section-pad-x);
 	-webkit-overflow-scrolling: touch;
 	scrollbar-gutter: stable;
 }
@@ -1215,9 +1223,9 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 @media (max-width: 1024px) {
 	.chapter--offerings .offerings__scroller {
 		gap: 0;
-		padding-inline-end: 0;
+		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
-		scroll-padding-inline: 0;
+		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
 		scrollbar-gutter: auto;
 	}
 
@@ -1257,10 +1265,10 @@ html.oc-offerings-scroll-drive .offerings__scroller {
 	overflow-clip-margin: 32px;
 	scroll-snap-type: none;
 	scrollbar-gutter: stable;
-	padding-inline: 0;
+	padding-inline: var(--section-pad-x);
 	padding-top: clamp(1rem, 2.5vw, 1.75rem);
 	padding-bottom: 2.25rem;
-	scroll-padding-inline: 0;
+	scroll-padding-inline: var(--section-pad-x);
 }
 
 html.oc-offerings-scroll-drive .offering-card {
@@ -1665,15 +1673,14 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 }
 
 /*
- * Tight column: headline width drives the SVG track so the walker starts over “Start”
- * and scrubs right across the same measure (whole block stays centred in the chapter).
+ * Headline + walker column: full width up to heading measure, centred on the band.
  */
 .talks__head-group {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
-	width: max-content;
-	max-width: min(40rem, 100%);
+	width: 100%;
+	max-width: min(40rem, var(--max-heading-block));
 	margin-inline: auto;
 }
 
@@ -1681,22 +1688,22 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	max-width: none;
-	margin: 0;
+	max-width: min(34rem, 100%);
+	margin: 0 auto;
 	padding: 0;
 	/* currentColor for walker; SVG also has .path-journey__svg (black) — override on the element. */
 	color: var(--colour-orange);
 }
 
 .talks__inner {
-	max-width: none;
-	margin-inline: 0;
+	max-width: 100%;
+	margin-inline: auto;
 	overflow: hidden;
 	position: relative;
 	z-index: 1;
 	width: 100%;
 	padding-top: 0;
-	text-align: start;
+	text-align: center;
 }
 
 .talks__walker-svg-wrap {
@@ -1708,7 +1715,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 /* Larger figure on the talks band only (does not fight GSAP translate on .path-journey__walker). */
 .chapter--talks .talks__walker-svg-wrap {
 	transform: scale(1.32);
-	transform-origin: left bottom;
+	transform-origin: center bottom;
 }
 
 /* Shorter track so headline sits nearer the vertical middle of the cream band (less empty SVG above the figure). */

@@ -52,7 +52,7 @@ function oc_bundled_logo_dark_url() {
  */
 function oc_bundled_site_photo_filenames() {
 	return array(
-		'photo-1.png',
+		'photo-1.jpg',
 		'photo-2.png',
 		'photo-3.png',
 		'photo-4.png',

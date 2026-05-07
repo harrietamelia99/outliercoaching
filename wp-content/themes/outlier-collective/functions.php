@@ -208,7 +208,7 @@ function oc_landing_default_meta() {
 		'oc_offer1_coach_4_label'  => 'Team Development',
 		'oc_offer1_coach_4_text'   => 'Great teams close the door and sort it out together. Let\'s do that.',
 		'oc_offer2_title'        => 'Experiences',
-		'oc_offer2_location'     => 'Ash Barton Estate, North Devon',
+		'oc_offer2_location'     => 'North Devon, Ash Barton Estate',
 		'oc_offer2_text'         => 'Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team.',
 		'oc_offer3_title'        => 'Adventures',
 		'oc_offer3_location'     => 'Ghana, West Africa',

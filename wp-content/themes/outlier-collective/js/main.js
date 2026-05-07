@@ -587,7 +587,7 @@
 			wordEl.textContent = words[0];
 			return;
 		}
-		/* Time-based read → swap → read; only the word fades. Tight fades + shorter hold reduce “lag” between swaps. */
+		/* Time-based read → swap → read; only the word fades. */
 		gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
 		gsap.set(wordEl, { opacity: 1 });
 		wordEl.textContent = words[0];
@@ -596,9 +596,9 @@
 			idx = (idx + 1) % n;
 			wordEl.textContent = words[idx];
 		}
-		var readHold = 0.82;
-		var fadeOut = 0.055;
-		var fadeIn = 0.075;
+		var readHold = 1.12;
+		var fadeOut = 0.07;
+		var fadeIn = 0.1;
 		var tl = gsap.timeline({ repeat: -1, defaults: { overwrite: 'auto' } });
 		tl.to(wordEl, { opacity: 0, duration: fadeOut, ease: 'power1.in' }, readHold)
 			.call(swapToNext)

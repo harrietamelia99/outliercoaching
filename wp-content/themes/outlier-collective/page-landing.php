@@ -261,6 +261,8 @@ while ( have_posts() ) :
 				<div class="talks__walker-scene" data-oc-walker-scene aria-hidden="true">
 					<div class="talks__walker-svg-wrap">
 						<svg class="path-journey__svg talks__walker-svg" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid meet" focusable="false">
+							<!-- Centre short trail in viewBox: span ~28–642 (614px), margin (1000−614)/2 ≈ 193 → shift +165 so track is visually centred. -->
+							<g class="talks__scene-shift" transform="translate(165 0)">
 							<path
 								class="talks__path-dash"
 								d="<?php echo esc_attr( $oc_talks_walker_path_d ); ?>"
@@ -298,6 +300,7 @@ while ( have_posts() ) :
 										stroke-linejoin="round"
 									/>
 								</g>
+							</g>
 							</g>
 						</svg>
 					</div>

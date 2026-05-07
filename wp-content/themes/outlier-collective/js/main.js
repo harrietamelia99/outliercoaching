@@ -1405,10 +1405,24 @@
 		}
 
 		function stepPx() {
-			if (touchRange()) {
-				return Math.max(1, Math.round(scroller.clientWidth));
-			}
 			var card = scroller.querySelector('.testimonial-card');
+			/* Phone/tablet: one slide per step = card width + flex gap (matches CSS). */
+			if (touchRange()) {
+				var g = 0;
+				try {
+					g = parseFloat(window.getComputedStyle(scroller).gap) || 0;
+				} catch (e) {
+					g = 0;
+				}
+				var w = 0;
+				if (card) {
+					w = card.getBoundingClientRect().width;
+				}
+				if (w < 40) {
+					return Math.max(1, Math.round(scroller.clientWidth));
+				}
+				return Math.max(1, Math.round(w + g));
+			}
 			var gap = 0;
 			try {
 				gap = parseFloat(window.getComputedStyle(scroller).gap) || 0;

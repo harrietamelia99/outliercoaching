@@ -1496,9 +1496,10 @@ html.oc-offerings-scroll-drive .offering-card {
 	scroll-snap-align: start;
 }
 
+/* Phone / tablet: one review per view + gap (card basis shrinks by gap so card+gap fits — no next-card sliver). */
 @media (max-width: 1024px) {
 	.chapter--testimonials .testimonials__scroller {
-		gap: 0;
+		gap: 1.5rem;
 		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
 		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
@@ -1506,11 +1507,11 @@ html.oc-offerings-scroll-drive .offering-card {
 	}
 
 	.chapter--testimonials .testimonials__scroller .testimonial-card {
-		--testimonials-card-width: 100%;
-		flex: 0 0 100%;
-		width: 100%;
-		min-width: 100%;
-		max-width: 100%;
+		--testimonials-card-width: calc(100% - 1.5rem);
+		flex: 0 0 var(--testimonials-card-width);
+		width: var(--testimonials-card-width);
+		min-width: var(--testimonials-card-width);
+		max-width: var(--testimonials-card-width);
 		scroll-snap-align: center;
 	}
 }

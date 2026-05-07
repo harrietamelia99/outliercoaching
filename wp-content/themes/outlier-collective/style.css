@@ -683,17 +683,22 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	text-align: center;
 }
 
-/* Fixed grid so “We do” stays on one horizontal position; only the word column width is reserved. */
+/* Fixed slot for longest word (“experiences”); word is centred in the slot so the line looks centred, not left-heavy. */
 .problem__we-do-inner {
-	display: inline-grid;
-	grid-template-columns: max-content 13ch;
-	column-gap: 0.28em;
+	display: inline-flex;
+	flex-wrap: nowrap;
 	align-items: baseline;
+	gap: 0.28em;
 	text-align: left;
 }
 
 .problem__we-do-word-wrap {
-	min-width: 0;
+	display: flex;
+	flex: 0 0 auto;
+	justify-content: center;
+	align-items: baseline;
+	min-width: 13ch;
+	box-sizing: content-box;
 }
 
 .problem__we-do-word {
@@ -1364,6 +1369,7 @@ html.oc-offerings-scroll-drive .offering-card {
 }
 
 .chapter--problem:has([data-oc-we-do-banner]) .chapter__inner {
+	align-self: stretch;
 	width: 100%;
 	display: flex;
 	flex-direction: column;

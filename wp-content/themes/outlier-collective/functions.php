@@ -224,10 +224,10 @@ function oc_landing_default_meta() {
 		'oc_offer3_retreat_3_url'   => '',
 		'oc_offer3_pullquote'      => 'It was an incredible experience. A real shift in focus on what matters.',
 		'oc_offer5_title'        => 'Workshops',
-		'oc_offer5_location'     => '',
+		'oc_offer5_location'     => 'Anywhere',
 		'oc_offer5_text'         => 'Help your team thrive as individuals and a collective. We come to you.',
 		'oc_offer6_title'        => 'Talks',
-		'oc_offer6_location'     => '',
+		'oc_offer6_location'     => 'Anywhere',
 		'oc_offer6_text'         => 'We do talks on topics we care about. Leadership, change and getting it wrong.',
 		'oc_offerings_learn_more_url' => '#contact',
 

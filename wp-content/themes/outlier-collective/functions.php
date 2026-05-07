@@ -197,7 +197,7 @@ function oc_landing_default_meta() {
 		'oc_step4_desc'          => '',
 
 		'oc_offer1_title'        => 'Coaching',
-		'oc_offer1_location'     => '',
+		'oc_offer1_location'     => 'Anywhere',
 		'oc_offer1_text'         => 'One to one and confidential. Online or in person with a qualified coach.',
 		'oc_offer1_coach_1_label'  => 'Life Design',
 		'oc_offer1_coach_1_text'   => 'Here and now. For people who want something different and are here to find it.',

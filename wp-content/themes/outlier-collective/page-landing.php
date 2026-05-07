@@ -277,7 +277,7 @@ while ( have_posts() ) :
 								<line x1="-11" y1="-11" x2="11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
 								<line x1="11" y1="-11" x2="-11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
 							</g>
-							<g class="path-journey__walker">
+							<g class="path-journey__walker" transform="translate(28,118) rotate(-6) translate(0,-38)">
 								<g class="path-journey__walker-bob">
 									<circle class="path-journey__walker-head" cx="0" cy="-15" r="5" fill="currentColor" />
 									<path

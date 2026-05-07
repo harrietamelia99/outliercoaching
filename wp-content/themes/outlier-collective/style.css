@@ -993,20 +993,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	}
 }
 
-/* Talks: keep scale while bobbing (global keyframes would drop SVG transform="scale(...)"). */
+/* Talks: no vertical bob — it reads as “stuck bouncing on the X” while scroll progress updates; scale only. */
 .chapter--talks .path-journey__walker-bob {
-	animation-name: talks-path-walker-bob;
-}
-
-@keyframes talks-path-walker-bob {
-	0%,
-	100% {
-		transform: scale(1.48) translateY(0);
-	}
-
-	50% {
-		transform: scale(1.48) translateY(-4px);
-	}
+	animation: none;
+	transform: scale(1.48);
+	transform-origin: 0 0;
 }
 
 /* -----------------------------------------------------------------------------

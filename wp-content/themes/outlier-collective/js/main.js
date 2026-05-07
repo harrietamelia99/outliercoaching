@@ -78,6 +78,9 @@
 					if (ocHeroPastSync) {
 						ocHeroPastSync();
 					}
+					if (typeof ScrollTrigger !== 'undefined') {
+						ScrollTrigger.update();
+					}
 				},
 			});
 			doc.documentElement.classList.add('oc-scroll-smoother');
@@ -627,8 +630,8 @@
 			return;
 		}
 
-		/* Pixels along local +Y (after path tangent rotate) — lifts figure above the dashed line / dot. */
-		var liftPx = 26;
+		/* Pixels along local +Y (after path tangent rotate) — lifts figure clearly above the dashed line / start dot. */
+		var liftPx = 38;
 		/* When getTotalLength is still 0, (500,118) sat mid-track and read like the X end; start at the real path origin (dot). */
 		var fallbackTransform =
 			'translate(28,118) rotate(-6) translate(0,-' + String(liftPx) + ')';
@@ -664,7 +667,6 @@
 			);
 		}
 
-		gsap.killTweensOf(walker);
 		if (walker.style && walker.style.transform) {
 			walker.style.removeProperty('transform');
 		}
@@ -674,29 +676,54 @@
 			return;
 		}
 
-		var stWalker = ScrollTrigger.create({
-			trigger: ch,
-			start: 'top bottom',
-			end: 'bottom top',
-			scrub: 0.5,
-			invalidateOnRefresh: true,
-			onUpdate: function (self) {
-				applyWalkerProgress(self.progress);
-			},
-			onRefresh: function (self) {
-				measurePath();
-				applyWalkerProgress(self.progress);
-			},
-		});
+		/**
+		 * ScrollSmoother moves #smooth-content with transforms; ScrollTrigger.trigger progress and
+		 * raw getBoundingClientRect() often stay at the wrong end. Use ScrollSmoother's scroll
+		 * coordinates (offset + scrollTop) when a smoother exists — same coordinate space GSAP uses.
+		 */
+		function computeTalksWalkerProgress() {
+			try {
+				if (typeof ScrollSmoother !== 'undefined' && ScrollSmoother.get) {
+					var smoother = ScrollSmoother.get();
+					if (smoother && typeof smoother.offset === 'function' && typeof smoother.scrollTop === 'function') {
+						var start = smoother.offset(ch, 'top bottom');
+						var end = smoother.offset(ch, 'bottom top');
+						var st = smoother.scrollTop();
+						var range = end - start;
+						if (range > 1) {
+							return Math.min(1, Math.max(0, (st - start) / range));
+						}
+					}
+				}
+			} catch (err) {
+				/* fall through */
+			}
+			var rect = ch.getBoundingClientRect();
+			var vh = window.innerHeight || 1;
+			var span = vh + rect.height;
+			if (span <= 0) {
+				return 0;
+			}
+			return Math.min(1, Math.max(0, (vh - rect.top) / span));
+		}
 
-		measurePath();
-		applyWalkerProgress(typeof stWalker.progress === 'number' ? stWalker.progress : 0);
+		function tickTalksWalker() {
+			measurePath();
+			applyWalkerProgress(computeTalksWalkerProgress());
+		}
 
+		if (typeof gsap !== 'undefined' && gsap.ticker) {
+			gsap.ticker.add(tickTalksWalker);
+		} else {
+			window.addEventListener('scroll', tickTalksWalker, { passive: true });
+		}
+		if (typeof ScrollTrigger !== 'undefined') {
+			ScrollTrigger.addEventListener('refresh', tickTalksWalker);
+		}
+
+		tickTalksWalker();
 		requestAnimationFrame(function () {
-			requestAnimationFrame(function () {
-				measurePath();
-				applyWalkerProgress(typeof stWalker.progress === 'number' ? stWalker.progress : 0);
-			});
+			requestAnimationFrame(tickTalksWalker);
 		});
 	}
 

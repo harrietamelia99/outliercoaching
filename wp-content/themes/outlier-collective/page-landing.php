@@ -135,13 +135,15 @@ while ( have_posts() ) :
 	<section class="chapter chapter--problem" data-oc-chapter="problem" aria-label="<?php esc_attr_e( 'Recognition', 'outlier-collective' ); ?>">
 		<div class="chapter__inner">
 			<div class="problem__we-do-band">
-				<div class="problem__accent-dot" aria-hidden="true"></div>
 				<div class="problem__text problem__text--we-do">
 					<p class="problem__we-do" data-oc-we-do-banner>
 						<span class="problem__we-do-inner">
 							<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?></span>
-							<span class="problem__we-do-word-wrap" aria-live="polite">
-								<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
+							<span class="problem__we-do-accent-col">
+								<span class="problem__accent-dot problem__accent-dot--we-do" aria-hidden="true"></span>
+								<span class="problem__we-do-word-wrap" aria-live="polite">
+									<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
+								</span>
 							</span>
 						</span>
 					</p>

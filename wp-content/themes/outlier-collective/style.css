@@ -618,16 +618,14 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 }
 
 .problem__accent-dot {
+	display: inline-block;
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
 	background: var(--colour-orange);
 	margin: 0 auto 1.75rem;
 	flex-shrink: 0;
-}
-
-.problem__we-do-band .problem__accent-dot {
-	margin: 0;
+	vertical-align: middle;
 }
 
 .problem__text p {
@@ -649,15 +647,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: 0;
 }
 
-/* Dot + line: full-width column so dot sits above the true horizontal centre of the copy. */
+/* Full line centred; dot sits above the orange word only (see .problem__we-do-accent-col). */
 .problem__we-do-band {
 	width: 100%;
 	max-width: 100%;
 	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: clamp(0.55rem, 1.4vw, 0.85rem);
 }
 
 .problem__text--we-do {
@@ -682,7 +676,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	color: var(--colour-white);
 }
 
-/* One flex row, full width: centres “We do” + slot as a unit; tight gap (no 13ch flex slab beside “We do”). */
+/* Row: “We do” + column(dot + word); flex-end aligns static copy with word baseline. */
 .problem__we-do-inner {
 	display: flex;
 	width: 100%;
@@ -690,16 +684,24 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	box-sizing: border-box;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: baseline;
+	align-items: flex-end;
 	gap: 0.22em;
+}
+
+.problem__we-do-accent-col {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	flex-shrink: 0;
+	gap: clamp(0.35rem, 1vw, 0.55rem);
 }
 
 .problem__we-do-word-wrap {
 	display: inline-block;
 	vertical-align: baseline;
-	min-width: min(11.25ch, 42vw);
-	max-width: 100%;
-	text-align: left;
+	min-width: 0;
+	text-align: center;
 }
 
 .problem__we-do-word {
@@ -1370,7 +1372,7 @@ html.oc-offerings-scroll-drive .offering-card {
 	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
 }
 
-.chapter--problem .problem__we-do-band .problem__accent-dot {
+.chapter--problem .problem__accent-dot.problem__accent-dot--we-do {
 	margin: 0;
 }
 

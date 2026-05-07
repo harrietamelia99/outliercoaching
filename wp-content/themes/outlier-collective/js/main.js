@@ -587,7 +587,7 @@
 			wordEl.textContent = words[0];
 			return;
 		}
-		/* Time-based read → swap → read; only the word fades — “We do” stays static in layout (see CSS grid). */
+		/* Time-based read → swap → read; only the word fades. Tight fades + shorter hold reduce “lag” between swaps. */
 		gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
 		gsap.set(wordEl, { opacity: 1 });
 		wordEl.textContent = words[0];
@@ -596,12 +596,11 @@
 			idx = (idx + 1) % n;
 			wordEl.textContent = words[idx];
 		}
-		var readHold = 1.22;
-		var fadeOut = 0.12;
-		var fadeIn = 0.16;
-		var tl = gsap.timeline({ repeat: -1 });
-		tl.to({}, { duration: readHold })
-			.to(wordEl, { opacity: 0, duration: fadeOut, ease: 'power1.in' })
+		var readHold = 0.82;
+		var fadeOut = 0.055;
+		var fadeIn = 0.075;
+		var tl = gsap.timeline({ repeat: -1, defaults: { overwrite: 'auto' } });
+		tl.to(wordEl, { opacity: 0, duration: fadeOut, ease: 'power1.in' }, readHold)
 			.call(swapToNext)
 			.to(wordEl, { opacity: 1, duration: fadeIn, ease: 'power1.out' });
 	}

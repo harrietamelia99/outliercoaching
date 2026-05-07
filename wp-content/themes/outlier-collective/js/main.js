@@ -627,6 +627,12 @@
 			return;
 		}
 
+		/* Pixels along local +Y (after path tangent rotate) — lifts figure above the dashed line / dot. */
+		var liftPx = 26;
+		/* When getTotalLength is still 0, (500,118) sat mid-track and read like the X end; start at the real path origin (dot). */
+		var fallbackTransform =
+			'translate(28,118) rotate(-6) translate(0,-' + String(liftPx) + ')';
+
 		var pathLen = 0;
 
 		function measurePath() {
@@ -644,7 +650,7 @@
 		function applyWalkerProgress(p) {
 			var t = Math.min(1, Math.max(0, typeof p === 'number' && !isNaN(p) ? p : 0));
 			if (!measurePath()) {
-				walker.setAttribute('transform', 'translate(500,118)');
+				walker.setAttribute('transform', fallbackTransform);
 				return;
 			}
 			var pos = pathLen * t;
@@ -654,7 +660,7 @@
 			var ang = (Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * 180) / Math.PI;
 			walker.setAttribute(
 				'transform',
-				'translate(' + pt.x + ',' + pt.y + ') rotate(' + ang + ') translate(0,-14)'
+				'translate(' + pt.x + ',' + pt.y + ') rotate(' + ang + ') translate(0,-' + String(liftPx) + ')'
 			);
 		}
 
@@ -664,7 +670,7 @@
 		}
 
 		if (reduceMotion) {
-			applyWalkerProgress(0.5);
+			applyWalkerProgress(0);
 			return;
 		}
 

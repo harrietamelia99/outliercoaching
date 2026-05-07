@@ -993,6 +993,22 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	}
 }
 
+/* Talks: keep scale while bobbing (global keyframes would drop SVG transform="scale(...)"). */
+.chapter--talks .path-journey__walker-bob {
+	animation-name: talks-path-walker-bob;
+}
+
+@keyframes talks-path-walker-bob {
+	0%,
+	100% {
+		transform: scale(1.48) translateY(0);
+	}
+
+	50% {
+		transform: scale(1.48) translateY(-4px);
+	}
+}
+
 /* -----------------------------------------------------------------------------
    CHAPTER 4 — Offerings (stone, horizontal scroller — simple stacked image + copy cards)
    -------------------------------------------------------------------------- */
@@ -1735,7 +1751,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 
 /* Larger figure on the talks band only (does not fight GSAP translate on .path-journey__walker). */
 .chapter--talks .talks__walker-svg-wrap {
-	transform: scale(1.32);
+	transform: scale(1.68);
 	transform-origin: center bottom;
 }
 
@@ -2103,6 +2119,10 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 
 	.path-journey__walker-bob {
 		animation: none !important;
+	}
+
+	.chapter--talks .path-journey__walker-bob {
+		transform: scale(1.48) !important;
 	}
 
 	.path-journey__marker.is-path-pulse circle {

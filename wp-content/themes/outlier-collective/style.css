@@ -694,21 +694,29 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	line-height: 0;
 }
 
-/* Phrase row: “We do” + rotating word, baseline-aligned. */
+/* Phrase row: fixed-width grid — “We do” stays put; only the orange slot’s text changes (no re-centering). */
 .problem__we-do-inner {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: flex-end;
-	gap: 0.22em;
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	align-items: baseline;
+	column-gap: 0.22em;
+	width: min(100%, 40ch);
+	max-width: 100%;
 	box-sizing: border-box;
+	margin-inline: auto;
+	white-space: nowrap;
+}
+
+.problem__we-do-static {
+	justify-self: end;
+	text-align: right;
 }
 
 .problem__we-do-word-wrap {
-	display: inline-block;
-	vertical-align: baseline;
+	display: block;
 	min-width: 0;
 	text-align: left;
+	justify-self: start;
 }
 
 .problem__we-do-word {

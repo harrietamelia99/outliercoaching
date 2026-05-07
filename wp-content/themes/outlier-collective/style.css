@@ -647,7 +647,6 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: 0;
 }
 
-/* Full line centred; dot sits above the orange word only (see .problem__we-do-accent-col). */
 .problem__we-do-band {
 	width: 100%;
 	max-width: 100%;
@@ -676,32 +675,40 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	color: var(--colour-white);
 }
 
-/* Row: “We do” + column(dot + word); flex-end aligns static copy with word baseline. */
+/* Stack = full-phrase width; dot row spans that width so the marker centres on the whole sentence. */
+.problem__we-do-stack {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: max-content;
+	max-width: min(100%, calc(100vw - 2 * var(--section-pad-x, 1.25rem)));
+	box-sizing: border-box;
+	vertical-align: top;
+}
+
+.problem__we-do-dot-wrap {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin-bottom: clamp(0.35rem, 1vw, 0.55rem);
+	line-height: 0;
+}
+
+/* Phrase row: “We do” + rotating word, baseline-aligned. */
 .problem__we-do-inner {
 	display: flex;
-	width: 100%;
-	max-width: 100%;
-	box-sizing: border-box;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: flex-end;
 	gap: 0.22em;
-}
-
-.problem__we-do-accent-col {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-end;
-	flex-shrink: 0;
-	gap: clamp(0.35rem, 1vw, 0.55rem);
+	box-sizing: border-box;
 }
 
 .problem__we-do-word-wrap {
 	display: inline-block;
 	vertical-align: baseline;
 	min-width: 0;
-	text-align: center;
+	text-align: left;
 }
 
 .problem__we-do-word {

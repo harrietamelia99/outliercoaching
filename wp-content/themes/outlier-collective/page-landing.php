@@ -137,10 +137,12 @@ while ( have_posts() ) :
 			<div class="problem__we-do-band">
 				<div class="problem__text problem__text--we-do">
 					<p class="problem__we-do" data-oc-we-do-banner>
-						<span class="problem__we-do-inner">
-							<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?></span>
-							<span class="problem__we-do-accent-col">
-								<span class="problem__accent-dot problem__accent-dot--we-do" aria-hidden="true"></span>
+						<span class="problem__we-do-stack">
+							<span class="problem__we-do-dot-wrap" aria-hidden="true">
+								<span class="problem__accent-dot problem__accent-dot--we-do"></span>
+							</span>
+							<span class="problem__we-do-inner">
+								<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?></span>
 								<span class="problem__we-do-word-wrap" aria-live="polite">
 									<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
 								</span>

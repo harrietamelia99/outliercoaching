@@ -1298,10 +1298,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	outline-offset: 3px;
 }
 
-/* Phone / tablet: one card per view, full-width + centered snap (no gap — gap + % flex basis causes a sliver of the next card). */
+/* Phone / tablet: one card per view + gap between slides (basis shrinks by gap so card+gap fits the track — no next-card sliver). */
 @media (max-width: 1024px) {
 	.chapter--offerings .offerings__scroller {
-		gap: 0;
+		gap: 1.5rem;
 		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
 		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
@@ -1309,11 +1309,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	}
 
 	.chapter--offerings .offerings__scroller .offering-card {
-		--offerings-card-width: 100%;
-		flex: 0 0 100%;
-		width: 100%;
-		min-width: 100%;
-		max-width: 100%;
+		--offerings-card-width: calc(100% - 1.5rem);
+		flex: 0 0 var(--offerings-card-width);
+		width: var(--offerings-card-width);
+		min-width: var(--offerings-card-width);
+		max-width: var(--offerings-card-width);
 		scroll-snap-align: center;
 	}
 }

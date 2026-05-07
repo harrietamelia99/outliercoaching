@@ -45,8 +45,10 @@ function oc_bundled_logo_dark_url() {
 /**
  * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
  * Ghana offering card uses `offering-ghana-adventures.png` via oc_offering_card_image_url().
+ * Coaching (slot 1) uses `offering-coaching.png` as its bundled fallback.
  * UK / Devon Adventures (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
  * Talks (slot 6) uses `offering-talks.png` as its bundled fallback.
+ * Workshops (slot 5) uses `offering-workshops.png` as its bundled fallback.
  *
  * @return string[]
  */
@@ -87,7 +89,7 @@ function oc_bundled_site_photo_url( $index ) {
 
 /**
  * Image URL for an offering carousel card (meta slot 1–6).
- * Uses the uploaded attachment when set; bundled fallbacks: slot 2 (Adventures UK), slot 3 (Ghana), slot 6 (Talks).
+ * Uses the uploaded attachment when set; bundled fallbacks: slot 1 (Coaching), slot 2 (Adventures UK), slot 3 (Ghana), slot 5 (Workshops), slot 6 (Talks).
  *
  * @param int $post_id Landing page post ID.
  * @param int $slot    Offering slot (1, 2, 3, 5, 6 as in meta keys).
@@ -107,8 +109,10 @@ function oc_offering_card_image_url( $post_id, $slot ) {
 		}
 	}
 	$bundled = array(
+		1 => 'offering-coaching.png',
 		2 => 'offering-adventures-uk.png',
 		3 => 'offering-ghana-adventures.png',
+		5 => 'offering-workshops.png',
 		6 => 'offering-talks.png',
 	);
 	if ( isset( $bundled[ $slot ] ) ) {

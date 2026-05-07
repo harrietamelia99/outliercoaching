@@ -7,7 +7,7 @@
 
   Run from this folder:  python3 -m http.server 8765
   Open:  http://localhost:8765/preview.html
-  Bundled photography: assets/site/photo-1.jpg … photo-6.png (hero uses photo-1; offer 6 = Talks uses photo-6).
+  Bundled photography: assets/site/photo-1.jpg … photo-6.png (hero); offering-coaching.png, offering-workshops.png, offering-talks.png, offering-adventures-uk.png, offering-ghana-adventures.png for cards when no WP media.
   Optional: add js/vendor/ScrollSmoother.min.js + SplitText.min.js (GSAP Club) before main.js for smoother parity with production.
 -->
 <html lang="en-GB" class="no-oc-js">
@@ -114,7 +114,7 @@
 			<div id="oc-offerings-scroller" class="offerings__scroller" tabindex="0">
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Coaching">
 					<div class="offering-card__media">
-						<div class="offering-card__placeholder" role="img" aria-label="Coaching"></div>
+						<img class="offering-card__img" src="assets/site/offering-coaching.png" alt="Coaching" width="960" height="540" decoding="async" loading="eager" />
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title">Coaching</h2>
@@ -124,7 +124,7 @@
 				</article>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Workshops">
 					<div class="offering-card__media">
-						<div class="offering-card__placeholder" role="img" aria-label="Workshops"></div>
+						<img class="offering-card__img" src="assets/site/offering-workshops.png" alt="Workshops" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title">Workshops</h2>

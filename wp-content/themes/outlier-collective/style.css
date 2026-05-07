@@ -649,56 +649,57 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: 0;
 }
 
-/* Dot + “We do …” as one column — centres reliably without :has() on the section. */
+/* Dot + line: full-width column so dot sits above the true horizontal centre of the copy. */
 .problem__we-do-band {
 	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	text-align: center;
 	gap: clamp(0.55rem, 1.4vw, 0.85rem);
 }
 
 .problem__text--we-do {
 	width: 100%;
 	max-width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	box-sizing: border-box;
 }
 
 .problem__text--we-do .problem__we-do {
 	display: block;
-	width: max-content;
-	max-width: min(100%, calc(100vw - 2 * var(--section-pad-x, 1.25rem)));
-	margin-inline: 0;
-	margin-bottom: 0;
+	width: 100%;
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-align: center;
 	font-family: var(--font-body);
 	font-weight: 500;
 	font-size: clamp(1.35rem, 3.5vw, 2.15rem);
 	line-height: 1.18;
 	letter-spacing: -0.01em;
 	color: var(--colour-white);
-	text-align: center;
 }
 
-/* Fixed slot for longest word (“experiences”); word is centred in the slot so the line looks centred, not left-heavy. */
+/* One flex row, full width: centres “We do” + slot as a unit; tight gap (no 13ch flex slab beside “We do”). */
 .problem__we-do-inner {
-	display: inline-flex;
-	flex-wrap: nowrap;
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	justify-content: center;
 	align-items: baseline;
-	gap: 0.28em;
-	text-align: left;
+	gap: 0.22em;
 }
 
 .problem__we-do-word-wrap {
-	display: flex;
-	flex: 0 0 auto;
-	justify-content: center;
-	align-items: baseline;
-	min-width: 13ch;
-	box-sizing: content-box;
+	display: inline-block;
+	vertical-align: baseline;
+	min-width: min(11.25ch, 42vw);
+	max-width: 100%;
+	text-align: left;
 }
 
 .problem__we-do-word {
@@ -1359,22 +1360,9 @@ html.oc-offerings-scroll-drive .offering-card {
 	padding-block: clamp(2rem, 4.5vw, 3.5rem);
 }
 
-/* “We do …” band: taller strip (padding ×3 vs compact strip) — content centred. */
+/* “We do …” band: taller strip — avoid flex on .chapter--problem (it shrink-wraps .chapter__inner and drags copy left). */
 .chapter--problem:has([data-oc-we-do-banner]) {
 	padding-block: clamp(4.5rem, 12vw, 7.5rem);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.chapter--problem:has([data-oc-we-do-banner]) .chapter__inner {
-	align-self: stretch;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 }
 
 .chapter--problem .problem__accent-dot,

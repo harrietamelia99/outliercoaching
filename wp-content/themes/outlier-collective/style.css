@@ -623,6 +623,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	border-radius: 50%;
 	background: var(--colour-orange);
 	margin: 0 auto 1.75rem;
+	flex-shrink: 0;
+}
+
+.problem__we-do-band .problem__accent-dot {
+	margin: 0;
 }
 
 .problem__text p {
@@ -644,11 +649,30 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: 0;
 }
 
+/* Dot + “We do …” as one column — centres reliably without :has() on the section. */
+.problem__we-do-band {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	gap: clamp(0.55rem, 1.4vw, 0.85rem);
+}
+
+.problem__text--we-do {
+	width: 100%;
+	max-width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .problem__text--we-do .problem__we-do {
 	display: block;
 	width: max-content;
 	max-width: min(100%, calc(100vw - 2 * var(--section-pad-x, 1.25rem)));
-	margin-inline: auto;
+	margin-inline: 0;
 	margin-bottom: 0;
 	font-family: var(--font-body);
 	font-weight: 500;
@@ -1347,22 +1371,13 @@ html.oc-offerings-scroll-drive .offering-card {
 	justify-content: center;
 }
 
-/* Full-width row so “We do …” can be centred; inline-grid alone was sitting left in some flex layouts. */
-.chapter--problem:has([data-oc-we-do-banner]) .problem__text--we-do {
-	align-self: stretch;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .chapter--problem .problem__accent-dot,
 .chapter--philosophy .problem__accent-dot {
 	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
 }
 
-.chapter--problem:has([data-oc-we-do-banner]) .problem__accent-dot {
-	margin-bottom: clamp(0.55rem, 1.4vw, 0.85rem);
+.chapter--problem .problem__we-do-band .problem__accent-dot {
+	margin: 0;
 }
 
 .chapter--problem .problem__text p,

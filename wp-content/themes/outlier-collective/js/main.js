@@ -1233,16 +1233,13 @@
 			});
 
 			if (title) {
-				gsap.fromTo(
-					title,
-					{ clipPath: 'inset(0 100% 0 0)' },
-					{
-						clipPath: 'inset(0 0% 0 0)',
-						duration: 0.85,
-						ease: 'power3.out',
-						scrollTrigger: { trigger: title, start: 'top 90%' },
-					}
-				);
+				gsap.from(title, {
+					y: 22,
+					opacity: 0,
+					duration: 0.75,
+					ease: 'power3.out',
+					scrollTrigger: { trigger: title, start: 'top 90%' },
+				});
 			}
 			if (desc) {
 				var spl = splitLines(desc);

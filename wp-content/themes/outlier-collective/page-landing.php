@@ -250,8 +250,8 @@ while ( have_posts() ) :
 	endif;
 	?>
 	<?php
-	/** Same geometry as JS motion path (getPointAtLength on .path-journey__trail-fg). */
-	$oc_talks_walker_path_d = 'M 28,118 C 168,78 288,138 420,102 S 652,128 788,96 S 912,112 972,104';
+	/** Talks walker trail (same d on dash + hidden measure paths; JS getPointAtLength on .path-journey__trail-fg). */
+	$oc_talks_walker_path_d = 'M 28,118 C 119,78 197,138 283,102 S 434,128 522,96 S 603,112 642,104';
 	?>
 
 	<section class="chapter chapter--talks" data-oc-chapter="talks" aria-label="<?php esc_attr_e( 'Start where you are', 'outlier-collective' ); ?>">
@@ -280,10 +280,10 @@ while ( have_posts() ) :
 								vector-effect="non-scaling-stroke"
 							/>
 							<g class="path-journey__markers path-journey__trail--hidden"></g>
-							<circle class="talks__path-start-dot" cx="28" cy="118" r="6" aria-hidden="true" />
-							<g class="talks__path-end-x" transform="translate(972, 104)" aria-hidden="true">
-								<line x1="-11" y1="-11" x2="11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-								<line x1="11" y1="-11" x2="-11" y2="11" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+							<circle class="talks__path-start-dot" cx="28" cy="118" r="4" aria-hidden="true" />
+							<g class="talks__path-end-x" transform="translate(642, 104)" aria-hidden="true">
+								<line x1="-7" y1="-7" x2="7" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+								<line x1="7" y1="-7" x2="-7" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
 							</g>
 							<g class="path-journey__walker" transform="translate(28,118) rotate(-6) translate(0,-38)">
 								<g class="path-journey__walker-bob">

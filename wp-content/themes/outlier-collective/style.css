@@ -646,7 +646,9 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 
 .problem__text--we-do .problem__we-do {
 	display: block;
-	max-width: none;
+	width: max-content;
+	max-width: min(100%, calc(100vw - 2 * var(--section-pad-x, 1.25rem)));
+	margin-inline: auto;
 	margin-bottom: 0;
 	font-family: var(--font-body);
 	font-weight: 500;
@@ -690,10 +692,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 .chapter--talks .talks__path-dash {
 	fill: none;
 	stroke: var(--colour-black);
-	stroke-width: 2;
+	stroke-width: 1.2;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-dasharray: 4 12;
+	stroke-dasharray: 2.5 9;
 }
 
 .chapter--talks .talks__path-start-dot {
@@ -1343,6 +1345,15 @@ html.oc-offerings-scroll-drive .offering-card {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+}
+
+/* Full-width row so “We do …” can be centred; inline-grid alone was sitting left in some flex layouts. */
+.chapter--problem:has([data-oc-we-do-banner]) .problem__text--we-do {
+	align-self: stretch;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .chapter--problem .problem__accent-dot,

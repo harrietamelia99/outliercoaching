@@ -587,34 +587,23 @@
 			wordEl.textContent = words[0];
 			return;
 		}
-		/*
-		 * Scroll-scrubbed word index only — trigger start/end are both on this section so progress
-		 * cannot invert when the next chapter is tall or pinned (that made the band look “empty”
-		 * or jump words). Clear inline opacity/transform from older builds / tweens.
-		 */
+		/* Time-based read → swap → read; only the word fades — “We do” stays static in layout (see CSS grid). */
 		gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
+		gsap.set(wordEl, { opacity: 1 });
 		wordEl.textContent = words[0];
-		var lastIdx = null;
-
-		function applyProgress(p) {
-			var nextIdx = Math.min(n - 1, Math.max(0, Math.floor(p * n + 1e-6)));
-			if (lastIdx === null || nextIdx !== lastIdx) {
-				lastIdx = nextIdx;
-				wordEl.textContent = words[nextIdx];
-			}
+		var idx = 0;
+		function swapToNext() {
+			idx = (idx + 1) % n;
+			wordEl.textContent = words[idx];
 		}
-
-		var st = ScrollTrigger.create({
-			trigger: section,
-			start: 'top 88%',
-			end: 'bottom 28%',
-			scrub: 0.65,
-			invalidateOnRefresh: true,
-			onUpdate: function (self) {
-				applyProgress(self.progress);
-			},
-		});
-		applyProgress(typeof st.progress === 'number' ? st.progress : 0);
+		var readHold = 1.22;
+		var fadeOut = 0.12;
+		var fadeIn = 0.16;
+		var tl = gsap.timeline({ repeat: -1 });
+		tl.to({}, { duration: readHold })
+			.to(wordEl, { opacity: 0, duration: fadeOut, ease: 'power1.in' })
+			.call(swapToNext)
+			.to(wordEl, { opacity: 1, duration: fadeIn, ease: 'power1.out' });
 	}
 
 	/**

@@ -3,7 +3,7 @@
   Static preview — not loaded by WordPress. Mirrors page-landing.php structure, classes, and
   oc_landing_default_meta() copy (refresh this file when defaults change).
 
-  Offerings: five cards in order Coaching → Workshops → Talks → Adventures → Adventures — Ghana (slots 1, 5, 6, 2, 3; slot 4 omitted).
+  Offerings: five cards in order Coaching → Workshops → Talks → Experiences → Adventures (slots 1, 5, 6, 2, 3; slot 4 omitted).
 
   Run from this folder:  python3 -m http.server 8765
   Open:  http://localhost:8765/preview.html
@@ -97,9 +97,11 @@
 			<div class="problem__accent-dot" aria-hidden="true"></div>
 			<div class="problem__text problem__text--we-do">
 				<p class="problem__we-do" data-oc-we-do-banner>
-					<span class="problem__we-do-static">We do </span>
-					<span class="problem__we-do-word-wrap" aria-live="polite">
-						<span class="problem__we-do-word problem__accent" data-oc-we-do-word>coaching</span>
+					<span class="problem__we-do-inner">
+						<span class="problem__we-do-static">We do</span>
+						<span class="problem__we-do-word-wrap" aria-live="polite">
+							<span class="problem__we-do-word problem__accent" data-oc-we-do-word>coaching</span>
+						</span>
 					</span>
 				</p>
 			</div>
@@ -142,23 +144,31 @@
 						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
 					</div>
 				</article>
-				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures">
+				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Experiences">
 					<div class="offering-card__media">
-						<img class="offering-card__img" src="assets/site/offering-adventures-uk.png" alt="Adventures" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img" src="assets/site/offering-adventures-uk.png" alt="Experiences" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
-						<h2 class="offering-card__title">Adventures</h2>
-						<div class="offering-card__desc">Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team. Ash Barton Estate, North Devon.</div>
+						<h2 class="offering-card__title">Experiences</h2>
+						<p class="offering-card__location">
+							<span class="offering-card__location-pin"><svg class="offering-card__pin-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 22s7-4.35 7-11a7 7 0 1 0-14 0c0 6.65 7 11 7 11zm0-14.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/></svg></span>
+							<span class="offering-card__location-text">Ash Barton Estate, North Devon</span>
+						</p>
+						<div class="offering-card__desc">Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team.</div>
 						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
 					</div>
 				</article>
-				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures - Ghana">
+				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures">
 					<div class="offering-card__media">
-						<img class="offering-card__img" src="assets/site/offering-ghana-adventures.png" alt="Adventures - Ghana" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img" src="assets/site/offering-ghana-adventures.png" alt="Adventures" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
-						<h2 class="offering-card__title">Adventures - Ghana</h2>
-						<div class="offering-card__desc">Ghana, West Africa. Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.</div>
+						<h2 class="offering-card__title">Adventures</h2>
+						<p class="offering-card__location">
+							<span class="offering-card__location-pin"><svg class="offering-card__pin-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 22s7-4.35 7-11a7 7 0 1 0-14 0c0 6.65 7 11 7 11zm0-14.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/></svg></span>
+							<span class="offering-card__location-text">Ghana, West Africa</span>
+						</p>
+						<div class="offering-card__desc">Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.</div>
 						<p class="offering-card__actions"><a class="btn offering-card__btn" href="#contact">Learn more</a></p>
 					</div>
 				</article>

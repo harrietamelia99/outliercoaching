@@ -137,9 +137,11 @@ while ( have_posts() ) :
 			<div class="problem__accent-dot" aria-hidden="true"></div>
 			<div class="problem__text problem__text--we-do">
 				<p class="problem__we-do" data-oc-we-do-banner>
-					<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?> </span>
-					<span class="problem__we-do-word-wrap" aria-live="polite">
-						<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
+					<span class="problem__we-do-inner">
+						<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?></span>
+						<span class="problem__we-do-word-wrap" aria-live="polite">
+							<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
+						</span>
 					</span>
 				</p>
 			</div>
@@ -159,7 +161,7 @@ while ( have_posts() ) :
 				}
 				$oc_offer_learn_href = ( 0 === strpos( $oc_offer_learn_raw, '#' ) ) ? esc_attr( $oc_offer_learn_raw ) : esc_url( $oc_offer_learn_raw );
 
-				/* Carousel order: Coaching, Workshops, Talks, Adventures (Devon), Adventures — Ghana (meta slots unchanged). */
+				/* Carousel order: Coaching, Workshops, Talks, Experiences (Devon), Adventures (Ghana) (meta slots unchanged). */
 				foreach ( array( 1, 5, 6, 2, 3 ) as $i ) {
 					$offer_title_plain    = oc_get_landing( $post_id, "oc_offer{$i}_title" );
 					$offer_location_plain = trim( (string) oc_get_landing( $post_id, "oc_offer{$i}_location" ) );

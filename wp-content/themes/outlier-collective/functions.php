@@ -46,7 +46,7 @@ function oc_bundled_logo_dark_url() {
  * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
  * Ghana offering card uses `offering-ghana-adventures.png` via oc_offering_card_image_url().
  * Coaching (slot 1) uses `offering-coaching.png` as its bundled fallback.
- * UK / Devon Adventures (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
+ * UK / Devon Experiences (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
  * Talks (slot 6) uses `offering-talks.png` as its bundled fallback.
  * Workshops (slot 5) uses `offering-workshops.png` as its bundled fallback.
  *
@@ -89,7 +89,7 @@ function oc_bundled_site_photo_url( $index ) {
 
 /**
  * Image URL for an offering carousel card (meta slot 1–6).
- * Uses the uploaded attachment when set; bundled fallbacks: slot 1 (Coaching), slot 2 (Adventures UK), slot 3 (Ghana), slot 5 (Workshops), slot 6 (Talks).
+ * Uses the uploaded attachment when set; bundled fallbacks: slot 1 (Coaching), slot 2 (Experiences UK), slot 3 (Ghana), slot 5 (Workshops), slot 6 (Talks).
  *
  * @param int $post_id Landing page post ID.
  * @param int $slot    Offering slot (1, 2, 3, 5, 6 as in meta keys).
@@ -207,12 +207,12 @@ function oc_landing_default_meta() {
 		'oc_offer1_coach_3_text'   => 'You got the job for a reason. Time to lead like it.',
 		'oc_offer1_coach_4_label'  => 'Team Development',
 		'oc_offer1_coach_4_text'   => 'Great teams close the door and sort it out together. Let\'s do that.',
-		'oc_offer2_title'        => 'Adventures',
-		'oc_offer2_location'     => '',
-		'oc_offer2_text'         => 'Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team. Ash Barton Estate, North Devon.',
-		'oc_offer3_title'        => 'Adventures - Ghana',
-		'oc_offer3_location'     => '',
-		'oc_offer3_text'         => 'Ghana, West Africa. Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.',
+		'oc_offer2_title'        => 'Experiences',
+		'oc_offer2_location'     => 'Ash Barton Estate, North Devon',
+		'oc_offer2_text'         => 'Turn your phone off and get outside. At the beach, in the woods, by the fire. Tailor made for your team.',
+		'oc_offer3_title'        => 'Adventures',
+		'oc_offer3_location'     => 'Ghana, West Africa',
+		'oc_offer3_text'         => 'Leave the world you know behind and join Outlier on a one-week adventure of a lifetime.',
 		'oc_offer3_retreat_1_title' => 'Ghana 26',
 		'oc_offer3_retreat_1_text'  => 'Coaching, teaching and leadership in Mankoadze, Ghana.',
 		'oc_offer3_retreat_1_url'   => '',

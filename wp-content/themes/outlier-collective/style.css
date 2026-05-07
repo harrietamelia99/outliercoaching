@@ -492,7 +492,7 @@ html.oc-scroll-smoother #smooth-content {
 	font-style: normal;
 	/* Sentence case from copy (no forced lowercase). */
 	/* Wide measure; type scales up on larger viewports (adventures may wrap — accent via .hero-accent + oc-hero-past). */
-	font-size: clamp(1.85rem, 4.8vw, 3.5rem);
+	font-size: clamp(1.68rem, 4.35vw, 3.2rem);
 	line-height: 1.1;
 	letter-spacing: -0.02em;
 	margin: 0 auto 1.25rem;
@@ -505,7 +505,7 @@ html.oc-scroll-smoother #smooth-content {
 
 @media (min-width: 900px) {
 	.hero__headline {
-		font-size: clamp(2rem, 4.2vw, 4.15rem);
+		font-size: clamp(1.82rem, 3.85vw, 3.85rem);
 		letter-spacing: -0.025em;
 	}
 }
@@ -645,11 +645,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 }
 
 .problem__text--we-do .problem__we-do {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	justify-content: center;
-	gap: 0 0.25em;
+	display: block;
 	max-width: none;
 	margin-bottom: 0;
 	font-family: var(--font-body);
@@ -658,10 +654,25 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	line-height: 1.18;
 	letter-spacing: -0.01em;
 	color: var(--colour-white);
+	text-align: center;
 }
 
-.problem__we-do-static {
-	white-space: pre;
+/* Fixed grid so “We do” stays on one horizontal position; only the word column width is reserved. */
+.problem__we-do-inner {
+	display: inline-grid;
+	grid-template-columns: max-content 13ch;
+	column-gap: 0.28em;
+	align-items: baseline;
+	text-align: left;
+}
+
+.problem__we-do-word-wrap {
+	min-width: 0;
+}
+
+.problem__we-do-word {
+	display: inline-block;
+	will-change: opacity;
 }
 
 .path-journey__trail--hidden {
@@ -679,10 +690,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 .chapter--talks .talks__path-dash {
 	fill: none;
 	stroke: var(--colour-black);
-	stroke-width: 2.25;
+	stroke-width: 2;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-dasharray: 9 13;
+	stroke-dasharray: 4 12;
 }
 
 .chapter--talks .talks__path-start-dot {

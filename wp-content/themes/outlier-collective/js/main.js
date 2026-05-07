@@ -1026,22 +1026,17 @@
 
 		function stepPx() {
 			var card = scroller.querySelector('.offering-card');
-			/* Phone/tablet: one slide per step = card width + flex gap (matches CSS). */
+			/* Phone/tablet: distance between snap positions (full-width slides, gap 0). */
 			if (touchRange()) {
-				var g = 0;
-				try {
-					g = parseFloat(window.getComputedStyle(scroller).gap) || 0;
-				} catch (e) {
-					g = 0;
+				var cards = scroller.querySelectorAll('.offering-card');
+				var step = 0;
+				if (cards.length > 1) {
+					step = Math.round(cards[1].offsetLeft - cards[0].offsetLeft);
 				}
-				var w = 0;
-				if (card) {
-					w = card.getBoundingClientRect().width;
+				if (step < 40) {
+					step = Math.round(scroller.clientWidth);
 				}
-				if (w < 40) {
-					return Math.max(1, Math.round(scroller.clientWidth));
-				}
-				return Math.max(1, Math.round(w + g));
+				return Math.max(1, step);
 			}
 			var gap = 0;
 			try {
@@ -1406,22 +1401,17 @@
 
 		function stepPx() {
 			var card = scroller.querySelector('.testimonial-card');
-			/* Phone/tablet: one slide per step = card width + flex gap (matches CSS). */
+			/* Phone/tablet: distance between snap positions (full-width slides, gap 0). */
 			if (touchRange()) {
-				var g = 0;
-				try {
-					g = parseFloat(window.getComputedStyle(scroller).gap) || 0;
-				} catch (e) {
-					g = 0;
+				var cards = scroller.querySelectorAll('.testimonial-card');
+				var step = 0;
+				if (cards.length > 1) {
+					step = Math.round(cards[1].offsetLeft - cards[0].offsetLeft);
 				}
-				var w = 0;
-				if (card) {
-					w = card.getBoundingClientRect().width;
+				if (step < 40) {
+					step = Math.round(scroller.clientWidth);
 				}
-				if (w < 40) {
-					return Math.max(1, Math.round(scroller.clientWidth));
-				}
-				return Math.max(1, Math.round(w + g));
+				return Math.max(1, step);
 			}
 			var gap = 0;
 			try {

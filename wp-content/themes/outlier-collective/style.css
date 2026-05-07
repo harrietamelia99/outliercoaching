@@ -1298,10 +1298,10 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	outline-offset: 3px;
 }
 
-/* Phone / tablet: one card per view + gap between slides (basis shrinks by gap so card+gap fits the track — no next-card sliver). */
+/* Phone / tablet: one full-width slide per view; start snap (center snap shows the next/prev card edges). */
 @media (max-width: 1024px) {
 	.chapter--offerings .offerings__scroller {
-		gap: 1.5rem;
+		gap: 0;
 		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
 		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
@@ -1309,12 +1309,13 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	}
 
 	.chapter--offerings .offerings__scroller .offering-card {
-		--offerings-card-width: calc(100% - 1.5rem);
-		flex: 0 0 var(--offerings-card-width);
-		width: var(--offerings-card-width);
-		min-width: var(--offerings-card-width);
-		max-width: var(--offerings-card-width);
-		scroll-snap-align: center;
+		--offerings-card-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		scroll-snap-align: start;
+		scroll-snap-stop: always;
 	}
 }
 
@@ -1496,10 +1497,10 @@ html.oc-offerings-scroll-drive .offering-card {
 	scroll-snap-align: start;
 }
 
-/* Phone / tablet: one review per view + gap (card basis shrinks by gap so card+gap fits — no next-card sliver). */
+/* Phone / tablet: one full-width review per view; start snap so adjacent quotes stay off-screen. */
 @media (max-width: 1024px) {
 	.chapter--testimonials .testimonials__scroller {
-		gap: 1.5rem;
+		gap: 0;
 		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
 		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
@@ -1507,12 +1508,13 @@ html.oc-offerings-scroll-drive .offering-card {
 	}
 
 	.chapter--testimonials .testimonials__scroller .testimonial-card {
-		--testimonials-card-width: calc(100% - 1.5rem);
-		flex: 0 0 var(--testimonials-card-width);
-		width: var(--testimonials-card-width);
-		min-width: var(--testimonials-card-width);
-		max-width: var(--testimonials-card-width);
-		scroll-snap-align: center;
+		--testimonials-card-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+		min-width: 0;
+		max-width: 100%;
+		scroll-snap-align: start;
+		scroll-snap-stop: always;
 	}
 }
 

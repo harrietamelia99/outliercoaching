@@ -197,10 +197,13 @@ while ( have_posts() ) :
 						<?php if ( count( $oc_offer_slideshow ) > 1 ) : ?>
 							<?php
 							foreach ( $oc_offer_slideshow as $oc_si => $oc_slide_url ) {
+								/* Second Talks slide only: tall subject — bias crop toward top of photo so the head is not clipped. */
+								$oc_slide_extra_class = ( 6 === (int) $i && 1 === (int) $oc_si ) ? ' offering-card__img--slideshow-focus-top' : '';
 								printf(
-									'<img class="offering-card__img offering-card__img--slideshow" src="%1$s" alt="" width="960" height="540" decoding="async" loading="%2$s" />',
+									'<img class="offering-card__img offering-card__img--slideshow%3$s" src="%1$s" alt="" width="960" height="540" decoding="async" loading="%2$s" />',
 									esc_url( $oc_slide_url ),
-									0 === (int) $oc_si ? 'eager' : 'lazy'
+									0 === (int) $oc_si ? 'eager' : 'lazy',
+									esc_attr( $oc_slide_extra_class )
 								);
 							}
 							?>

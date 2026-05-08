@@ -64,8 +64,9 @@
 			/*
 			 * Pins must use transform inside #smooth-content; default pinType "fixed" breaks
 			 * against the smoothed wrapper and scrubs sit at the wrong progress.
+			 * anticipatePin: reduces pin edge flashes when handing off between stacked triggers.
 			 */
-			ScrollTrigger.defaults({ pinType: 'transform' });
+			ScrollTrigger.defaults({ pinType: 'transform', anticipatePin: 1 });
 			var smoother = ScrollSmoother.create({
 				wrapper: wrap,
 				content: content,
@@ -358,6 +359,39 @@
 		initContact();
 		initFooter();
 		initCursor();
+		initDebouncedScrollTriggerRefreshOnImages();
+	}
+
+	/**
+	 * Lazy images (e.g. offering slideshow frames) can finish decoding after first ST measure —
+	 * one debounced refresh avoids stuck scrub distances / pin end math.
+	 */
+	function initDebouncedScrollTriggerRefreshOnImages() {
+		if (reduceMotion || typeof ScrollTrigger === 'undefined') {
+			return;
+		}
+		var root = doc.getElementById('smooth-content');
+		if (!root) {
+			return;
+		}
+		var debounceMs = 220;
+		var t = null;
+		function schedule() {
+			if (t != null) {
+				clearTimeout(t);
+			}
+			t = setTimeout(function () {
+				t = null;
+				ScrollTrigger.refresh();
+			}, debounceMs);
+		}
+		root.querySelectorAll('img').forEach(function (img) {
+			if (img.complete && img.naturalWidth > 0) {
+				return;
+			}
+			img.addEventListener('load', schedule, { passive: true });
+			img.addEventListener('error', schedule, { passive: true });
+		});
 	}
 
 	function runLandingAfterLoad() {
@@ -1667,8 +1701,14 @@
 				trigger: ch,
 				/* Was top 72% — fired late; start as soon as the band enters view. */
 				start: 'top 92%',
-				toggleActions: 'play none none reverse',
+				/*
+				 * Do not reverse on scroll-up — with ScrollSmoother momentum, leaveBack fires in a
+				 * way that wipes headline/CTA (clip + opacity) and feels like broken scrolling.
+				 */
+				toggleActions: 'play none none none',
+				once: true,
 				fastScrollEnd: true,
+				invalidateOnRefresh: true,
 			},
 		});
 

@@ -61,6 +61,11 @@ html {
 	scroll-behavior: smooth;
 }
 
+/* ScrollSmoother already eases scroll; CSS smooth-scroll fights it and can feel juddery. */
+html.oc-scroll-smoother {
+	scroll-behavior: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
@@ -1185,6 +1190,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 
 .offering-card__media--slideshow .offering-card__img--slideshow:first-child {
 	opacity: 1;
+}
+
+/* Single slide (Talks #2 — tall stage shot): bias `object-fit: cover` toward top of photo so the head is not cropped. */
+.offering-card__img--slideshow.offering-card__img--slideshow-focus-top {
+	object-position: center 0%;
 }
 
 .offering-card:hover .offering-card__media--slideshow .offering-card__img--slideshow {

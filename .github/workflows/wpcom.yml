@@ -1,0 +1,26 @@
+# WordPress.com GitHub Deployments (Advanced mode).
+# Artifact name MUST be "wpcom". See:
+# https://wordpress.com/support/github-deployments/workflow-recipes/
+
+name: Deploy Outlier theme
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  Publish-Website:
+    name: Publish-Website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload theme artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wpcom
+          path: wp-content/themes/outlier-collective
+          if-no-files-found: error
+          retention-days: 1

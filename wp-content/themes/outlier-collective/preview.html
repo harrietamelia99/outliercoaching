@@ -329,7 +329,19 @@
 
 <div class="custom-cursor" id="oc-cursor" aria-hidden="true"><span class="custom-cursor__inner"></span></div>
 
-<p class="preview-banner">Static preview — run <code>python3 -m http.server 8765</code> from this folder, then open <code>http://localhost:8765/preview.html</code> (file:// may block scripts).</p>
+<p class="preview-banner" id="oc-preview-banner">Static preview — run <code>python3 -m http.server 8765</code> from this folder, then open <code>http://localhost:8765/preview.html</code> (file:// may block scripts).</p>
+
+<script>
+	(function () {
+		var h = window.location && window.location.hostname;
+		if (h && (h.endsWith('.vercel.app') || h === 'vercel.app')) {
+			var b = document.getElementById('oc-preview-banner');
+			if (b) {
+				b.remove();
+			}
+		}
+	})();
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>

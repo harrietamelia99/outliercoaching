@@ -1171,6 +1171,31 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
 }
 
+/* Adventures (slot 3, bundled): stacked frames, crossfaded in main.js */
+.offering-card__media--adventure-slideshow .offering-card__img--slideshow {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	opacity: 0;
+	transition: none;
+}
+
+.offering-card__media--adventure-slideshow .offering-card__img--slideshow:first-child {
+	opacity: 1;
+}
+
+.offering-card:hover .offering-card__media--adventure-slideshow .offering-card__img--slideshow {
+	transform: none;
+}
+
+.offering-card:hover .offering-card__media--adventure-slideshow {
+	transform: scale(1.04);
+	transition: transform 0.5s ease;
+}
+
 .offering-card__img {
 	width: 100%;
 	height: 100%;
@@ -2108,6 +2133,10 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 	}
 
 	.offering-card:hover .offering-card__img {
+		transform: none !important;
+	}
+
+	.offering-card:hover .offering-card__media--adventure-slideshow {
 		transform: none !important;
 	}
 

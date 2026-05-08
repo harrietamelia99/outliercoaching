@@ -44,7 +44,7 @@ function oc_bundled_logo_dark_url() {
 
 /**
  * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
- * Ghana offering card uses `offering-ghana-adventures.png` via oc_offering_card_image_url().
+ * Ghana offering card uses a bundled six-image slideshow (see oc_offer3_adventure_slideshow_urls()) when no custom image is set; legacy single file `offering-ghana-adventures.png` remains the fallback URL from oc_offering_card_image_url() when slideshow files are missing.
  * Coaching (slot 1) uses `offering-coaching.png` as its bundled fallback.
  * UK / Devon Experiences (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
  * Talks (slot 6) uses `offering-talks.png` as its bundled fallback.
@@ -125,6 +125,47 @@ function oc_offering_card_image_url( $post_id, $slot ) {
 		}
 	}
 	return '';
+}
+
+/**
+ * Whether the landing page has an uploaded image for an offering slot.
+ *
+ * @param int $post_id Post ID.
+ * @param int $slot    Meta slot 1–6.
+ */
+function oc_offering_slot_has_uploaded_image( $post_id, $slot ) {
+	$slot = (int) $slot;
+	if ( $slot < 1 || $slot > 6 ) {
+		return false;
+	}
+	$id = (int) get_post_meta( (int) $post_id, "oc_offer{$slot}_img", true );
+	return $id > 0;
+}
+
+/**
+ * Versioned URLs for the Adventures card bundled slideshow (slot 3), in display order.
+ *
+ * @return string[]
+ */
+function oc_offer3_adventure_slideshow_urls() {
+	$files = array(
+		'offering-adventure-slide-01.png',
+		'offering-adventure-slide-02.png',
+		'offering-adventure-slide-03.png',
+		'offering-adventure-slide-04.png',
+		'offering-adventure-slide-05.png',
+		'offering-adventure-slide-06.png',
+	);
+	$out  = array();
+	$base = get_template_directory() . '/assets/site/';
+	$uri  = get_template_directory_uri() . '/assets/site/';
+	foreach ( $files as $file ) {
+		$path = $base . $file;
+		if ( is_readable( $path ) ) {
+			$out[] = add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri . $file );
+		}
+	}
+	return $out;
 }
 
 /**

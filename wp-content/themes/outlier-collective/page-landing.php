@@ -181,10 +181,24 @@ while ( have_posts() ) :
 					}
 					$offer_body = oc_get_landing( $post_id, "oc_offer{$i}_text" );
 					$offer_img_url = oc_offering_card_image_url( $post_id, $i );
+					$oc_adv_slideshow = array();
+					if ( 3 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 3 ) ) {
+						$oc_adv_slideshow = oc_offer3_adventure_slideshow_urls();
+					}
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">
-					<div class="offering-card__media">
-						<?php if ( '' !== $offer_img_url ) : ?>
+					<div class="offering-card__media<?php echo count( $oc_adv_slideshow ) > 1 ? ' offering-card__media--adventure-slideshow' : ''; ?>"<?php echo count( $oc_adv_slideshow ) > 1 ? ' data-oc-adventure-slideshow' : ''; ?><?php echo count( $oc_adv_slideshow ) > 1 ? ' role="img" aria-label="' . esc_attr( $offer_img_alt ) . '"' : ''; ?>>
+						<?php if ( count( $oc_adv_slideshow ) > 1 ) : ?>
+							<?php
+							foreach ( $oc_adv_slideshow as $oc_si => $oc_slide_url ) {
+								printf(
+									'<img class="offering-card__img offering-card__img--slideshow" src="%1$s" alt="" width="960" height="540" decoding="async" loading="%2$s" />',
+									esc_url( $oc_slide_url ),
+									0 === (int) $oc_si ? 'eager' : 'lazy'
+								);
+							}
+							?>
+						<?php elseif ( '' !== $offer_img_url ) : ?>
 						<img
 							class="offering-card__img"
 							src="<?php echo esc_url( $offer_img_url ); ?>"

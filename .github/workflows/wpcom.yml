@@ -45,3 +45,16 @@ jobs:
           path: outlier-coaching-theme.zip
           if-no-files-found: error
           retention-days: 14
+
+      - name: WordPress upload hint (read this if install failed)
+        run: |
+          {
+            echo '### Install this file in WordPress'
+            echo ''
+            echo 'GitHub wraps the download in **another** zip. After you download **outlier-coaching-theme-zip**:'
+            echo ''
+            echo '1. **Unzip** that download on your computer (double-click).'
+            echo '2. Upload **`outlier-coaching-theme.zip`** — the file *inside* — in **Appearance → Install new theme**.'
+            echo ''
+            echo 'Do **not** upload the outer GitHub zip to WordPress (WordPress will say the stylesheet is missing).'
+          } >> "$GITHUB_STEP_SUMMARY"

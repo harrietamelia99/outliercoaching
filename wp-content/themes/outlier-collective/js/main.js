@@ -315,7 +315,7 @@
 		initOfferingsLabel();
 		initOfferingsHorizontalScroll();
 		initOfferingsArrowNav();
-		initAdventureCardSlideshow();
+		initOfferingSlideshows();
 		/*
 		 * Offerings card STs first; Philosophy uses the same pin + scrub + SplitText/SplitType line
 		 * reveal as Recognition — run it in the same rAF tail + refresh so triggers below offerings
@@ -1135,9 +1135,9 @@
 		onResizeOrMq();
 	}
 
-	/** Adventures card (bundled): crossfade through stacked images in `[data-oc-adventure-slideshow]`. */
-	function initAdventureCardSlideshow() {
-		doc.querySelectorAll('[data-oc-adventure-slideshow]').forEach(function (wrap) {
+	/** Coaching + Adventures cards (bundled): crossfade stacked images in `[data-oc-offering-slideshow]`. */
+	function initOfferingSlideshows() {
+		doc.querySelectorAll('[data-oc-offering-slideshow]').forEach(function (wrap) {
 			var imgs = wrap.querySelectorAll('.offering-card__img--slideshow');
 			if (imgs.length < 2 || reduceMotion || typeof gsap === 'undefined') {
 				return;

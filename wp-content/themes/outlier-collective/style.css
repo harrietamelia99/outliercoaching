@@ -1171,8 +1171,8 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
 }
 
-/* Adventures (slot 3, bundled): stacked frames, crossfaded in main.js */
-.offering-card__media--adventure-slideshow .offering-card__img--slideshow {
+/* Coaching + Adventures (bundled, slots 1 & 3): stacked frames, crossfaded in main.js */
+.offering-card__media--slideshow .offering-card__img--slideshow {
 	position: absolute;
 	inset: 0;
 	width: 100%;
@@ -1183,15 +1183,15 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	transition: none;
 }
 
-.offering-card__media--adventure-slideshow .offering-card__img--slideshow:first-child {
+.offering-card__media--slideshow .offering-card__img--slideshow:first-child {
 	opacity: 1;
 }
 
-.offering-card:hover .offering-card__media--adventure-slideshow .offering-card__img--slideshow {
+.offering-card:hover .offering-card__media--slideshow .offering-card__img--slideshow {
 	transform: none;
 }
 
-.offering-card:hover .offering-card__media--adventure-slideshow {
+.offering-card:hover .offering-card__media--slideshow {
 	transform: scale(1.04);
 	transition: transform 0.5s ease;
 }
@@ -2136,7 +2136,7 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 		transform: none !important;
 	}
 
-	.offering-card:hover .offering-card__media--adventure-slideshow {
+	.offering-card:hover .offering-card__media--slideshow {
 		transform: none !important;
 	}
 

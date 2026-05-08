@@ -7,7 +7,7 @@
 
   Run from this folder:  python3 -m http.server 8765
   Open:  http://localhost:8765/preview.html
-  Bundled photography: assets/site/photo-1.jpg … photo-6.png (hero); offering-coaching.png, offering-workshops.png, offering-talks.png, offering-adventures-uk.png; Adventures card uses offering-adventure-slide-01.png … slide-06.png when previewing the slideshow.
+  Bundled photography: … ; Coaching + Adventures cards use offering-coaching-slide-01…06 and offering-adventure-slide-01…06 in preview when simulating slideshows.
   Optional: add js/vendor/ScrollSmoother.min.js + SplitText.min.js (GSAP Club) before main.js for smoother parity with production.
 -->
 <html lang="en-GB" class="no-oc-js">
@@ -115,8 +115,13 @@
 		<div class="offerings__viewport" role="region" aria-labelledby="oc-offerings-label">
 			<div id="oc-offerings-scroller" class="offerings__scroller" tabindex="0">
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Coaching">
-					<div class="offering-card__media">
-						<img class="offering-card__img" src="assets/site/offering-coaching.png" alt="Coaching" width="960" height="540" decoding="async" loading="eager" />
+					<div class="offering-card__media offering-card__media--slideshow" data-oc-offering-slideshow role="img" aria-label="Coaching">
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-01.png" alt="" width="960" height="540" decoding="async" loading="eager" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-02.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-03.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-04.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-05.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-coaching-slide-06.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title">Coaching</h2>
@@ -159,7 +164,7 @@
 					</div>
 				</article>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Adventures">
-					<div class="offering-card__media offering-card__media--adventure-slideshow" data-oc-adventure-slideshow role="img" aria-label="Adventures, Ghana, West Africa">
+					<div class="offering-card__media offering-card__media--slideshow" data-oc-offering-slideshow role="img" aria-label="Adventures, Ghana, West Africa">
 						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-adventure-slide-01.png" alt="" width="960" height="540" decoding="async" loading="eager" />
 						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-adventure-slide-02.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
 						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-adventure-slide-03.png" alt="" width="960" height="540" decoding="async" loading="lazy" />

@@ -184,6 +184,8 @@ while ( have_posts() ) :
 					$oc_offer_slideshow = array();
 					if ( 1 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 1 ) ) {
 						$oc_offer_slideshow = oc_offer1_coaching_slideshow_urls();
+					} elseif ( 2 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 2 ) ) {
+						$oc_offer_slideshow = oc_offer2_experiences_slideshow_urls();
 					} elseif ( 3 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 3 ) ) {
 						$oc_offer_slideshow = oc_offer3_adventure_slideshow_urls();
 					}

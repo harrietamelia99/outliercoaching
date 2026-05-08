@@ -7,7 +7,7 @@
 
   Run from this folder:  python3 -m http.server 8765
   Open:  http://localhost:8765/preview.html
-  Bundled photography: … ; Coaching + Adventures cards use offering-coaching-slide-01…06 and offering-adventure-slide-01…06 in preview when simulating slideshows.
+  Bundled photography: … ; Coaching / Experiences / Adventures use offering-*-slide-*.png sequences in preview.
   Optional: add js/vendor/ScrollSmoother.min.js + SplitText.min.js (GSAP Club) before main.js for smoother parity with production.
 -->
 <html lang="en-GB" class="no-oc-js">
@@ -150,8 +150,11 @@
 					</div>
 				</article>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="Experiences">
-					<div class="offering-card__media">
-						<img class="offering-card__img" src="assets/site/offering-adventures-uk.png" alt="Experiences" width="960" height="540" decoding="async" loading="lazy" />
+					<div class="offering-card__media offering-card__media--slideshow" data-oc-offering-slideshow role="img" aria-label="Experiences, North Devon">
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-experience-slide-01.png" alt="" width="960" height="540" decoding="async" loading="eager" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-experience-slide-02.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-experience-slide-03.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
+						<img class="offering-card__img offering-card__img--slideshow" src="assets/site/offering-experience-slide-04.png" alt="" width="960" height="540" decoding="async" loading="lazy" />
 					</div>
 					<div class="offering-card__body">
 						<h2 class="offering-card__title">Experiences</h2>

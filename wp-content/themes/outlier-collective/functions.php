@@ -46,7 +46,7 @@ function oc_bundled_logo_dark_url() {
  * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
  * Ghana offering card uses a bundled six-image slideshow (see oc_offer3_adventure_slideshow_urls()) when no custom image is set; legacy single file `offering-ghana-adventures.png` remains the fallback URL from oc_offering_card_image_url() when slideshow files are missing.
  * Coaching (slot 1) uses a bundled six-image slideshow when no custom image is set; `offering-coaching.png` remains the single-image fallback from oc_offering_card_image_url().
- * UK / Devon Experiences (slot 2) uses `offering-adventures-uk.png` as its bundled fallback.
+ * UK / Devon Experiences (slot 2) uses a bundled multi-image slideshow when no custom image is set; `offering-adventures-uk.png` remains the single-image fallback from oc_offering_card_image_url().
  * Talks (slot 6) uses `offering-talks.png` as its bundled fallback.
  * Workshops (slot 5) uses `offering-workshops.png` as its bundled fallback.
  *
@@ -181,6 +181,30 @@ function oc_offer1_coaching_slideshow_urls() {
 		'offering-coaching-slide-04.png',
 		'offering-coaching-slide-05.png',
 		'offering-coaching-slide-06.png',
+	);
+	$out  = array();
+	$base = get_template_directory() . '/assets/site/';
+	$uri  = get_template_directory_uri() . '/assets/site/';
+	foreach ( $files as $file ) {
+		$path = $base . $file;
+		if ( is_readable( $path ) ) {
+			$out[] = add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri . $file );
+		}
+	}
+	return $out;
+}
+
+/**
+ * Versioned URLs for the Experiences card bundled slideshow (slot 2), in display order.
+ *
+ * @return string[]
+ */
+function oc_offer2_experiences_slideshow_urls() {
+	$files = array(
+		'offering-experience-slide-01.png',
+		'offering-experience-slide-02.png',
+		'offering-experience-slide-03.png',
+		'offering-experience-slide-04.png',
 	);
 	$out  = array();
 	$base = get_template_directory() . '/assets/site/';

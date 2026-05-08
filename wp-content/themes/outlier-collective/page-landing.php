@@ -132,22 +132,22 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<section class="chapter chapter--problem" data-oc-chapter="problem" aria-label="<?php esc_attr_e( 'Recognition', 'outlier-collective' ); ?>">
+	<section class="chapter chapter--problem" data-oc-chapter="problem" aria-label="<?php esc_attr_e( 'Introduction', 'outlier-collective' ); ?>">
 		<div class="chapter__inner">
-			<div class="problem__we-do-band">
-				<div class="problem__text problem__text--we-do">
-					<p class="problem__we-do" data-oc-we-do-banner>
-						<span class="problem__we-do-stack">
-							<span class="problem__we-do-dot-wrap" aria-hidden="true">
-								<span class="problem__accent-dot problem__accent-dot--we-do"></span>
-							</span>
-							<span class="problem__we-do-inner">
-								<span class="problem__we-do-static"><?php esc_html_e( 'We do', 'outlier-collective' ); ?></span>
-								<span class="problem__we-do-word-wrap" aria-live="polite">
-									<span class="problem__we-do-word problem__accent" data-oc-we-do-word><?php esc_html_e( 'coaching', 'outlier-collective' ); ?></span>
-								</span>
-							</span>
-						</span>
+			<?php
+			$oc_intent_heading = (string) oc_get_landing( $post_id, 'oc_problem_intent_heading' );
+			$oc_intent_phrases = oc_problem_intent_phrases_list( $post_id );
+			$oc_intent_first   = isset( $oc_intent_phrases[0] ) ? $oc_intent_phrases[0] : 'Coaching';
+			$oc_intent_json    = wp_json_encode( $oc_intent_phrases, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+			if ( ! is_string( $oc_intent_json ) ) {
+				$oc_intent_json = '[]';
+			}
+			?>
+			<div class="problem__intent-band">
+				<div class="problem__intent" data-oc-intent-banner data-oc-intent-phrases="<?php echo esc_attr( $oc_intent_json ); ?>">
+					<p class="problem__intent-heading"><?php echo esc_html( oc_soft_break_widow( $oc_intent_heading ) ); ?></p>
+					<p class="problem__intent-line" aria-live="polite">
+						<span class="problem__intent-word problem__accent" data-oc-intent-word><?php echo esc_html( $oc_intent_first ); ?></span>
 					</p>
 				</div>
 			</div>
@@ -170,7 +170,8 @@ while ( have_posts() ) :
 				/* Carousel order: Coaching, Workshops, Talks, Experiences (Devon), Adventures (Ghana) (meta slots unchanged). */
 				foreach ( array( 1, 5, 6, 2, 3 ) as $i ) {
 					$offer_title_plain    = oc_get_landing( $post_id, "oc_offer{$i}_title" );
-					$offer_location_plain = trim( (string) oc_get_landing( $post_id, "oc_offer{$i}_location" ) );
+					$location_allowed     = ( 2 === (int) $i || 3 === (int) $i );
+					$offer_location_plain = $location_allowed ? trim( (string) oc_get_landing( $post_id, "oc_offer{$i}_location" ) ) : '';
 					$offer_img_alt        = (string) $offer_title_plain;
 					if ( '' !== $offer_location_plain ) {
 						$offer_img_alt .= ', ' . $offer_location_plain;

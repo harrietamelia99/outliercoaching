@@ -643,83 +643,43 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	color: var(--colour-orange);
 }
 
-.chapter--problem .problem__text--we-do .problem__we-do {
-	margin-bottom: 0;
-}
-
-.problem__we-do-band {
+.problem__intent-band {
 	width: 100%;
 	max-width: 100%;
 	box-sizing: border-box;
 }
 
-.problem__text--we-do {
+.problem__intent {
 	width: 100%;
-	max-width: 100%;
-	box-sizing: border-box;
-}
-
-.problem__text--we-do .problem__we-do {
-	display: block;
-	width: 100%;
-	max-width: none;
-	margin: 0;
-	padding: 0;
+	max-width: min(40rem, 100%);
+	margin-inline: auto;
+	padding-inline: 0;
 	box-sizing: border-box;
 	text-align: center;
+}
+
+.problem__intent-heading {
 	font-family: var(--font-body);
-	font-weight: 500;
-	font-size: clamp(1.35rem, 3.5vw, 2.15rem);
-	line-height: 1.18;
-	letter-spacing: -0.01em;
+	font-weight: 600;
+	font-size: clamp(1.2rem, 3.2vw, 1.95rem);
+	line-height: 1.22;
+	letter-spacing: -0.02em;
 	color: var(--colour-white);
+	margin: 0 0 clamp(0.65rem, 2vw, 1rem);
+	text-wrap: pretty;
 }
 
-/* Stack = full-phrase width; dot row spans that width so the marker centres on the whole sentence. */
-.problem__we-do-stack {
-	display: inline-flex;
-	flex-direction: column;
-	align-items: stretch;
-	width: max-content;
-	max-width: min(100%, calc(100vw - 2 * var(--section-pad-x, 1.25rem)));
-	box-sizing: border-box;
-	vertical-align: top;
+.problem__intent-line {
+	margin: 0;
+	min-height: 1.35em;
+	font-family: var(--font-body);
+	font-weight: 600;
+	font-size: clamp(1.15rem, 3vw, 1.75rem);
+	line-height: 1.2;
+	letter-spacing: -0.02em;
 }
 
-.problem__we-do-dot-wrap {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	margin-bottom: clamp(0.35rem, 1vw, 0.55rem);
-	line-height: 0;
-}
-
-/* Phrase row: fixed-width grid — “We do” stays put; only the orange slot’s text changes (no re-centering). */
-.problem__we-do-inner {
-	display: grid;
-	grid-template-columns: max-content 1fr;
-	align-items: baseline;
-	column-gap: 0.22em;
-	width: min(100%, 40ch);
-	max-width: 100%;
-	box-sizing: border-box;
-	margin-inline: auto;
-	white-space: nowrap;
-}
-
-.problem__we-do-static {
-	justify-self: end;
-	text-align: right;
-}
-
-.problem__we-do-word-wrap {
-	display: block;
-	min-width: 0;
-	text-align: left;
-	justify-self: start;
-}
-
-.problem__we-do-word {
+.problem__intent-word {
 	display: inline-block;
 	will-change: opacity;
 }
@@ -1378,18 +1338,14 @@ html.oc-offerings-scroll-drive .offering-card {
 	padding-block: clamp(2rem, 4.5vw, 3.5rem);
 }
 
-/* “We do …” band: taller strip — avoid flex on .chapter--problem (it shrink-wraps .chapter__inner and drags copy left). */
-.chapter--problem:has([data-oc-we-do-banner]) {
+/* Intro band (army): taller strip — avoid flex on .chapter--problem (it shrink-wraps .chapter__inner and drags copy left). */
+.chapter--problem:has([data-oc-intent-banner]) {
 	padding-block: clamp(4.5rem, 12vw, 7.5rem);
 }
 
 .chapter--problem .problem__accent-dot,
 .chapter--philosophy .problem__accent-dot {
 	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
-}
-
-.chapter--problem .problem__accent-dot.problem__accent-dot--we-do {
-	margin: 0;
 }
 
 .chapter--problem .problem__text p,

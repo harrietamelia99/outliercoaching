@@ -574,13 +574,38 @@
 		lineDur: 0.16,
 	};
 
-	function initWeDoBanner(section) {
-		var banner = section.querySelector('[data-oc-we-do-banner]');
-		var wordEl = section.querySelector('[data-oc-we-do-word]');
+	function initIntentRotator(section) {
+		var banner = section.querySelector('[data-oc-intent-banner]');
+		var wordEl = section.querySelector('[data-oc-intent-word]');
 		if (!banner || !wordEl) {
 			return;
 		}
-		var words = ['coaching', 'workshops', 'talks', 'adventures', 'experiences'];
+		var words = [];
+		var raw = banner.getAttribute('data-oc-intent-phrases');
+		if (raw) {
+			try {
+				var parsed = JSON.parse(raw);
+				if (Array.isArray(parsed)) {
+					parsed.forEach(function (w) {
+						if (typeof w === 'string' && w.trim() !== '') {
+							words.push(w.trim());
+						}
+					});
+				}
+			} catch (e) {
+				words = [];
+			}
+		}
+		if (!words.length) {
+			words = [
+				'Coaching',
+				'Talks & Workshops',
+				'Leadership Development',
+				'Team Building',
+				'Experiences',
+				'Adventures',
+			];
+		}
 		var n = words.length;
 		if (reduceMotion) {
 			gsap.set([banner, wordEl], { clearProps: 'opacity,transform' });
@@ -720,8 +745,8 @@
 		if (!problem) {
 			return;
 		}
-		if (problem.querySelector('[data-oc-we-do-banner]')) {
-			initWeDoBanner(problem);
+		if (problem.querySelector('[data-oc-intent-banner]')) {
+			initIntentRotator(problem);
 			return;
 		}
 		initPinnedAccentParagraphs(problem, OC_PINNED_ACCENT_LINE_OPTS);

@@ -180,10 +180,8 @@ function oc_landing_default_meta() {
 		'oc_hero_cta_text'       => "Let's begin",
 		'oc_hero_cta_url'        => '#contact',
 
-		'oc_problem_s1'          => 'The change you want that hasn\'t happened yet.',
-		'oc_problem_s2'          => 'We help you make it happen.',
-		'oc_problem_s3'          => 'Stay and thrive or leave well.',
-		'oc_problem_orange_word' => 'thrive',
+		'oc_problem_intent_heading'   => 'We work with people who want something to be different.',
+		'oc_problem_intent_rotations' => "Coaching\nTalks & Workshops\nLeadership Development\nTeam Building\nExperiences\nAdventures",
 
 		'oc_path_intro'          => 'We will find you where you are and walk with you where you\'re going.',
 
@@ -197,7 +195,7 @@ function oc_landing_default_meta() {
 		'oc_step4_desc'          => '',
 
 		'oc_offer1_title'        => 'Coaching',
-		'oc_offer1_location'     => 'Anywhere',
+		'oc_offer1_location'     => '',
 		'oc_offer1_text'         => 'One to one and confidential. Online or in person with a qualified coach.',
 		'oc_offer1_coach_1_label'  => 'Life Design',
 		'oc_offer1_coach_1_text'   => 'Here and now. For people who want something different and are here to find it.',
@@ -224,10 +222,10 @@ function oc_landing_default_meta() {
 		'oc_offer3_retreat_3_url'   => '',
 		'oc_offer3_pullquote'      => 'It was an incredible experience. A real shift in focus on what matters.',
 		'oc_offer5_title'        => 'Workshops',
-		'oc_offer5_location'     => 'Anywhere',
+		'oc_offer5_location'     => '',
 		'oc_offer5_text'         => 'Help your team thrive as individuals and a collective. We come to you.',
 		'oc_offer6_title'        => 'Talks',
-		'oc_offer6_location'     => 'Anywhere',
+		'oc_offer6_location'     => '',
 		'oc_offer6_text'         => 'We do talks on topics we care about. Leadership, change and getting it wrong.',
 		'oc_offerings_learn_more_url' => '#contact',
 
@@ -309,6 +307,36 @@ function oc_soft_break_widow( $text ) {
 	}
 	$last = array_pop( $words );
 	return implode( ' ', $words ) . "\xc2\xa0" . $last;
+}
+
+/**
+ * Lines for the army-band rotating orange phrases (one phrase per line in meta).
+ *
+ * @param int $post_id Post ID.
+ * @return string[] Non-empty trimmed lines.
+ */
+function oc_problem_intent_phrases_list( $post_id ) {
+	$raw   = (string) oc_get_landing( $post_id, 'oc_problem_intent_rotations' );
+	$lines = preg_split( '/\r\n|\r|\n/', $raw );
+	$out   = array();
+	foreach ( $lines as $line ) {
+		$t = trim( $line );
+		if ( $t !== '' ) {
+			$out[] = $t;
+		}
+	}
+	if ( ! empty( $out ) ) {
+		return $out;
+	}
+	$defaults = oc_landing_default_meta();
+	$fallback = isset( $defaults['oc_problem_intent_rotations'] ) ? (string) $defaults['oc_problem_intent_rotations'] : '';
+	foreach ( preg_split( '/\r\n|\r|\n/', $fallback ) as $line ) {
+		$t = trim( $line );
+		if ( $t !== '' ) {
+			$out[] = $t;
+		}
+	}
+	return $out;
 }
 
 /**
@@ -661,10 +689,8 @@ function oc_landing_meta_keys() {
 		'oc_hero_subhead',
 		'oc_hero_cta_text',
 		'oc_hero_cta_url',
-		'oc_problem_s1',
-		'oc_problem_s2',
-		'oc_problem_s3',
-		'oc_problem_orange_word',
+		'oc_problem_intent_heading',
+		'oc_problem_intent_rotations',
 		'oc_path_intro',
 		'oc_step1_label',
 		'oc_step1_desc',
@@ -908,14 +934,16 @@ function oc_render_landing_meta_box( $post ) {
 	oc_field_text( 'oc_hero_cta_url', __( 'Hero button URL', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_hero_cta_url' ), 'url' );
 	echo '</fieldset>';
 
-	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Chapter 2 — The problem', 'outlier-collective' ) . '</strong></legend>';
-	oc_field_textarea( 'oc_problem_s1', __( 'Sentence 1', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_problem_s1' ) );
-	oc_field_textarea( 'oc_problem_s2', __( 'Sentence 2', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_problem_s2' ) );
-	oc_field_textarea( 'oc_problem_s3', __( 'Sentence 3', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_problem_s3' ) );
-	oc_field_text(
-		'oc_problem_orange_word',
-		__( 'Orange accent — single word or short fragment (appears inside sentence 3)', 'outlier-collective' ),
-		oc_get_landing( $post->ID, 'oc_problem_orange_word' )
+	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Chapter 2 — Intro band (army)', 'outlier-collective' ) . '</strong></legend>';
+	oc_field_textarea(
+		'oc_problem_intent_heading',
+		__( 'Static heading (white)', 'outlier-collective' ),
+		oc_get_landing( $post->ID, 'oc_problem_intent_heading' )
+	);
+	oc_field_textarea(
+		'oc_problem_intent_rotations',
+		__( 'Rotating orange line — one phrase per line (cycles in order)', 'outlier-collective' ),
+		oc_get_landing( $post->ID, 'oc_problem_intent_rotations' )
 	);
 	echo '</fieldset>';
 
@@ -935,7 +963,13 @@ function oc_render_landing_meta_box( $post ) {
 		echo '<h4 style="margin:12px 0 8px;">' . sprintf( esc_html__( 'Card %d', 'outlier-collective' ), $oc_card_label_num ) . '</h4>';
 		oc_field_image( "oc_offer{$i}_img", __( 'Image', 'outlier-collective' ), (int) get_post_meta( $post->ID, "oc_offer{$i}_img", true ) );
 		oc_field_text( "oc_offer{$i}_title", __( 'Title', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_offer{$i}_title" ) );
-		oc_field_text( "oc_offer{$i}_location", __( 'Location (optional — shows under title with pin)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_offer{$i}_location" ) );
+		if ( 2 === (int) $i || 3 === (int) $i ) {
+			oc_field_text(
+				"oc_offer{$i}_location",
+				__( 'Location (Experiences & Adventures only — pin under title)', 'outlier-collective' ),
+				oc_get_landing( $post->ID, "oc_offer{$i}_location" )
+			);
+		}
 		oc_field_textarea( "oc_offer{$i}_text", __( 'Description', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_offer{$i}_text" ) );
 	}
 	oc_field_text(

@@ -188,6 +188,8 @@ while ( have_posts() ) :
 						$oc_offer_slideshow = oc_offer2_experiences_slideshow_urls();
 					} elseif ( 3 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 3 ) ) {
 						$oc_offer_slideshow = oc_offer3_adventure_slideshow_urls();
+					} elseif ( 6 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 6 ) ) {
+						$oc_offer_slideshow = oc_offer6_talks_slideshow_urls();
 					}
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">

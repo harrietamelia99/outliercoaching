@@ -1135,7 +1135,7 @@
 		onResizeOrMq();
 	}
 
-	/** Coaching, Experiences + Adventures cards (bundled): crossfade stacked images in `[data-oc-offering-slideshow]`. */
+	/** Bundled offering cards with stacked images: crossfade in `[data-oc-offering-slideshow]`. */
 	function initOfferingSlideshows() {
 		doc.querySelectorAll('[data-oc-offering-slideshow]').forEach(function (wrap) {
 			var imgs = wrap.querySelectorAll('.offering-card__img--slideshow');

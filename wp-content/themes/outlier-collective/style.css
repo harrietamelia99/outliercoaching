@@ -1171,7 +1171,7 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
 }
 
-/* Coaching, Experiences + Adventures (bundled, slots 1, 2 & 3): stacked frames, crossfaded in main.js */
+/* Coaching, Experiences, Adventures + Talks (bundled, slots 1, 2, 3 & 6): stacked frames, crossfaded in main.js */
 .offering-card__media--slideshow .offering-card__img--slideshow {
 	position: absolute;
 	inset: 0;

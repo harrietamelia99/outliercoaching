@@ -145,6 +145,9 @@ while ( have_posts() ) :
 			?>
 			<div class="problem__intent-band">
 				<div class="problem__intent" data-oc-intent-banner data-oc-intent-phrases="<?php echo esc_attr( $oc_intent_json ); ?>">
+					<div class="problem__intent-dot-wrap" aria-hidden="true">
+						<span class="problem__accent-dot problem__accent-dot--intent"></span>
+					</div>
 					<p class="problem__intent-heading"><?php echo esc_html( oc_soft_break_widow( $oc_intent_heading ) ); ?></p>
 					<p class="problem__intent-line" aria-live="polite">
 						<span class="problem__intent-word problem__accent" data-oc-intent-word><?php echo esc_html( $oc_intent_first ); ?></span>

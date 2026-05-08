@@ -658,6 +658,14 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	text-align: center;
 }
 
+.problem__intent-dot-wrap {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin-bottom: clamp(0.35rem, 1vw, 0.55rem);
+	line-height: 0;
+}
+
 .problem__intent-heading {
 	font-family: var(--font-body);
 	font-weight: 600;
@@ -1353,6 +1361,10 @@ html.oc-offerings-scroll-drive .offering-card {
 .chapter--problem .problem__accent-dot,
 .chapter--philosophy .problem__accent-dot {
 	margin: 0 auto clamp(1rem, 2vw, 1.35rem);
+}
+
+.chapter--problem .problem__accent-dot--intent {
+	margin: 0;
 }
 
 .chapter--problem .problem__text p,

@@ -33,3 +33,15 @@ jobs:
           path: deploy
           if-no-files-found: error
           retention-days: 1
+
+      # Human fallback: Appearance → Install new theme → Upload (WordPress.com cannot be done from CI here).
+      - name: Zip theme for manual upload
+        run: ( cd wp-content/themes && zip -rq "$GITHUB_WORKSPACE/outlier-coaching-theme.zip" outlier-collective )
+
+      - name: Upload installable theme ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: outlier-coaching-theme-zip
+          path: outlier-coaching-theme.zip
+          if-no-files-found: error
+          retention-days: 14

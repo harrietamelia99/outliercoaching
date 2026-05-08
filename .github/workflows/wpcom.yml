@@ -17,10 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # upload-artifact v4 strips the chosen directory name from the artifact root.
+      # Uploading `outlier-collective/` would deploy style.css etc. at site root — WordPress
+      # never sees a theme. Stage under `deploy/wp-content/themes/...` so the zip keeps
+      # the full path WordPress expects.
+      - name: Stage theme for WordPress.com
+        run: |
+          mkdir -p deploy/wp-content/themes
+          cp -R wp-content/themes/outlier-collective deploy/wp-content/themes/
+
       - name: Upload theme artifact
         uses: actions/upload-artifact@v4
         with:
           name: wpcom
-          path: wp-content/themes/outlier-collective
+          path: deploy
           if-no-files-found: error
           retention-days: 1

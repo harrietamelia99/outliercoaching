@@ -656,7 +656,7 @@
 			idx = (idx + 1) % n;
 			wordEl.textContent = words[idx];
 		}
-		var readHold = 1.12;
+		var readHold = 1.45;
 		var fadeOut = 0.07;
 		var fadeIn = 0.1;
 		var tl = gsap.timeline({ repeat: -1, defaults: { overwrite: 'auto' } });
@@ -1172,9 +1172,13 @@
 	/** Bundled offering cards with stacked images: crossfade in `[data-oc-offering-slideshow]`. */
 	function initOfferingSlideshows() {
 		doc.querySelectorAll('[data-oc-offering-slideshow]').forEach(function (wrap) {
-			var imgs = wrap.querySelectorAll('.offering-card__img--slideshow');
+			var imgs = wrap.querySelectorAll('.offering-card__img--slideshow:not(.offering-card__img--slideshow-static)');
 			if (imgs.length < 2 || reduceMotion || typeof gsap === 'undefined') {
 				return;
+			}
+			var staticImgs = wrap.querySelectorAll('.offering-card__img--slideshow-static');
+			if (staticImgs.length) {
+				gsap.set(staticImgs, { opacity: 1 });
 			}
 			gsap.set(imgs, { opacity: 0 });
 			gsap.set(imgs[0], { opacity: 1 });

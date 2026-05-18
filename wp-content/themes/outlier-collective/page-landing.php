@@ -117,13 +117,18 @@ while ( have_posts() ) :
 							printf(
 								'<span class="hero-line" style="transition-delay:%dms">%s</span>',
 								esc_attr( (string) ( 120 + $delay_index * 220 ) ),
-								oc_format_hero_scroll_accent_phrases_html( oc_soft_break_widow( $line ) )
+								oc_format_hero_primary_headline_html( (string) $line )
 							);
 							$delay_index++;
 						}
 						?>
 					</h1>
-					<p class="hero__sub" id="oc-hero-sub"><?php echo oc_format_hero_tagline_lines_html( (string) oc_get_landing( $post_id, 'oc_hero_headline' ) ); ?></p>
+					<?php
+					$oc_hero_sub_raw = trim( (string) oc_get_landing( $post_id, 'oc_hero_headline' ) );
+					if ( '' !== $oc_hero_sub_raw ) :
+						?>
+					<p class="hero__sub" id="oc-hero-sub"><?php echo oc_format_hero_tagline_lines_html( $oc_hero_sub_raw ); ?></p>
+					<?php endif; ?>
 					<div class="hero__cta" id="oc-hero-cta">
 						<a class="btn" href="<?php echo esc_url( oc_get_landing( $post_id, 'oc_hero_cta_url' ) ); ?>"><?php echo esc_html( oc_get_landing( $post_id, 'oc_hero_cta_text' ) ); ?></a>
 					</div>
@@ -181,9 +186,11 @@ while ( have_posts() ) :
 					}
 					$offer_body = oc_get_landing( $post_id, "oc_offer{$i}_text" );
 					$offer_img_url = oc_offering_card_image_url( $post_id, $i );
-					$oc_offer_slideshow = array();
+					$oc_offer_slideshow       = array();
+					$oc_offer_slideshow_static = '';
 					if ( 1 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 1 ) ) {
-						$oc_offer_slideshow = oc_offer1_coaching_slideshow_urls();
+						$oc_offer_slideshow_static = oc_offer1_coaching_static_slide_url();
+						$oc_offer_slideshow        = oc_offer1_coaching_rotating_slideshow_urls();
 					} elseif ( 2 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 2 ) ) {
 						$oc_offer_slideshow = oc_offer2_experiences_slideshow_urls();
 					} elseif ( 3 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 3 ) ) {
@@ -191,18 +198,22 @@ while ( have_posts() ) :
 					} elseif ( 6 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 6 ) ) {
 						$oc_offer_slideshow = oc_offer6_talks_slideshow_urls();
 					}
+					$oc_slideshow_active = ( '' !== $oc_offer_slideshow_static && count( $oc_offer_slideshow ) >= 2 )
+						|| ( '' === $oc_offer_slideshow_static && count( $oc_offer_slideshow ) > 1 );
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">
-					<div class="offering-card__media<?php echo count( $oc_offer_slideshow ) > 1 ? ' offering-card__media--slideshow' : ''; ?>"<?php echo count( $oc_offer_slideshow ) > 1 ? ' data-oc-offering-slideshow' : ''; ?><?php echo count( $oc_offer_slideshow ) > 1 ? ' role="img" aria-label="' . esc_attr( $offer_img_alt ) . '"' : ''; ?>>
-						<?php if ( count( $oc_offer_slideshow ) > 1 ) : ?>
+					<div class="offering-card__media<?php echo $oc_slideshow_active ? ' offering-card__media--slideshow' : ''; ?>"<?php echo $oc_slideshow_active ? ' data-oc-offering-slideshow' : ''; ?><?php echo $oc_slideshow_active ? ' role="img" aria-label="' . esc_attr( $offer_img_alt ) . '"' : ''; ?>>
+						<?php if ( $oc_slideshow_active ) : ?>
+							<?php if ( '' !== $oc_offer_slideshow_static ) : ?>
+						<img class="offering-card__img offering-card__img--slideshow offering-card__img--slideshow-static" src="<?php echo esc_url( $oc_offer_slideshow_static ); ?>" alt="" width="960" height="540" decoding="async" loading="eager" />
+							<?php endif; ?>
 							<?php
 							foreach ( $oc_offer_slideshow as $oc_si => $oc_slide_url ) {
-								/* Second Talks slide only: tall subject — bias crop toward top of photo so the head is not clipped. */
 								$oc_slide_extra_class = ( 6 === (int) $i && 1 === (int) $oc_si ) ? ' offering-card__img--slideshow-focus-top' : '';
 								printf(
 									'<img class="offering-card__img offering-card__img--slideshow%3$s" src="%1$s" alt="" width="960" height="540" decoding="async" loading="%2$s" />',
 									esc_url( $oc_slide_url ),
-									0 === (int) $oc_si ? 'eager' : 'lazy',
+									( '' === $oc_offer_slideshow_static && 0 === (int) $oc_si ) ? 'eager' : 'lazy',
 									esc_attr( $oc_slide_extra_class )
 								);
 							}

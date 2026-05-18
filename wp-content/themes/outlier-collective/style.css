@@ -3,7 +3,7 @@ Theme Name: Outlier Coaching
 Theme URI: https://outliercoaching.example
 Author: Outlier Coaching
 Description: Flat, editorial, colour-blocked landing for Outlier Coaching. Assign the “Outlier Landing” template; edit Outlier Landing Fields (Gutenberg-compatible, no page builder).
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -1192,6 +1192,15 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	opacity: 1;
 }
 
+/* Base (e.g. coaching man-on-hill): stays visible under rotating layers controlled in main.js */
+.offering-card__media--slideshow .offering-card__img--slideshow-static {
+	z-index: 0;
+}
+
+.offering-card__media--slideshow .offering-card__img--slideshow:not(.offering-card__img--slideshow-static) {
+	z-index: 1;
+}
+
 /* Single slide (Talks #2 — tall stage shot): bias `object-fit: cover` toward top of photo so the head is not cropped. */
 .offering-card__img--slideshow.offering-card__img--slideshow-focus-top {
 	object-position: center 0%;
@@ -1319,21 +1328,26 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 /* Phone / tablet: one full-width slide per view; start snap (center snap shows the next/prev card edges). */
 @media (max-width: 1024px) {
 	.chapter--offerings .offerings__scroller {
-		gap: 0;
+		gap: 0.75rem;
 		padding-inline: max(1rem, env(safe-area-inset-left, 0px)) max(1rem, env(safe-area-inset-right, 0px));
 		padding-bottom: 2.5rem;
 		scroll-padding-inline: max(1rem, env(safe-area-inset-left, 0px));
 		scrollbar-gutter: auto;
+		/* Easier horizontal swipe on iPad: less aggressive snap + let the browser prefer sideways drags */
+		scroll-snap-type: x proximity;
+		touch-action: pan-x pan-y;
+		overscroll-behavior-x: contain;
 	}
 
 	.chapter--offerings .offerings__scroller .offering-card {
-		--offerings-card-width: 100%;
-		flex: 0 0 100%;
-		width: 100%;
+		/* Nearly full-width with a peek of the next card so sideways scroll is obvious on tablet. */
+		--offerings-card-width: calc(100% - 2.25rem);
+		flex: 0 0 var(--offerings-card-width);
+		width: var(--offerings-card-width);
 		min-width: 0;
 		max-width: 100%;
 		scroll-snap-align: start;
-		scroll-snap-stop: always;
+		scroll-snap-stop: normal;
 	}
 }
 

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OC_THEME_VERSION', '1.0.0' );
+define( 'OC_THEME_VERSION', '1.2.0' );
 
 /**
  * Bundled Outlier Coaching lockup (OL Coaching — Light / Dark from brand SVGs).
@@ -169,14 +169,28 @@ function oc_offer3_adventure_slideshow_urls() {
 }
 
 /**
- * Versioned URLs for the Coaching card bundled slideshow (slot 1), in display order.
+ * Coaching card: static “hill” hero image (slide 01). Rotating slides omit 01–02; see oc_offer1_coaching_rotating_slideshow_urls().
+ *
+ * @return string Versioned URL or empty.
+ */
+function oc_offer1_coaching_static_slide_url() {
+	$file = 'offering-coaching-slide-01.png';
+	$base = get_template_directory() . '/assets/site/';
+	$uri  = get_template_directory_uri() . '/assets/site/';
+	$path = $base . $file;
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+	return add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri . $file );
+}
+
+/**
+ * Coaching card: rotating slideshow frames only (slides 03–06); slide 01 is static beneath.
  *
  * @return string[]
  */
-function oc_offer1_coaching_slideshow_urls() {
+function oc_offer1_coaching_rotating_slideshow_urls() {
 	$files = array(
-		'offering-coaching-slide-01.png',
-		'offering-coaching-slide-02.png',
 		'offering-coaching-slide-03.png',
 		'offering-coaching-slide-04.png',
 		'offering-coaching-slide-05.png',
@@ -195,6 +209,20 @@ function oc_offer1_coaching_slideshow_urls() {
 }
 
 /**
+ * @deprecated Use oc_offer1_coaching_static_slide_url() + oc_offer1_coaching_rotating_slideshow_urls().
+ *
+ * @return string[]
+ */
+function oc_offer1_coaching_slideshow_urls() {
+	$out = array();
+	$u   = oc_offer1_coaching_static_slide_url();
+	if ( $u !== '' ) {
+		$out[] = $u;
+	}
+	return array_merge( $out, oc_offer1_coaching_rotating_slideshow_urls() );
+}
+
+/**
  * Versioned URLs for the Experiences card bundled slideshow (slot 2), in display order.
  *
  * @return string[]
@@ -204,7 +232,6 @@ function oc_offer2_experiences_slideshow_urls() {
 		'offering-experience-slide-01.png',
 		'offering-experience-slide-02.png',
 		'offering-experience-slide-03.png',
-		'offering-experience-slide-04.png',
 	);
 	$out  = array();
 	$base = get_template_directory() . '/assets/site/';
@@ -291,12 +318,12 @@ function oc_testimonial_quote_marks_url() {
  */
 function oc_landing_default_meta() {
 	return array(
-		'oc_hero_headline'       => "If you're looking for different, find it here.",
-		'oc_hero_subhead'       => "Life, leadership and anything else you want to talk about.",
-		'oc_hero_cta_text'       => "Let's begin",
+		'oc_hero_headline'       => '',
+		'oc_hero_subhead'       => 'What do you want to be different?',
+		'oc_hero_cta_text'       => "Let's Begin",
 		'oc_hero_cta_url'        => '#contact',
 
-		'oc_problem_intent_heading'   => 'We work with people who want something to be different.',
+		'oc_problem_intent_heading'   => 'We do',
 		'oc_problem_intent_rotations' => "Coaching\nTalks & Workshops\nLeadership Development\nTeam Building\nExperiences\nAdventures",
 
 		'oc_path_intro'          => 'We will find you where you are and walk with you where you\'re going.',
@@ -355,7 +382,7 @@ function oc_landing_default_meta() {
 
 		'oc_upcoming_talks_label' => 'Upcoming adventures',
 		'oc_utalk_1_title'       => 'Ghana Coaching Week',
-		'oc_utalk_1_meta'        => '8th–15th November',
+		'oc_utalk_1_meta'        => '15th–23rd November',
 		'oc_utalk_1_desc'        => '',
 		'oc_utalk_1_url'         => '',
 		'oc_utalk_2_title'       => '',
@@ -376,10 +403,10 @@ function oc_landing_default_meta() {
 		'oc_talks_cta_url'       => '#contact',
 
 		'oc_contact_heading'     => 'Let\'s have a conversation',
-		'oc_contact_body'        => 'Connect to a real person. Free and confidential.',
-		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You\'re not a case study, no notes are kept, no data is studied, no trends are looked at. If you\'re looking for different, find it here.',
+		'oc_contact_body'        => 'Connect to a real person.',
+		'oc_confidentiality_text' => 'Outlier Coaching is 100% confidential. You\'re not a case study, no data is stored, no trends are looked at. If you\'re looking for different, find it here.',
 		'oc_calendly_url'        => 'https://calendly.com/outlier-coaching/outlier-discovery-call',
-		'oc_calendly_label'      => 'Book a discovery call',
+		'oc_calendly_label'      => 'Book a Call',
 		'oc_email_url'           => 'mailto:bookings@outliercoaching.co.uk',
 		'oc_email_label'         => 'Send an email',
 
@@ -501,8 +528,18 @@ function oc_format_hero_primary_adventures_accent( $text ) {
 	return $out !== null ? $out : $safe;
 }
 
+function oc_format_hero_primary_headline_html( $text ) {
+	$text = (string) $text;
+	if ( $text === '' ) {
+		return '';
+	}
+	$safe = esc_html( oc_soft_break_widow( $text ) );
+	$out  = preg_replace( '/(?i)\b(different)\b/u', '<span class="hero-accent">$1</span>', $safe, 1 );
+	return $out !== null ? $out : $safe;
+}
+
 /**
- * Wrap “life”, “leadership”, and “anything else” in .hero-accent (orange when scrolled past hero — main.js + .oc-hero-past).
+ * @deprecated Prefer oc_format_hero_primary_headline_html for current hero copy.
  *
  * @param string $text Plain text only (typically after oc_soft_break_widow()).
  * @return string Safe HTML fragment.
@@ -1113,6 +1150,7 @@ function oc_render_landing_meta_box( $post ) {
 
 	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Upcoming talks (cards)', 'outlier-collective' ) . '</strong></legend>';
 	oc_field_text( 'oc_upcoming_talks_label', __( 'Section label (eyebrow)', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_upcoming_talks_label' ) );
+	echo '<p class="description" style="margin:0 0 12px;">' . esc_html__( '“Find out more” can point to the contact section (leave link URL blank) or any full https URL — e.g. a flyer PDF from Media Library (upload the file, then “Copy URL”), YouTube, or Vimeo. External PDFs work if the file is publicly reachable; hosting in the library keeps the link stable on your site.', 'outlier-collective' ) . '</p>';
 	for ( $ui = 1; $ui <= 4; $ui++ ) {
 		echo '<p><strong>' . sprintf(
 			/* translators: %d talk card number */
@@ -1122,7 +1160,7 @@ function oc_render_landing_meta_box( $post ) {
 		oc_field_text( "oc_utalk_{$ui}_title", __( 'Title (leave empty to hide this card)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_title" ) );
 		oc_field_text( "oc_utalk_{$ui}_meta", __( 'Date / venue (one line)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_meta" ) );
 		oc_field_textarea( "oc_utalk_{$ui}_desc", __( 'Short description (optional)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_desc" ) );
-		oc_field_text( "oc_utalk_{$ui}_url", __( 'Link URL (optional — blank uses Contact section)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_url" ), 'url' );
+		oc_field_text( "oc_utalk_{$ui}_url", __( 'Find out more — link URL', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_url" ), 'url' );
 	}
 	echo '</fieldset>';
 

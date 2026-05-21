@@ -3,7 +3,7 @@ Theme Name: Outlier Coaching
 Theme URI: https://outliercoaching.example
 Author: Outlier Coaching
 Description: Flat, editorial, colour-blocked landing for Outlier Coaching. Assign the “Outlier Landing” template; edit Outlier Landing Fields (Gutenberg-compatible, no page builder).
-Version: 1.2.0
+Version: 1.2.5
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -1174,6 +1174,11 @@ html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 	overflow: hidden;
 	background: var(--colour-card-tint);
 	margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
+}
+
+/* Coaching card: single still — bias crop toward the figure (landscape photo). */
+.offering-card__media--coaching-still .offering-card__img {
+	object-position: 32% 42%;
 }
 
 /* Coaching, Experiences, Adventures + Talks (bundled, slots 1, 2, 3 & 6): stacked frames, crossfaded in main.js */

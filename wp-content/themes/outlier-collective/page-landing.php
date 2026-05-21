@@ -186,12 +186,10 @@ while ( have_posts() ) :
 					}
 					$offer_body = oc_get_landing( $post_id, "oc_offer{$i}_text" );
 					$offer_img_url = oc_offering_card_image_url( $post_id, $i );
+					$oc_coaching_bundled_still = ( 1 === (int) $i ) && ! oc_offering_slot_has_uploaded_image( $post_id, 1 );
 					$oc_offer_slideshow       = array();
 					$oc_offer_slideshow_static = '';
-					if ( 1 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 1 ) ) {
-						$oc_offer_slideshow_static = oc_offer1_coaching_static_slide_url();
-						$oc_offer_slideshow        = oc_offer1_coaching_rotating_slideshow_urls();
-					} elseif ( 2 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 2 ) ) {
+					if ( 2 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 2 ) ) {
 						$oc_offer_slideshow = oc_offer2_experiences_slideshow_urls();
 					} elseif ( 3 === (int) $i && ! oc_offering_slot_has_uploaded_image( $post_id, 3 ) ) {
 						$oc_offer_slideshow = oc_offer3_adventure_slideshow_urls();
@@ -202,7 +200,7 @@ while ( have_posts() ) :
 						|| ( '' === $oc_offer_slideshow_static && count( $oc_offer_slideshow ) > 1 );
 					?>
 				<article class="offering-card" data-oc-offering tabindex="0" role="group" aria-label="<?php echo esc_attr( $offer_title_plain ); ?>">
-					<div class="offering-card__media<?php echo $oc_slideshow_active ? ' offering-card__media--slideshow' : ''; ?>"<?php echo $oc_slideshow_active ? ' data-oc-offering-slideshow' : ''; ?><?php echo $oc_slideshow_active ? ' role="img" aria-label="' . esc_attr( $offer_img_alt ) . '"' : ''; ?>>
+					<div class="offering-card__media<?php echo $oc_slideshow_active ? ' offering-card__media--slideshow' : ''; ?><?php echo ( ! $oc_slideshow_active && $oc_coaching_bundled_still ) ? ' offering-card__media--coaching-still' : ''; ?>"<?php echo $oc_slideshow_active ? ' data-oc-offering-slideshow' : ''; ?><?php echo $oc_slideshow_active ? ' role="img" aria-label="' . esc_attr( $offer_img_alt ) . '"' : ''; ?>>
 						<?php if ( $oc_slideshow_active ) : ?>
 							<?php if ( '' !== $oc_offer_slideshow_static ) : ?>
 						<img class="offering-card__img offering-card__img--slideshow offering-card__img--slideshow-static" src="<?php echo esc_url( $oc_offer_slideshow_static ); ?>" alt="" width="960" height="540" decoding="async" loading="eager" />
@@ -226,7 +224,7 @@ while ( have_posts() ) :
 							width="960"
 							height="540"
 							decoding="async"
-							loading="lazy"
+							loading="<?php echo ( 1 === (int) $i && $oc_coaching_bundled_still ) ? 'eager' : 'lazy'; ?>"
 						/>
 						<?php else : ?>
 						<div class="offering-card__placeholder" role="img" aria-label="<?php echo esc_attr( $offer_img_alt ); ?>"></div>
@@ -353,7 +351,7 @@ while ( have_posts() ) :
 
 	<?php
 	$oc_upcoming_talks_visible = false;
-	for ( $ui = 1; $ui <= 4; $ui++ ) {
+	for ( $ui = 1; $ui <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $ui++ ) {
 		if ( trim( (string) oc_get_landing( $post_id, "oc_utalk_{$ui}_title" ) ) !== '' ) {
 			$oc_upcoming_talks_visible = true;
 			break;
@@ -366,7 +364,7 @@ while ( have_posts() ) :
 			<p class="chapter__label chapter__label--on-light" id="oc-upcoming-talks-label" data-oc-reveal><?php echo esc_html( oc_soft_break_widow( oc_get_landing( $post_id, 'oc_upcoming_talks_label' ) ) ); ?></p>
 			<div class="upcoming-talks__grid" role="list" aria-labelledby="oc-upcoming-talks-label">
 				<?php
-				for ( $ui = 1; $ui <= 4; $ui++ ) {
+				for ( $ui = 1; $ui <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $ui++ ) {
 					$ut_title = trim( (string) oc_get_landing( $post_id, "oc_utalk_{$ui}_title" ) );
 					if ( '' === $ut_title ) {
 						continue;
@@ -417,7 +415,7 @@ while ( have_posts() ) :
 		<div class="testimonials__viewport" role="region" aria-labelledby="oc-testimonials-label">
 			<div id="oc-testimonials-scroller" class="testimonials__scroller" role="list" tabindex="0">
 				<?php
-				for ( $ti = 1; $ti <= 4; $ti++ ) {
+				for ( $ti = 1; $ti <= (int) OC_LANDING_TESTIMONIAL_MAX; $ti++ ) {
 					$quote = trim( (string) oc_get_landing( $post_id, "oc_testimonial_{$ti}" ) );
 					if ( $quote === '' ) {
 						continue;

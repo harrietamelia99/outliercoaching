@@ -12,7 +12,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OC_THEME_VERSION', '1.2.0' );
+define( 'OC_THEME_VERSION', '1.2.5' );
+
+/** Max testimonial text areas on the landing page (Outlier Landing Fields). */
+define( 'OC_LANDING_TESTIMONIAL_MAX', 12 );
+
+/** Max upcoming event / adventure cards (mirrors testimonial slots — same meta box pattern). */
+define( 'OC_LANDING_UPCOMING_EVENT_MAX', 12 );
+
+/**
+ * Meta keys for each upcoming event card: `oc_utalk_{n}_title|meta|desc|url`.
+ *
+ * @return string[]
+ */
+function oc_landing_utalk_meta_keys() {
+	$keys = array();
+	for ( $i = 1; $i <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $i++ ) {
+		$keys[] = 'oc_utalk_' . $i . '_title';
+		$keys[] = 'oc_utalk_' . $i . '_meta';
+		$keys[] = 'oc_utalk_' . $i . '_desc';
+		$keys[] = 'oc_utalk_' . $i . '_url';
+	}
+	return $keys;
+}
+
+/**
+ * @return string[]
+ */
+function oc_landing_utalk_url_meta_keys() {
+	$keys = array();
+	for ( $i = 1; $i <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $i++ ) {
+		$keys[] = 'oc_utalk_' . $i . '_url';
+	}
+	return $keys;
+}
 
 /**
  * Bundled Outlier Coaching lockup (OL Coaching — Light / Dark from brand SVGs).
@@ -44,9 +77,9 @@ function oc_bundled_logo_dark_url() {
 
 /**
  * Filenames for bundled photography (assets/site/). Order is stable; index 0 is hero fallback.
- * Ghana offering card uses a bundled six-image slideshow (see oc_offer3_adventure_slideshow_urls()) when no custom image is set; legacy single file `offering-ghana-adventures.png` remains the fallback URL from oc_offering_card_image_url() when slideshow files are missing.
- * Coaching (slot 1) uses a bundled six-image slideshow when no custom image is set; `offering-coaching.png` remains the single-image fallback from oc_offering_card_image_url().
- * UK / Devon Experiences (slot 2) uses a bundled multi-image slideshow when no custom image is set; `offering-adventures-uk.png` remains the single-image fallback from oc_offering_card_image_url().
+ * Ghana offering card uses a bundled five-image slideshow (see oc_offer3_adventure_slideshow_urls()) when no custom image is set; legacy single file `offering-ghana-adventures.png` remains the fallback URL from oc_offering_card_image_url() when slideshow files are missing.
+ * Coaching (slot 1) uses a single bundled hero still when no custom image is set: `offering-coaching-card.png` (see oc_offering_card_image_url()).
+ * UK / Devon Experiences (slot 2) uses a bundled three-image slideshow when no custom image is set; `offering-adventures-uk.png` remains the single-image fallback from oc_offering_card_image_url().
  * Talks (slot 6) uses a bundled multi-image slideshow when no custom image is set; `offering-talks.png` remains the single-image fallback from oc_offering_card_image_url().
  * Workshops (slot 5) uses `offering-workshops.png` as its bundled fallback.
  *
@@ -109,7 +142,7 @@ function oc_offering_card_image_url( $post_id, $slot ) {
 		}
 	}
 	$bundled = array(
-		1 => 'offering-coaching.png',
+		1 => 'offering-coaching-card.png',
 		2 => 'offering-adventures-uk.png',
 		3 => 'offering-ghana-adventures.png',
 		5 => 'offering-workshops.png',
@@ -143,7 +176,7 @@ function oc_offering_slot_has_uploaded_image( $post_id, $slot ) {
 }
 
 /**
- * Versioned URLs for the Adventures card bundled slideshow (slot 3), in display order.
+ * Versioned URLs for the Adventures card bundled slideshow (slot 3) — five stills in order.
  *
  * @return string[]
  */
@@ -154,7 +187,6 @@ function oc_offer3_adventure_slideshow_urls() {
 		'offering-adventure-slide-03.png',
 		'offering-adventure-slide-04.png',
 		'offering-adventure-slide-05.png',
-		'offering-adventure-slide-06.png',
 	);
 	$out  = array();
 	$base = get_template_directory() . '/assets/site/';
@@ -169,61 +201,7 @@ function oc_offer3_adventure_slideshow_urls() {
 }
 
 /**
- * Coaching card: static “hill” hero image (slide 01). Rotating slides omit 01–02; see oc_offer1_coaching_rotating_slideshow_urls().
- *
- * @return string Versioned URL or empty.
- */
-function oc_offer1_coaching_static_slide_url() {
-	$file = 'offering-coaching-slide-01.png';
-	$base = get_template_directory() . '/assets/site/';
-	$uri  = get_template_directory_uri() . '/assets/site/';
-	$path = $base . $file;
-	if ( ! is_readable( $path ) ) {
-		return '';
-	}
-	return add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri . $file );
-}
-
-/**
- * Coaching card: rotating slideshow frames only (slides 03–06); slide 01 is static beneath.
- *
- * @return string[]
- */
-function oc_offer1_coaching_rotating_slideshow_urls() {
-	$files = array(
-		'offering-coaching-slide-03.png',
-		'offering-coaching-slide-04.png',
-		'offering-coaching-slide-05.png',
-		'offering-coaching-slide-06.png',
-	);
-	$out  = array();
-	$base = get_template_directory() . '/assets/site/';
-	$uri  = get_template_directory_uri() . '/assets/site/';
-	foreach ( $files as $file ) {
-		$path = $base . $file;
-		if ( is_readable( $path ) ) {
-			$out[] = add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri . $file );
-		}
-	}
-	return $out;
-}
-
-/**
- * @deprecated Use oc_offer1_coaching_static_slide_url() + oc_offer1_coaching_rotating_slideshow_urls().
- *
- * @return string[]
- */
-function oc_offer1_coaching_slideshow_urls() {
-	$out = array();
-	$u   = oc_offer1_coaching_static_slide_url();
-	if ( $u !== '' ) {
-		$out[] = $u;
-	}
-	return array_merge( $out, oc_offer1_coaching_rotating_slideshow_urls() );
-}
-
-/**
- * Versioned URLs for the Experiences card bundled slideshow (slot 2), in display order.
+ * Versioned URLs for the Experiences card bundled slideshow (slot 2), in display order — three stills only.
  *
  * @return string[]
  */
@@ -317,7 +295,8 @@ function oc_testimonial_quote_marks_url() {
  * @return array<string, string>
  */
 function oc_landing_default_meta() {
-	return array(
+	return array_merge(
+		array(
 		'oc_hero_headline'       => '',
 		'oc_hero_subhead'       => 'What do you want to be different?',
 		'oc_hero_cta_text'       => "Let's Begin",
@@ -379,6 +358,14 @@ function oc_landing_default_meta() {
 		'oc_testimonial_2'       => 'Want a different type of coach? Outlier gets to the core of the issue whilst getting you to reflect, question, laugh, cry (in a good way), and solve the problem. I leave feeling challenged, like I\'ve had therapy, leadership development and great fun. Book it - it\'s rare to find someone of this quality.',
 		'oc_testimonial_3'       => 'Outlier has been instrumental in transforming the way I think, behave and manage my leadership role. They are so in tune with what you think and feel and can very quickly delve deeper into the why and what but ultimately the how to make things better.',
 		'oc_testimonial_4'       => 'Outlier\'s sessions feel more like soul-searching, which feeds into both the logical and emotional brain. Inherently helpful and I am already grateful for Outlier\'s sincere interest and commitment to helping me grow as a leader, and a person.',
+		'oc_testimonial_5'       => '',
+		'oc_testimonial_6'       => '',
+		'oc_testimonial_7'       => '',
+		'oc_testimonial_8'       => '',
+		'oc_testimonial_9'       => '',
+		'oc_testimonial_10'      => '',
+		'oc_testimonial_11'      => '',
+		'oc_testimonial_12'      => '',
 
 		'oc_upcoming_talks_label' => 'Upcoming adventures',
 		'oc_utalk_1_title'       => 'Ghana Coaching Week',
@@ -411,7 +398,25 @@ function oc_landing_default_meta() {
 		'oc_email_label'         => 'Send an email',
 
 		'oc_footer_copy'         => '© Outlier Coaching',
+	),
+		oc_landing_default_meta_utalk_slots_extra()
 	);
+}
+
+/**
+ * Default empty meta for upcoming event slots that have no copy in the base defaults array (slots 5–12).
+ *
+ * @return array<string, string>
+ */
+function oc_landing_default_meta_utalk_slots_extra() {
+	$extra = array();
+	for ( $i = 5; $i <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $i++ ) {
+		$extra[ 'oc_utalk_' . $i . '_title' ] = '';
+		$extra[ 'oc_utalk_' . $i . '_meta' ]  = '';
+		$extra[ 'oc_utalk_' . $i . '_desc' ]  = '';
+		$extra[ 'oc_utalk_' . $i . '_url' ]   = '';
+	}
+	return $extra;
 }
 
 /**
@@ -834,7 +839,8 @@ add_action( 'admin_enqueue_scripts', 'oc_landing_admin_assets' );
  * @return string[]
  */
 function oc_landing_meta_keys() {
-	return array(
+	return array_merge(
+		array(
 		'oc_hero_bg_id',
 		'oc_logo_white_id',
 		'oc_logo_black_id',
@@ -898,23 +904,18 @@ function oc_landing_meta_keys() {
 		'oc_testimonial_2',
 		'oc_testimonial_3',
 		'oc_testimonial_4',
+		'oc_testimonial_5',
+		'oc_testimonial_6',
+		'oc_testimonial_7',
+		'oc_testimonial_8',
+		'oc_testimonial_9',
+		'oc_testimonial_10',
+		'oc_testimonial_11',
+		'oc_testimonial_12',
 		'oc_upcoming_talks_label',
-		'oc_utalk_1_title',
-		'oc_utalk_1_meta',
-		'oc_utalk_1_desc',
-		'oc_utalk_1_url',
-		'oc_utalk_2_title',
-		'oc_utalk_2_meta',
-		'oc_utalk_2_desc',
-		'oc_utalk_2_url',
-		'oc_utalk_3_title',
-		'oc_utalk_3_meta',
-		'oc_utalk_3_desc',
-		'oc_utalk_3_url',
-		'oc_utalk_4_title',
-		'oc_utalk_4_meta',
-		'oc_utalk_4_desc',
-		'oc_utalk_4_url',
+		),
+		oc_landing_utalk_meta_keys(),
+		array(
 		'oc_talks_text',
 		'oc_talks_cta_text',
 		'oc_talks_cta_url',
@@ -927,6 +928,7 @@ function oc_landing_meta_keys() {
 		'oc_calendly_label',
 		'oc_footer_logo_id',
 		'oc_footer_copy',
+		)
 	);
 }
 
@@ -1141,20 +1143,22 @@ function oc_render_landing_meta_box( $post ) {
 	echo '</fieldset>';
 
 	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Testimonials', 'outlier-collective' ) . '</strong></legend>';
+	echo '<p class="description" style="margin:0 0 10px;">' . esc_html__( 'Order is testimonial 1, then 2, and so on. Leave a field empty to hide that slide.', 'outlier-collective' ) . '</p>';
 	oc_field_text( 'oc_testimonials_label', __( 'Section label (eyebrow)', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_testimonials_label' ) );
-	for ( $ti = 1; $ti <= 4; $ti++ ) {
+	for ( $ti = 1; $ti <= (int) OC_LANDING_TESTIMONIAL_MAX; $ti++ ) {
 		/* translators: %d testimonial number */
 		oc_field_textarea( "oc_testimonial_{$ti}", sprintf( __( 'Testimonial %d', 'outlier-collective' ), $ti ), oc_get_landing( $post->ID, "oc_testimonial_{$ti}" ) );
 	}
 	echo '</fieldset>';
 
-	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Upcoming talks (cards)', 'outlier-collective' ) . '</strong></legend>';
+	echo '<fieldset style="border:1px solid #ccd0d4;padding:12px 16px;margin-bottom:16px;"><legend><strong>' . esc_html__( 'Upcoming events (adventures)', 'outlier-collective' ) . '</strong></legend>';
 	oc_field_text( 'oc_upcoming_talks_label', __( 'Section label (eyebrow)', 'outlier-collective' ), oc_get_landing( $post->ID, 'oc_upcoming_talks_label' ) );
+	echo '<p class="description" style="margin:8px 0 10px;">' . esc_html__( 'Up to 12 event cards. Numbering is in order (1, 2, 3…). Leave the title empty to hide a card — same idea as testimonials.', 'outlier-collective' ) . '</p>';
 	echo '<p class="description" style="margin:0 0 12px;">' . esc_html__( '“Find out more” can point to the contact section (leave link URL blank) or any full https URL — e.g. a flyer PDF from Media Library (upload the file, then “Copy URL”), YouTube, or Vimeo. External PDFs work if the file is publicly reachable; hosting in the library keeps the link stable on your site.', 'outlier-collective' ) . '</p>';
-	for ( $ui = 1; $ui <= 4; $ui++ ) {
+	for ( $ui = 1; $ui <= (int) OC_LANDING_UPCOMING_EVENT_MAX; $ui++ ) {
 		echo '<p><strong>' . sprintf(
-			/* translators: %d talk card number */
-			esc_html__( 'Talk card %d', 'outlier-collective' ),
+			/* translators: %d event card number (1–12) */
+			esc_html__( 'Event %d', 'outlier-collective' ),
 			$ui
 		) . '</strong></p>';
 		oc_field_text( "oc_utalk_{$ui}_title", __( 'Title (leave empty to hide this card)', 'outlier-collective' ), oc_get_landing( $post->ID, "oc_utalk_{$ui}_title" ) );
@@ -1208,18 +1212,17 @@ function oc_save_landing_meta( $post_id ) {
 		return;
 	}
 
-	$url_keys = array(
-		'oc_hero_cta_url',
-		'oc_talks_cta_url',
-		'oc_email_url',
-		'oc_calendly_url',
-		'oc_offer3_retreat_1_url',
-		'oc_offer3_retreat_2_url',
-		'oc_offer3_retreat_3_url',
-		'oc_utalk_1_url',
-		'oc_utalk_2_url',
-		'oc_utalk_3_url',
-		'oc_utalk_4_url',
+	$url_keys = array_merge(
+		array(
+			'oc_hero_cta_url',
+			'oc_talks_cta_url',
+			'oc_email_url',
+			'oc_calendly_url',
+			'oc_offer3_retreat_1_url',
+			'oc_offer3_retreat_2_url',
+			'oc_offer3_retreat_3_url',
+		),
+		oc_landing_utalk_url_meta_keys()
 	);
 	$int_keys = oc_landing_integer_meta_keys();
 	$keys     = oc_landing_meta_keys();

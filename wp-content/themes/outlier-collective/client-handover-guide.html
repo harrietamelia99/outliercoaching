@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>How to manage your Outlier Coaching website</title>
+	<style>
+		:root {
+			--text: #1a1a1a;
+			--muted: #555;
+			--bg: #f5f0eb;
+			--card: #fff;
+			--accent: #db9334;
+			--border: rgba(26, 26, 26, 0.12);
+		}
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			padding: 2rem clamp(1rem, 4vw, 2.5rem) 3rem;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: 1.05rem;
+			line-height: 1.65;
+			color: var(--text);
+			background: var(--bg);
+			max-width: 42rem;
+			margin-inline: auto;
+		}
+		h1 {
+			font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+			font-size: clamp(1.45rem, 4vw, 1.85rem);
+			font-weight: 700;
+			line-height: 1.25;
+			margin: 0 0 0.5rem;
+			color: var(--text);
+		}
+		.lead {
+			font-size: 1.05rem;
+			color: var(--muted);
+			margin: 0 0 2rem;
+		}
+		h2 {
+			font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+			font-size: 1.15rem;
+			font-weight: 700;
+			margin: 2.25rem 0 0.75rem;
+			padding-bottom: 0.35rem;
+			border-bottom: 2px solid var(--accent);
+		}
+		p { margin: 0 0 1rem; }
+		ol {
+			margin: 0 0 1.25rem;
+			padding-left: 1.35rem;
+		}
+		ol li { margin-bottom: 0.5rem; }
+		ul {
+			margin: 0 0 1.25rem;
+			padding-left: 1.35rem;
+		}
+		ul li { margin-bottom: 0.45rem; }
+		.note {
+			background: var(--card);
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			padding: 1rem 1.15rem;
+			margin: 1rem 0;
+			font-size: 0.98rem;
+		}
+		.footer-note {
+			margin-top: 2.5rem;
+			padding-top: 1.5rem;
+			border-top: 1px solid var(--border);
+			font-size: 0.95rem;
+			color: var(--muted);
+		}
+		code, .kbd {
+			font-family: ui-monospace, Consolas, monospace;
+			font-size: 0.92em;
+			background: rgba(26, 26, 26, 0.06);
+			padding: 0.12em 0.35em;
+			border-radius: 4px;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>How to manage your Outlier Coaching website</h1>
+	<p class="lead">This guide is for you if you want to change words, pictures, testimonials, or event listings yourself. Take your time. You can’t break the whole internet by typing in the wrong box—and you can usually change things back.</p>
+
+	<h2>1. How to log in</h2>
+	<ol>
+		<li>Open your web browser (Safari, Chrome, Edge, or Firefox).</li>
+		<li>In the address bar at the top, type the same web address you use for your public site, then type <span class="kbd">/wp-admin</span> straight after it (no space). So your login address is always: your normal site address, plus <span class="kbd">/wp-admin</span> on the end.</li>
+		<li>Press Enter.</li>
+		<li>Enter the username and password you were given. If you don’t have them, ask the person who built the site.</li>
+		<li>After you log in, you’ll land on the <strong>Dashboard</strong>. That’s the control room: a menu runs down the left side, and the middle shows summaries and shortcuts. Don’t worry about every item in the menu—you only need a few of them.</li>
+	</ol>
+
+	<h2>2. How to edit text on the main page</h2>
+	<p>Most of your homepage is <strong>not</strong> built from the small content blocks in the middle of the screen. It is controlled by a special panel called <strong>Outlier Landing Fields</strong>, which sits <strong>below</strong> the main editor when you open the right page.</p>
+	<ol>
+		<li>In the left menu, click <strong>Pages</strong>.</li>
+		<li>Find the page that is set up as your main landing page (often named “Home” or similar). Click its title to open it.</li>
+		<li>Check that this page uses the <strong>Outlier Landing</strong> template. You’ll find that under <strong>Page</strong> settings on the right (in the sidebar), in a section called <strong>Template</strong>. If it doesn’t say Outlier Landing, stop and ask for help—editing the wrong template won’t change the public homepage.</li>
+		<li>Scroll <strong>down</strong> past the big main editor area. You’ll see a box titled <strong>Outlier Landing Fields</strong>, split into sections like “Hero”, “Testimonials”, and so on.</li>
+		<li>Click in any text field you want to change. Type your new words.</li>
+		<li>When you’re finished, click the blue <strong>Update</strong> button (top right). Wait until you see a short confirmation that the page saved.</li>
+		<li>Open your live website in another tab to check how it looks. It can take a moment to refresh; try a normal refresh first, or hold Shift while refreshing if the old text still shows.</li>
+	</ol>
+	<div class="note">
+		<strong>About the big editor above:</strong> Your site can use WordPress’s block editor for extra notes or other pages. For the main Outlier homepage, treat <strong>Outlier Landing Fields</strong> as the place where headline text, button labels, testimonials, and events live.
+	</div>
+
+	<h2>3. How to swap an image</h2>
+	<p>Images for the hero background, logos, and the “What this is” cards are chosen inside <strong>Outlier Landing Fields</strong>, not by clicking pictures on the live site.</p>
+	<ol>
+		<li>Open the correct page (see section 2) and scroll to <strong>Outlier Landing Fields</strong>.</li>
+		<li>Find the image you want to change (for example <strong>Hero background image</strong> or <strong>Image</strong> under one of the cards).</li>
+		<li>Click <strong>Select image</strong>. WordPress will open your <strong>Media Library</strong> (your collection of uploaded files).</li>
+		<li>To use a picture already in the library, click it once, then confirm. To upload a new file from your computer, use the <strong>Upload files</strong> tab, choose your file, wait for it to finish, then select it.</li>
+		<li>If you need to remove a custom image and go back to the site’s built-in picture, use the <strong>Remove</strong> button next to that image field (if shown).</li>
+		<li>Click <strong>Update</strong> on the page to save.</li>
+	</ol>
+	<p><strong>Keeping things looking good:</strong></p>
+	<ul>
+		<li>Use <strong>JPG</strong> for photos, <strong>PNG</strong> if you need a transparent logo.</li>
+		<li>For the wide hero background, a <strong>large, wide</strong> photo works best (think landscape, not a tall phone snapshot).</li>
+		<li>For card images, wide photos generally match the wide rectangles on the page. Avoid tiny images that might look blurry when stretched.</li>
+		<li>Before uploading, try to keep each file to a sensible size (for example under a few megabytes) so the site stays fast.</li>
+	</ul>
+
+	<h2>4. How to add or change a testimonial</h2>
+	<p>Testimonials are <strong>not</strong> a separate list elsewhere in WordPress. They are <strong>text boxes on your landing page</strong>, managed in <strong>Outlier Landing Fields</strong>.</p>
+	<ol>
+		<li>Open your landing page (see section 2).</li>
+		<li>Scroll in <strong>Outlier Landing Fields</strong> to the <strong>Testimonials</strong> section.</li>
+		<li>You’ll see a section label (for example “What people say”) and numbered boxes: <strong>Testimonial 1</strong>, <strong>Testimonial 2</strong>, and so on, up to <strong>Testimonial 12</strong>.</li>
+		<li>Each box holds <strong>the quote only</strong>. There isn’t a separate field for the person’s name or job title on this design—if you want that, include it inside the quote text in your own words.</li>
+		<li>To <strong>add</strong> another testimonial, find the next empty numbered box and paste or type the quote there. Order matters: number 1 appears first, then 2, then 3, and so on.</li>
+		<li>To <strong>hide</strong> a testimonial, delete all the text in that box and save. Empty boxes don’t show on the website.</li>
+		<li>Click <strong>Update</strong> to save. There is no separate “Publish” button for each quote—the page update is what makes changes live.</li>
+	</ol>
+
+	<h2>5. How to add or change an event</h2>
+	<p>Events (shown in the “Upcoming adventures” style section) are also <strong>on the same landing page</strong>, under <strong>Outlier Landing Fields</strong>. There is <strong>no</strong> separate “Events” area in the left menu for this design, and <strong>no</strong> photo field per event in this theme—only text and a link.</p>
+	<ol>
+		<li>Open your landing page and scroll to <strong>Upcoming events (adventures)</strong> inside <strong>Outlier Landing Fields</strong>.</li>
+		<li>You’ll see <strong>Event 1</strong>, <strong>Event 2</strong>, … up to <strong>Event 12</strong>. Each event has:
+			<ul>
+				<li><strong>Title</strong> — the name of the event (required for it to show).</li>
+				<li><strong>Date / venue (one line)</strong> — for example dates or place names.</li>
+				<li><strong>Short description (optional)</strong> — extra detail if you want it.</li>
+				<li><strong>Find out more — link URL</strong> — optional. Leave blank if the button should simply scroll visitors to your contact section. Or paste a full web address (for example a PDF in the Media Library, a YouTube link, or another page).</li>
+			</ul>
+		</li>
+		<li>To <strong>add</strong> a new event, fill in the next numbered event that is still empty.</li>
+		<li>To <strong>remove</strong> an event from the site, clear its <strong>Title</strong> and save. If the title is empty, that card stays hidden.</li>
+		<li>Click <strong>Update</strong> to save your changes.</li>
+	</ol>
+
+	<h2>6. How to replace a file (for example a PDF flyer)</h2>
+	<ol>
+		<li>In the left menu, click <strong>Media</strong>, then <strong>Library</strong>.</li>
+		<li>Find your PDF. You can use the search box if you remember part of the file name.</li>
+		<li>To add a <strong>new</strong> file, click <strong>Add New</strong>, upload the PDF, and wait until it finishes.</li>
+		<li>Click the file in the library to open its details. Copy the <strong>File URL</strong> (sometimes labelled “Copy URL to clipboard” or shown as a link). You’ll paste that address into an event’s “Find out more” field or wherever the download should point.</li>
+	</ol>
+	<div class="note">
+		<strong>Important:</strong> If you upload a <strong>replacement</strong> PDF as a brand-new file, it gets a <strong>new</strong> web address. Any old button that still used the old address will keep pointing to the old file until you edit that button’s link and paste the new URL. If you are not sure where a link was set, check the event’s “Find out more” field and any similar fields on your landing page.
+	</div>
+
+	<h2>7. Things to avoid</h2>
+	<ul>
+		<li>Don’t edit theme files, code, or hosting settings unless you know what you’re doing—or ask whoever supports the site.</li>
+		<li>Don’t delete the main landing <strong>page</strong> itself.</li>
+		<li>Don’t change the page <strong>template</strong> away from Outlier Landing unless someone technical asks you to.</li>
+		<li>Be cautious with <strong>Plugins</strong> and big WordPress <strong>updates</strong>. Updating can be fine, but If something offers to update many things at once and you’re unsure, ask first.</li>
+		<li>Don’t worry: changing text in the right boxes and clicking <strong>Update</strong> is a normal, safe thing to do. You can usually put the old wording back by typing it again.</li>
+	</ul>
+
+	<p class="footer-note"><strong>Need more than this?</strong> Small text and image changes are what this guide is for. If you want new page layouts, new types of content, online shop features, or anything that feels like “rebuilding” part of the site, speak to your developer for a separate piece of work and quote.</p>
+
+</body>
+</html>

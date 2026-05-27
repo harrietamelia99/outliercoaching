@@ -3,7 +3,7 @@ Theme Name: Outlier Coaching
 Theme URI: https://outliercoaching.example
 Author: Outlier Coaching
 Description: Flat, editorial, colour-blocked landing for Outlier Coaching. Assign the “Outlier Landing” template; edit Outlier Landing Fields (Gutenberg-compatible, no page builder).
-Version: 1.2.5
+Version: 1.2.8
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -420,14 +420,30 @@ html.oc-scroll-smoother #smooth-content {
 	inset: 0;
 }
 
-.hero__bg-img {
+.hero__bg-img,
+.hero__bg-video {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	object-position: center;
 }
 
-/* Fades the photo so type stays legible (flat wash — no gradients) */
+.hero__bg-media:has(.hero__bg-video) .hero__bg-img--poster {
+	display: none;
+}
+
+.hero__bg-video {
+	opacity: 0;
+	animation: hero-bg-video-fade 2.4s ease-out 0.35s forwards;
+}
+
+@keyframes hero-bg-video-fade {
+	to {
+		opacity: 0.72;
+	}
+}
+
+/* Fades the photo/video so type stays legible (flat wash — no gradients) */
 .hero__bg-overlay {
 	position: absolute;
 	inset: 0;
@@ -2123,6 +2139,17 @@ html.oc-testimonials-scroll-drive .chapter--testimonials .testimonials__scroller
 
 	html.oc-js.oc-gsap-landing .hero__headline .hero-line {
 		opacity: 1 !important;
+	}
+
+	.hero__bg-video {
+		display: none !important;
+		animation: none !important;
+		opacity: 0 !important;
+	}
+
+	.hero__bg-media:has(.hero__bg-video) .hero__bg-img--poster {
+		display: block;
+		opacity: 1;
 	}
 
 	.offering-card__img {

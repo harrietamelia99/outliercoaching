@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OC_THEME_VERSION', '1.2.5' );
+define( 'OC_THEME_VERSION', '1.2.8' );
 
 /** Max testimonial text areas on the landing page (Outlier Landing Fields). */
 define( 'OC_LANDING_TESTIMONIAL_MAX', 12 );
@@ -73,6 +73,25 @@ function oc_bundled_logo_light_url() {
  */
 function oc_bundled_logo_dark_url() {
 	return oc_bundled_logo_url( 'dark' );
+}
+
+/**
+ * Versioned URL for a file in the theme `/assets/` folder (e.g. PDF handout).
+ *
+ * @param string $filename File name only (no path), e.g. `outlier-leadership-adventure.pdf`.
+ * @return string Full URL or empty if the file is missing.
+ */
+function oc_theme_bundled_asset_url( $filename ) {
+	$filename = trim( (string) $filename );
+	if ( $filename === '' || false !== strpos( $filename, '..' ) || false !== strpos( $filename, '/' ) || false !== strpos( $filename, '\\' ) ) {
+		return '';
+	}
+	$path = get_template_directory() . '/assets/' . $filename;
+	if ( ! is_readable( $path ) ) {
+		return '';
+	}
+	$uri = get_template_directory_uri() . '/assets/' . $filename;
+	return add_query_arg( 'ver', rawurlencode( (string) filemtime( $path ) ), $uri );
 }
 
 /**
@@ -368,10 +387,10 @@ function oc_landing_default_meta() {
 		'oc_testimonial_12'      => '',
 
 		'oc_upcoming_talks_label' => 'Upcoming adventures',
-		'oc_utalk_1_title'       => 'Ghana Coaching Week',
+		'oc_utalk_1_title'       => 'Ghana 26 Leadership Adventure',
 		'oc_utalk_1_meta'        => '15th–23rd November',
 		'oc_utalk_1_desc'        => '',
-		'oc_utalk_1_url'         => '',
+		'oc_utalk_1_url'         => oc_theme_bundled_asset_url( 'outlier-leadership-adventure.pdf' ),
 		'oc_utalk_2_title'       => '',
 		'oc_utalk_2_meta'        => '',
 		'oc_utalk_2_desc'        => '',

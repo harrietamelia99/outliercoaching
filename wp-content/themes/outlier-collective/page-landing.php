@@ -20,11 +20,12 @@ while ( have_posts() ) :
 	the_post();
 	$post_id = get_the_ID();
 
-	$hero_img_id   = (int) oc_get_landing( $post_id, 'oc_hero_bg_id', 0 );
-	$hero_bg_url   = $hero_img_id ? wp_get_attachment_image_url( $hero_img_id, 'full' ) : '';
+	$hero_img_id    = (int) oc_get_landing( $post_id, 'oc_hero_bg_id', 0 );
+	$hero_bg_url    = $hero_img_id ? wp_get_attachment_image_url( $hero_img_id, 'full' ) : '';
 	if ( ! $hero_bg_url ) {
 		$hero_bg_url = oc_bundled_site_photo_url( 0 );
 	}
+	$hero_video_url = oc_theme_bundled_asset_url( 'hero-ghana-25-final.mp4' );
 	$logo_white_id  = (int) oc_get_landing( $post_id, 'oc_logo_white_id', 0 );
 	$logo_black_id  = (int) oc_get_landing( $post_id, 'oc_logo_black_id', 0 );
 	$footer_logo_id = (int) oc_get_landing( $post_id, 'oc_footer_logo_id', 0 );
@@ -78,9 +79,32 @@ while ( have_posts() ) :
 
 	<section class="chapter chapter--hero" id="top" data-oc-chapter="hero" aria-label="<?php esc_attr_e( 'Arrival', 'outlier-collective' ); ?>">
 		<div class="hero__bg-wrap" aria-hidden="true">
-			<?php if ( $hero_bg_url ) : ?>
+			<?php if ( $hero_video_url || $hero_bg_url ) : ?>
 				<div class="hero__bg-media">
-					<img class="hero__bg-img" src="<?php echo esc_url( $hero_bg_url ); ?>" alt="" decoding="async" loading="eager" fetchpriority="high" />
+					<?php if ( $hero_video_url ) : ?>
+						<video
+							class="hero__bg-video"
+							src="<?php echo esc_url( $hero_video_url ); ?>"
+							<?php if ( $hero_bg_url ) : ?>
+							poster="<?php echo esc_url( $hero_bg_url ); ?>"
+							<?php endif; ?>
+							autoplay
+							muted
+							loop
+							playsinline
+							preload="metadata"
+						></video>
+					<?php endif; ?>
+					<?php if ( $hero_bg_url ) : ?>
+						<img
+							class="hero__bg-img<?php echo $hero_video_url ? ' hero__bg-img--poster' : ''; ?>"
+							src="<?php echo esc_url( $hero_bg_url ); ?>"
+							alt=""
+							decoding="async"
+							loading="eager"
+							fetchpriority="high"
+						/>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 			<div class="hero__bg-overlay"></div>
@@ -381,6 +405,8 @@ while ( have_posts() ) :
 							$ut_link_external = true;
 						}
 					}
+					// PDFs open in a new tab even when hosted on this site (browser PDF viewer).
+					$ut_link_new_tab = $ut_link_external || ( preg_match( '#\\.pdf(\\?|$)#i', $ut_href ) && '' !== $ut_url );
 					?>
 				<article class="upcoming-talk-card" data-oc-upcoming-talk role="listitem">
 					<h3 class="upcoming-talk-card__title"><?php echo esc_html( oc_soft_break_widow( $ut_title ) ); ?></h3>
@@ -393,11 +419,11 @@ while ( have_posts() ) :
 					<p class="upcoming-talk-card__action">
 						<a class="btn btn--outline upcoming-talk-card__btn" href="<?php echo esc_url( $ut_href ); ?>"
 						<?php
-						if ( $ut_link_external ) {
+						if ( $ut_link_new_tab ) {
 							echo ' target="_blank" rel="noopener noreferrer"';
 						}
 						?>
-						><?php esc_html_e( 'Find out more', 'outlier-collective' ); ?></a>
+						><?php esc_html_e( 'learn more', 'outlier-collective' ); ?></a>
 					</p>
 				</article>
 					<?php

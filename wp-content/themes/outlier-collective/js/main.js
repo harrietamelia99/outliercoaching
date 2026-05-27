@@ -168,6 +168,15 @@
 		gsap.set(linesRm, { opacity: 1, y: 0, clearProps: 'all' });
 		gsap.set('.hero__sub', { opacity: 1, y: 0 });
 		gsap.set('.hero__cta', { opacity: 1, scale: 1 });
+		var heroVideoRm = heroRm && heroRm.querySelector('.hero__bg-video');
+		if (heroVideoRm) {
+			try {
+				heroVideoRm.pause();
+				heroVideoRm.removeAttribute('autoplay');
+			} catch (eRm) {
+				/* ignore */
+			}
+		}
 	}
 
 	/**
@@ -277,34 +286,70 @@
 			});
 		}
 
+		var started = false;
+		function kickHeroEntrance() {
+			if (started) {
+				return;
+			}
+			started = true;
+			playTl();
+		}
+
+		var video = doc.querySelector('.hero__bg-video');
 		var img = doc.querySelector('.hero__bg-img');
-		if (img && img.getAttribute('src')) {
-			var started = false;
-			function kick() {
-				if (started) {
-					return;
+		var waiters = 0;
+
+		if (video && !reduceMotion && (video.getAttribute('src') || video.querySelector('source'))) {
+			waiters++;
+			function videoReady() {
+				waiters--;
+				if (waiters <= 0) {
+					kickHeroEntrance();
 				}
-				started = true;
-				playTl();
+			}
+			video.addEventListener('loadeddata', videoReady, { once: true });
+			video.addEventListener('error', videoReady, { once: true });
+			if (video.readyState >= 2) {
+				videoReady();
+			}
+			var playPromise = video.play();
+			if (playPromise && typeof playPromise.then === 'function') {
+				playPromise.then(videoReady).catch(videoReady);
+			}
+		}
+
+		var imgSrc = img && img.getAttribute('src');
+		var needsImg =
+			imgSrc &&
+			(!video || reduceMotion || (img.classList && img.classList.contains('hero__bg-img--poster')));
+		if (needsImg) {
+			waiters++;
+			function imgReady() {
+				waiters--;
+				if (waiters <= 0) {
+					kickHeroEntrance();
+				}
 			}
 			if (img.complete && img.naturalWidth > 0) {
 				if (typeof img.decode === 'function') {
-					img.decode().then(kick).catch(kick);
+					img.decode().then(imgReady).catch(imgReady);
 				} else {
-					kick();
+					imgReady();
 				}
 			} else {
 				var pre = new Image();
-				pre.onload = kick;
-				pre.onerror = kick;
+				pre.onload = imgReady;
+				pre.onerror = imgReady;
 				try {
 					pre.src = img.currentSrc || img.src;
 				} catch (err) {
-					kick();
+					imgReady();
 				}
 			}
-		} else {
-			playTl();
+		}
+
+		if (waiters <= 0) {
+			kickHeroEntrance();
 		}
 	}
 
